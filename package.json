@@ -1,0 +1,27 @@
+{
+  "name": "squad2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "dev:debug": "nodemon --inspect src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alefwhite/squad2.git"
+  },
+  "author": "squad2",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alefwhite/squad2/issues"
+  },
+  "homepage": "https://github.com/alefwhite/squad2#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "sucrase": "^3.15.0"
+  }
+}
