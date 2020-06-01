@@ -1,0 +1,31 @@
+Parar criar migration
+   npx knex migrate:make migration_name 
+
+Para executar uma migration
+   npx  knex migrate:latest
+
+Para dar um rollback na ultima migration criada
+   npx knex migrate:rollback
+
+Parar dar um rollback em todas as migrations
+   npx knex migrate:rollback --all
+
+
+Exemplo de migration
+exports.up = function(knex) {
+    return knex.schema.createTable('usuario', function(table){
+      table.increments('id').primary();
+
+      table.string("nome").notNullable();
+      table.string("email").unique().notNullable();
+      table.string("senha").notNullable();
+
+      table.integer('tipo_usuario').notNullable();
+      table.foreign('tipo_usuario').references('id').inTable('tipoUsuario');
+    });
+  };
+  
+  exports.down = function(knex) {
+    return knex.schema.dropTable('usuario');
+  };
+  
