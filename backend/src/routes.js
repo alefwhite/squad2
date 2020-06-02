@@ -1,9 +1,15 @@
 import { Router } from 'express';
+import db from './database/connection';
 
 const routes = new Router();
 
-routes.get('/', (req, res) => {
-    return res.json({ ok: true });
+routes.get('/', async (req, res) => {
+
+    const tipo = await db('tipo_usuario').select('*');
+    
+    console.log(tipo);
+
+    return res.json(tipo);
 })
 
 export default routes;
