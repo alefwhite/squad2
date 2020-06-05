@@ -1,3 +1,6 @@
+Para executar o projeto
+   npm run dev
+
 Parar criar migration
    npx knex migrate:make migration_name 
 
