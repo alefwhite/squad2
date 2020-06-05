@@ -46,3 +46,10 @@ SELECT * FROM squad_tarefa;
 -- usuario_tarefa
 INSERT INTO usuario_tarefa(id_usuario, id_tarefa) VALUES(3, 2);
 SELECT * FROM usuario_tarefa;
+
+
+select * from usuario;
+
+delete from usuario where id_usuario = 25;
+
+select * from tipo_usuario;

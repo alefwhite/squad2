@@ -1,15 +1,14 @@
 import { Router } from 'express';
-import db from './database/connection';
+import UsuarioController from './app/controllers/UsuarioController';
+import SessionController from './app/controllers/SessionController';
 
 const routes = new Router();
 
-routes.get('/', async (req, res) => {
+// Session
+routes.post('/session', SessionController.store);
 
-    const tipo = await db('tipo_usuario').select('*');
-    
-    console.log(tipo);
+routes.get('/usuario', UsuarioController.index);
+routes.post('/usuario', UsuarioController.store);
 
-    return res.json(tipo);
-})
 
 export default routes;
