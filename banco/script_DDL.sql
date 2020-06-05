@@ -30,7 +30,7 @@ CREATE TABLE usuario (
     cpf char(11) NOT NULL,
     id_tipousuario INT NOT NULL,
     id_cargo INT NOT NULL,
-    id_status INT NOT NULL,
+    id_status INT NOT NULL DEFAULT(1),
     
 	FOREIGN KEY(id_tipousuario) REFERENCES tipo_usuario(id_tipousuario),
     FOREIGN KEY(id_cargo) REFERENCES cargo(id_cargo),
