@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import validaCpf from '../../utils/validaCpf';
 
 class ConviteUsuarioController {
-     async index(req, res) {
+     async show(req, res) {
          const id_usuario = req.idUsuario; 
 
          try {

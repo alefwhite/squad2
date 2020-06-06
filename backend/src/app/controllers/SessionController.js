@@ -6,29 +6,33 @@ import verificaSenha from '../../utils/verificaSenha';
 class SessionController {
     async store(req, res) {
         const { email, senha } = req.body;
-
-        const user = await db("usuario").select("*").where("email", email).first();
-
-        if(!user) {
-            return res.status(401).json({ error: "Email incorreto!"});
+        try {
+            const user = await db("usuario").select("*").where("email", email).first();
+    
+            if(!user) {
+                return res.status(401).json({ error: "Email incorreto!"});
+            }
+    
+            if(!(await verificaSenha(senha, user.senha))) {
+                return res.status(401).json({ error: 'Senha incorreta!' });
+            }
+    
+            const { id_usuario, nome, id_tipousuario} = user;
+           
+            return res.json({
+                user: {
+                    id_usuario,
+                    nome,
+                    email
+                },
+                token: Jwt.sign({ id_usuario, id_tipousuario }, authConfig.secret, {
+                    expiresIn: authConfig.expiresIn
+                })
+            });
+            
+        } catch (error) {
+            return res.status(500).json({error: "Erro interno no servidor."});
         }
-
-        if(!(await verificaSenha(senha, user.senha))) {
-            return res.status(401).json({ error: 'Senha incorreta!' });
-        }
-
-        const { id_usuario, nome, id_tipousuario} = user;
-       
-        return res.json({
-            user: {
-                id_usuario,
-                nome,
-                email
-            },
-            token: Jwt.sign({ id_usuario, id_tipousuario }, authConfig.secret, {
-                expiresIn: authConfig.expiresIn
-            })
-        });
     }
 }
 
