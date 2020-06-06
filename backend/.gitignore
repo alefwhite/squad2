@@ -4,3 +4,4 @@ banco/
 backend/.env
 uploads/
 .env
+.env.example
