@@ -6,9 +6,10 @@ USE fcamara;
 
 -- tipo_usuario
 INSERT INTO tipo_usuario(nivel) VALUES('adm'),('gestor'),('funcionario');
+SELECT * FROM tipo_usuario;
 
 -- cargo
-INSERT INTO cargo(nome) VALUES('administrador do sistema'),('desenvolvedor fullstack'),('analista de sistemas'),('desenvolvedor mobile'),('engenheiro de software');
+INSERT INTO cargo(nome) VALUES('administrador do sistema'),('Gesto de T.i'),('desenvolvedor fullstack'),('analista de sistemas'),('desenvolvedor mobile'),('engenheiro de software');
 SELECT * FROM cargo;
 
 -- status_usuario
@@ -16,7 +17,7 @@ INSERT INTO status_usuario(tipo) VALUES('ativo'),('inativo'),('ferias');
 
 -- usuario
 INSERT INTO usuario(nome, email, senha, cpf, id_tipousuario, id_cargo, id_status) 
-VALUES('administrador', 'adm@adm.com', '123', '00000000000', 1, 1, 1),('Clemente Rodrigues', 'cleme@gmail.com', '321', '45627388820', 3, 2, 1);
+VALUES('administrador', 'adm@adm.com', '123', '00000000000', 1, 1, 1);
 SELECT * FROM usuario;
 
 -- projeto

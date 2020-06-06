@@ -1,9 +1,9 @@
 /*
 	Script de DDL
 */
--- DROP DATABASE fcamara;
+-- DROP DATABASE fcamara; 
 
-CREATE DATABASE fcamara;
+-- CREATE DATABASE fcamara;
 
 USE fcamara;
 
@@ -28,13 +28,16 @@ CREATE TABLE usuario (
     email VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     cpf char(11) NOT NULL,
+    codigo VARCHAR(255),
+    id_criador INT,
     id_tipousuario INT NOT NULL,
     id_cargo INT NOT NULL,
     id_status INT NOT NULL DEFAULT(1),
     
 	FOREIGN KEY(id_tipousuario) REFERENCES tipo_usuario(id_tipousuario),
     FOREIGN KEY(id_cargo) REFERENCES cargo(id_cargo),
-	FOREIGN KEY(id_status) REFERENCES status_usuario(id_status)
+	FOREIGN KEY(id_status) REFERENCES status_usuario(id_status),
+	FOREIGN KEY(id_criador) REFERENCES usuario(id_usuario)
 );
 
 CREATE TABLE projeto (

@@ -1,14 +1,41 @@
 import sendConfig from '../../config/sendgrid';
-import authConfig from '../../config/auth';
 import emailService from '../../lib/emailService';
 import db from '../../database/connection';
 import bcrypt from 'bcryptjs';
-import md5 from 'md5';
 import validaCpf from '../../utils/validaCpf';
 
-class UsuarioController {    
+class ConviteUsuarioController {
+     async index(req, res) {
+         const id_usuario = req.idUsuario; 
+
+         try {
+             const usuarioCodigo = await db("usuario").select("codigo").where('id_usuario', id_usuario).first();
+             const url = `${process.env.APP_URL_CONVITE}${usuarioCodigo.codigo}`;
+             
+             // emailService.send("alefwhite@gmail.com", "Cadastre-se no Squad2", sendConfig.EMAIL_TMPL.replace('{0}', "Squad Dois"));
+             return res.json({url});
+
+
+         } catch (error) {
+            return res.status(400).json({ error: "Erro ao gerar url de cadastro!" });
+        }
+
+
+    }
+    
     async store(req, res) {
-        const { nome, email, senha, cpf, id_cargo, } = req.body;        
+        const { codigo } = req.query
+        const { nome, email, senha, cpf, id_cargo} = req.body;        
+
+        if(!codigo) {
+            return res.status(401).json({ error: "Não autorizado!"});
+        }
+
+        const usuario = await db("usuario").select("id_usuario", ).where("codigo", codigo).first();
+        
+        if(!usuario) {
+            return res.status(401).json({ error: "Código não encontrado!"});
+        }
 
         const cpfValido = validaCpf(cpf);
 
@@ -42,8 +69,8 @@ class UsuarioController {
                 email,
                 senha: senha_hash,
                 cpf: cpfValido.cpfUsuario,
-                codigo: md5(Math.random(0 * 999) + authConfig.SALT_KEY),
-                id_tipousuario: 2,
+                id_criador: usuario.id_usuario,
+                id_tipousuario: 3,
                 id_cargo,
                
             }) 
@@ -56,11 +83,8 @@ class UsuarioController {
             
         } catch (error) {
             return res.status(400).json({message: "Erro ao cadastrar usuário!"});
-        }       
-
+        }
     }
-
-
 }
 
-export default new UsuarioController();
+export default new ConviteUsuarioController();
