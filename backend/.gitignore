@@ -3,5 +3,6 @@ package-lock.json
 banco/
 backend/.env
 uploads/
-.env.example
 .env
+.env.example
+
