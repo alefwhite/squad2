@@ -1,6 +1,36 @@
 import db from '../../database/connection';
 
 class SquadUsuarioontroller {
+    async index(req, res) {
+        const id_usuario = req.idUsuario;
+        const tipoUsuario = req.tipoUsuario;
+
+        if(tipoUsuario === 3) {
+            return res.status(401).json({ error: "Não autorizado!"});
+        }
+
+        try {
+            const usuarioSquad = await db("squad_usuario")
+                .select("usuario.nome as nome", "squad.nome as squad")
+                .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
+                .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
+                .where({                    
+                    "usuario.id_status": 1,
+                    "usuario.id_criador": id_usuario
+                });
+            
+                console.log(usuarioSquad);
+
+            if(usuarioSquad) {
+                return res.json(usuarioSquad);
+            }
+            
+        } catch (error) {
+            return res.status(500).json({error: "Erro interno no servidor."});            
+        }            
+
+    }
+
     async store(req, res) {
         const tipoUsuario = req.tipoUsuario;
         const { id_squad, id_usuario } = req.body;
@@ -107,7 +137,7 @@ class SquadUsuarioontroller {
             const squadUsuario = await db("squad_usuario")
                 .where("squad_usuario.id_squadusuario", id)
                 .delete();
-                
+
             if(squadUsuario) {
                 return res.json({message: "Squad/Usuario deletado com sucesso!"});
             }
