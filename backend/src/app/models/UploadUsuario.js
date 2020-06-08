@@ -4,6 +4,7 @@ const UpoloadUsuarioSchema = new mongoose.Schema({
     img_usuario: String,
     user: Number
 }, {
+    timestamps: true,
     toJSON: {
         virtuals: true,
     }
