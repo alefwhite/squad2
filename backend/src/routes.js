@@ -6,6 +6,7 @@ import UsuarioController from './app/controllers/UsuarioController';
 import SessionController from './app/controllers/SessionController';
 import ConviteUsuarioController from './app/controllers/ConviteUsuarioController';
 import UploadUsuarioController from './app/controllers/UploadUsuarioController';
+import ProjetoController from './app/controllers/ProjetoController';
 
 import Authentication from './app/middlewares/Auth';
 
@@ -30,5 +31,7 @@ routes.post('/uploadusuario',
         UploadUsuarioController.store
 );
 
+// Projeto
+routes.post('/projeto', Authentication.store, ProjetoController.store);
 
 export default routes;

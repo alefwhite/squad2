@@ -9,26 +9,26 @@ USE fcamara;
 
 CREATE TABLE tipo_usuario (
 	id_tipousuario INT PRIMARY KEY AUTO_INCREMENT,
-    nivel VARCHAR(50) NOT NULL
+    nivel VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE cargo (
 	id_cargo INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL
+    nome VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE status_usuario (
 	id_status INT PRIMARY KEY AUTO_INCREMENT,
-    tipo VARCHAR(255) NOT NULL
+    tipo VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE usuario (
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
-    cpf char(11) NOT NULL,
-    codigo VARCHAR(255),
+    cpf char(11) UNIQUE NOT NULL,
+    codigo VARCHAR(255) UNIQUE,
     id_criador INT,
     id_tipousuario INT NOT NULL,
     id_cargo INT NOT NULL,
