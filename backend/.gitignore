@@ -1,8 +1,0 @@
-node_modules/
-package-lock.json
-banco/
-backend/.env
-uploads/
-.env
-.env.example
-
