@@ -19,7 +19,6 @@ class SquadUsuarioontroller {
                     "usuario.id_criador": id_usuario
                 });
             
-                console.log(usuarioSquad);
 
             if(usuarioSquad) {
                 return res.json(usuarioSquad);
