@@ -37,5 +37,6 @@ routes.post('/projeto', Authentication.store, ProjetoController.store);
 
 // Squad Usuario
 routes.post('/squadusuario', Authentication.store, SquadUsuarioController.store);
+routes.put('/squadusuario', Authentication.store, SquadUsuarioController.update);
 
 export default routes;
