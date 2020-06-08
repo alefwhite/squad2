@@ -49,6 +49,9 @@ class SquadUsuarioontroller {
 
     async update(req, res) {
         const tipoUsuario = req.tipoUsuario;
+        const squad_id = req.params.id_squad;
+        const usuario_id = req.params.id_usuario;
+
         const { id_squad, id_usuario } = req.body;
 
         if(tipoUsuario === 3) {
@@ -62,8 +65,8 @@ class SquadUsuarioontroller {
         const existeUsuarioSquad = await db("squad_usuario")
         .select("*")        
         .where({
-            "squad_usuario.id_squad" : id_squad,
-            "squad_usuario.id_usuario" : id_usuario
+            "squad_usuario.id_squad" : squad_id,
+            "squad_usuario.id_usuario" : usuario_id
         })
         .first();
 
@@ -73,16 +76,14 @@ class SquadUsuarioontroller {
 
         try {
             const usuario_editado = await db('squad_usuario')
-            .where({
-                "squad_usuario.id_squad" : id_squad,
-                "squad_usuario.id_usuario" : id_usuario
-            })
-            .update({
-                id_squad,
-                id_usuario
-            });
-            
-            console.log(usuario_editado)
+                .where({
+                    "squad_usuario.id_squad" : squad_id,
+                    "squad_usuario.id_usuario" : usuario_id
+                })
+                .update({
+                    id_squad,
+                    id_usuario
+                });            
 
             if(usuario_editado) {
                 return res.json({error: "Alteração realizada com sucesso!"});
@@ -92,7 +93,28 @@ class SquadUsuarioontroller {
             return res.status(500).json({error: "Erro interno no servidor."});
         }
 
-        return res.json({});
+    }
+
+    async delete(req, res) {
+        const tipoUsuario = req.tipoUsuario;
+        const id = req.params.id_squadUsuario;
+
+        if(tipoUsuario === 3) {
+            return res.status(401).json({ error: "Não autorizado!"});
+        }
+        
+        try {
+            const squadUsuario = await db("squad_usuario")
+                .where("squad_usuario.id_squadusuario", id)
+                .delete();
+                
+            if(squadUsuario) {
+                return res.json({message: "Squad/Usuario deletado com sucesso!"});
+            }
+
+        } catch (error) {
+                return res.status(500).json({error: "Erro interno no servidor."}); 
+        }
     }
 }
 

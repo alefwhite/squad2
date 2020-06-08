@@ -66,7 +66,7 @@ class ConviteUsuarioController {
         try {
            const retorno = await db("usuario").insert({
                 nome,
-                email,
+                email: email.toLowerCase(),
                 senha: senha_hash,
                 cpf: cpfValido.cpfUsuario,
                 id_criador: usuario.id_usuario,
