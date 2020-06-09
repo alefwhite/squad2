@@ -25,20 +25,22 @@ class ProjetoController {
 
         try {
             const novo_projeto = await db("projeto").insert({
-                nome: nome.toLowerCase(),
-                descricao: descricao.toLowerCase(),
+                nome,
+                descricao,
                 data_inicial,
                 data_final,
                 id_criador: userId
 
             });
-            console.log(novo_projeto)
+
             if(novo_projeto) {
                 return res.json({ mensagem: "Projeto cadastrado com sucesso!"});
+            } else {
+                return res.status(400).json({ error: "Erro no cadastro do projeto!" });
             }
             
         } catch (error) {
-            return res.status(400).json({ error: "Erro no cadastro do projeto!" });
+            return res.status(500).json({ error: "Erro interno no servidor!" });
         }
 
     }

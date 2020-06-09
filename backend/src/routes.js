@@ -8,6 +8,7 @@ import ConviteUsuarioController from './app/controllers/ConviteUsuarioController
 import UploadUsuarioController from './app/controllers/UploadUsuarioController';
 import ProjetoController from './app/controllers/ProjetoController';
 import SquadUsuarioController from './app/controllers/SquadUsuarioController';
+import NotificacaoController from './app/controllers/NotificacaoController';
 
 import Authentication from './app/middlewares/Auth';
 
@@ -40,5 +41,11 @@ routes.get('/squadusuario', Authentication.store, SquadUsuarioController.index);
 routes.post('/squadusuario', Authentication.store, SquadUsuarioController.store);
 routes.put('/squadusuario/:id', Authentication.store, SquadUsuarioController.update);
 routes.delete('/squadusuario/:id', Authentication.store, SquadUsuarioController.delete);
+
+// Notificacao
+routes.get('/notificacao', Authentication.store, NotificacaoController.index);
+routes.put('/notificacao/:id', Authentication.store, NotificacaoController.update);
+// Rota para testar inclusão de notificacao
+routes.post('/notificacao', Authentication.store, NotificacaoController.store);
 
 export default routes;
