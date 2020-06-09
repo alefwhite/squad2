@@ -38,7 +38,7 @@ routes.post('/projeto', Authentication.store, ProjetoController.store);
 // Squad Usuario
 routes.get('/squadusuario', Authentication.store, SquadUsuarioController.index);
 routes.post('/squadusuario', Authentication.store, SquadUsuarioController.store);
-routes.put('/squadusuario/:id_squad/:id_usuario', Authentication.store, SquadUsuarioController.update);
-routes.delete('/squadusuario/:id_squadUsuario', Authentication.store, SquadUsuarioController.delete);
+routes.put('/squadusuario/:id', Authentication.store, SquadUsuarioController.update);
+routes.delete('/squadusuario/:id', Authentication.store, SquadUsuarioController.delete);
 
 export default routes;

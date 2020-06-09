@@ -78,8 +78,7 @@ class SquadUsuarioontroller {
 
     async update(req, res) {
         const tipoUsuario = req.tipoUsuario;
-        const squad_id = req.params.id_squad;
-        const usuario_id = req.params.id_usuario;
+        const id_squadUsuario = req.params.id;        
 
         const { id_squad, id_usuario } = req.body;
 
@@ -93,22 +92,34 @@ class SquadUsuarioontroller {
 
         const existeUsuarioSquad = await db("squad_usuario")
         .select("*")        
-        .where({
-            "squad_usuario.id_squad" : squad_id,
-            "squad_usuario.id_usuario" : usuario_id
-        })
+        .where("squad_usuario.id_squadusuario", id_squadUsuario)
         .first();
 
         if(!existeUsuarioSquad) {
-            return res.status(400).json({ error: "Usuário ou squad não encontrado!"});
+            return res.status(400).json({ error: "Usuário/Squad não encontrado!"});
+        }
+
+        // Iremos verificar se o usuário já pertence a squad que foi passada
+        const usuarioPertenceSquad = await db("squad_usuario")
+            .select("usuario.nome as nome", "squad.nome as squad")
+            .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
+            .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
+            .where({
+                "squad_usuario.id_squad" : id_squad,
+                "squad_usuario.id_usuario" : id_usuario
+            })
+            .first();
+        
+        if(usuarioPertenceSquad) {
+             return res.status(400).json({ 
+                 error: 
+                    `O funcionário ${usuarioPertenceSquad.nome} já pertence a squad ${usuarioPertenceSquad.squad}.`
+            });
         }
 
         try {
             const usuario_editado = await db('squad_usuario')
-                .where({
-                    "squad_usuario.id_squad" : squad_id,
-                    "squad_usuario.id_usuario" : usuario_id
-                })
+                .where("squad_usuario.id_squadusuario", id_squadUsuario)
                 .update({
                     id_squad,
                     id_usuario
@@ -126,7 +137,7 @@ class SquadUsuarioontroller {
 
     async delete(req, res) {
         const tipoUsuario = req.tipoUsuario;
-        const id = req.params.id_squadUsuario;
+        const id_squadusuario = req.params.id;
 
         if(tipoUsuario === 3) {
             return res.status(401).json({ error: "Não autorizado!"});
@@ -134,7 +145,7 @@ class SquadUsuarioontroller {
         
         try {
             const squadUsuario = await db("squad_usuario")
-                .where("squad_usuario.id_squadusuario", id)
+                .where("squad_usuario.id_squadusuario", id_squadusuario)
                 .delete();
 
             if(squadUsuario) {
