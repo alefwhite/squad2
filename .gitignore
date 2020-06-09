@@ -15,7 +15,9 @@ frontend/yarn-error.log*
 backend/.env
 backend/node_modules
 backend/package-lock.json
-banco
+banco/
+uploads/
+.env.example
 frontend/node_modules
 frontend/package-lock.json
 .vscode
