@@ -9,7 +9,6 @@ class ProjetoController {
         if(tipoUsuario === 3) {
             return res.status(401).json({ error: "Não autorizado!"});
         }
-        console.log(nome.toLowerCase());
         
         const projeto = await db("projeto")
             .where({ 

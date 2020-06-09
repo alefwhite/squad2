@@ -61,17 +61,20 @@ class SquadUsuarioontroller {
         }
 
         try {
-            const novoUsuarioSquad = await db("squad_usuario").insert({
+            
+            await db("squad_usuario").insert({
                 id_squad,
                 id_usuario
-            });
-
-            if(novoUsuarioSquad) {
+            }).then(() => {
                 return res.json({ mensagem: "Usuário foi incluindo a squad com sucesso!"});
-            }
+            })
+            .catch(() => {
+                return res.status(400).json({ mensagem: "Erro ao inlcuir usuário a squad!"});
+            });
+            
             
         } catch (error) {
-            return res.status(400).json({ error: "Erro ao incluir usuário a squad!" });
+            return res.status(500).json({ error: "Erro interno no servidor!" });
         }
 
     }
