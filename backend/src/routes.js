@@ -32,7 +32,11 @@ routes.post('/uploadusuario',
 );
 
 //Squad
-routes.post('/squad',Authentication.store, SquadController.store)
+routes.get('/squad',Authentication.store, SquadController.index);
+routes.post('/squad',Authentication.store, SquadController.store);
+routes.put('/squad/:id',Authentication.store, SquadController.update);
+
+        
 
 
 export default routes;
