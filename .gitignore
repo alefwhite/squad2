@@ -27,8 +27,13 @@ uploads/
 node_modules/
 package-lock.json
 backend/.env
+backend/node_modules
+backend/package-lock.json
+banco/
 uploads/
-.env
 .env.example
 squad2/banco/
 
+frontend/node_modules
+frontend/package-lock.json
+.vscode
