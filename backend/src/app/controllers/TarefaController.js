@@ -91,7 +91,33 @@ class TarefaController{
         }
     }
 
+    async delete(req,res){
+       const id_tarefa = req.params.id;
+       const id_criador = req.idUsuario;
+       const tipoUsuario = req.tipoUsuario;
 
+       if(tipoUsuario === 3){
+           return res.json({mensagem:"Ação não permitida!"});
+       }
+
+       try{
+        const deletar_tarefa = await db("tarefa").where({
+            id_tarefa,
+            id_criador
+        }).delete();
+        if(deletar_tarefa){
+            res.json({mensagem:"Tarefa deletada com sucesso!"});
+            console.log(deletar_tarefa);
+        }
+        else{
+            res.json({mensagem:"Não foi possivel deletar a tarefa"});
+            console.log(deletar_tarefa);
+        }
+       }
+       catch(error){
+           res.status(401).json({error:"Erro no servidor!"});
+       }
+    }
 }
 
 export default new TarefaController();
