@@ -13,6 +13,7 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
 backend/.env
+backend/.vscode
 backend/node_modules
 backend/package-lock.json
 banco/

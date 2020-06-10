@@ -41,7 +41,24 @@ class ProjetoController {
             return res.status(400).json({ error: "Erro no cadastro do projeto!" });
         }
 
+
     }
+
+    async index(req, res) {
+        //TODO - Criar metodo para listar os projetos
+    }
+
+
+     async update(req, res) {
+        //TODO - Criar metodo para atualizar o projetos
+     }
+
+     
+     async delete(req, res) {
+         //TODO - Criar metodo para remover um projeto
+
+     }
+
 }
 
 export default new ProjetoController();
