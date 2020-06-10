@@ -38,5 +38,5 @@ routes.post('/projeto', Authentication.store, ProjetoController.store);
 //tarefa
 routes.post('/tarefa', Authentication.store, TarefaController.store);
 routes.put('/tarefa/:id', Authentication.store, TarefaController.update);
-routes.get('/tarefa/:entregue', Authentication.store, TarefaController.index);
+routes.get('/tarefa', Authentication.store, TarefaController.index);
 export default routes;
