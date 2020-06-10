@@ -35,6 +35,7 @@ routes.post('/uploadusuario',
 routes.get('/squad',Authentication.store, SquadController.index);
 routes.post('/squad',Authentication.store, SquadController.store);
 routes.put('/squad/:id',Authentication.store, SquadController.update);
+routes.delete('/squad/:id',Authentication.store, SquadController.delete);
 
         
 
