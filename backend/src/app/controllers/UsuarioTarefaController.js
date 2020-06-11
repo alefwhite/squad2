@@ -81,9 +81,29 @@ class UsuarioTarefaController {
         if(tipoUsuario === 3){
             return res.json({mensagem:"Não autorizado"});
         }
+
+        const verificaCriador = await db("usuario_tarefa").select("*")
+        .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
         
-  
+        if(verificaCriador.id_criador != id_criador){
+            return res.json({mensagem:"Tarefa inexistente"});
+        }
         
+        const verificaUsuarioTarefa = await db("usuario_tarefa").select("*").where({id_usuariotarefa}).first();
+        if(!verificaUsuarioTarefa){
+            return res.json({mensagem:"Tarefa inexistente"});
+        }
+        
+        try{
+            const deletarTarefa = await db("usuario_tarefa").where({id_usuariotarefa}).delete();
+
+            if(deletarTarefa){
+                return res.json({mensagem:"Tarefa deletada com sucesso"});
+            }
+        }
+        catch{
+            return res.status(500).json({mensagem:"Erro no servidor"});
+        }
     }
 }
 
