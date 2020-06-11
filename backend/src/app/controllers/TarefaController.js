@@ -69,6 +69,7 @@ class TarefaController{
     async index(req,res){
         const id_criador = req.idUsuario;
         const {entregue=0,nome} = req.query;
+        console.log(`nome:${nome}, entregue:${entregue}`);
         try{
             const tarefa = await db("tarefa").join("projeto","projeto.id_projeto","=","tarefa.id_projeto").select(
                 "tarefa.id_tarefa",
@@ -81,7 +82,7 @@ class TarefaController{
                 "tarefa.id_projeto",
                 {"nome_projeto":"projeto.nome"}
                 ).where("tarefa.entregue",entregue).andWhere("tarefa.nome","like",`%${nome}%`).andWhere("tarefa.id_criador",id_criador);
-               
+                
                 return res.json(tarefa);
                 
         }

@@ -105,6 +105,29 @@ class UsuarioTarefaController {
             return res.status(500).json({mensagem:"Erro no servidor"});
         }
     }
+
+    async index(req,res){
+        const idUsuario = req.idUsuario;
+        const {nome,entregue=0} = req.body;
+
+        try{
+            const usuarioTarefa = await db("usuario_tarefa").select(
+                "tarefa.nome",
+                "tarefa.descricao",
+                "tarefa.prazo",
+                "tarefa.hora_estimada",
+                {"nome_projeto":"projeto.nome"},
+                "tarefa.entregue"
+                )
+            .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
+            .join("projeto","tarefa.id_criador","=","projeto.id_criador").where("usuario_tarefa.id_usuario",idUsuario).
+            andWhere("tarefa.entregue",entregue).andWhere("tarefa.nome","like",`%${nome}%`);
+            return res.json(usuarioTarefa);
+        }
+        catch{
+            return res.status(400).json({mensagem:"Erro no servidor"});
+        }
+    }
 }
 
     
