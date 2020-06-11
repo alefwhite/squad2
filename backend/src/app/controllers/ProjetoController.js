@@ -1,4 +1,5 @@
 import db from '../../database/connection';
+import verificaTipoUsuario from '../../utils/verificaTipoUsuario';
 
 class ProjetoController {
     async store(req, res) {
@@ -6,21 +7,23 @@ class ProjetoController {
         const tipoUsuario = req.tipoUsuario;
         const { nome, descricao, data_inicial, data_final } = req.body;
 
-        if (tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!" });
-        }
-        const projeto = await db("projeto")
-            .where({
-                nome,
-                id_criador: userId
-            })
-            .first();
-
-        if (projeto) {
-            return res.status(400).json({ error: "Você já tem um projeto cadastrado com esse nome!" });
+        if (verificaTipoUsuario(req.tipoUsuario)) {
+            return res.status(401).json({ mensagem: "Não autorizado!" });
         }
 
         try {
+
+            const projeto = await db("projeto")
+                .where({
+                    nome,
+                    id_criador: userId
+                })
+                .first();
+
+            if (projeto) {
+                return res.status(400).json({ error: "Você já tem um projeto cadastrado com esse nome!" });
+            }
+
             const novo_projeto = await db("projeto").insert({
                 nome: nome.toLowerCase(),
                 descricao: descricao.toLowerCase(),
@@ -28,46 +31,50 @@ class ProjetoController {
                 data_final,
                 id_criador: userId
 
-            });
-            if (novo_projeto) {
-                return res.json({ mensagem: "Projeto cadastrado com sucesso!" });
-            }
+            })
+                .then(() => {
+                    return res.json({ mensagem: "Projeto cadastrado com sucesso!" });
+                })
+                .catch(() => {
+                    return res.status(400).json({ error: "Erro no cadastro do projeto!" });
+                });
 
         } catch (error) {
-            return res.status(400).json({ error: "Erro no cadastro do projeto!", error });
+            return res.status(500).json({ error: "Erro interno no servidor!" });
         }
-
-
     }
 
     async index(req, res) {
         //TODO - Criar metodo para listar os projetos
         const userId = req.idUsuario;
         const tipoUsuario = req.tipoUsuario;
-        console.log(userId);
-        if (tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!" });
+
+        if (verificaTipoUsuario(req.tipoUsuario)) {
+            return res.status(401).json({ mensagem: "Não autorizado!" });
         }
 
-        const projeto = await db("projeto")
-            .where({
-                id_criador: userId
-            })
+        try {
+            const projeto = await db("projeto")
+                .where({
+                    id_criador: userId
+                })
 
-        return res.status(200).json({ projetos: projeto });
+            return res.status(200).json({ projetos: projeto });
 
+        } catch (error) {
+            return res.status(500).json({ error: "Erro interno no servidor!" });
+        }
     }
-
 
     async update(req, res) {
         //TODO - Criar metodo para atualizar o projetos
         const userId = req.idUsuario;
         const tipoUsuario = req.tipoUsuario;
-        const { nome, descricao, data_inicial, data_final, id_projeto } = req.body;
+        const { nome, descricao, data_inicial, data_final } = req.body;
+        const id_projeto = req.params.id;
 
-        if (tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!" });
-
+        if (verificaTipoUsuario(req.tipoUsuario)) {
+            return res.status(401).json({ mensagem: "Não autorizado!" });
         }
 
         try {
@@ -79,34 +86,45 @@ class ProjetoController {
                     descricao: descricao.toLowerCase(),
                     data_inicial,
                     data_final,
+                })
+
+                .then(() => {
+                    return res.status(200).json({ mensagem: "Projeto atualizado com sucesso" });
+                })
+                .catch(() => {
+                    return res.status(400).json({ error: "Erro na atualização do projeto!", });
                 });
-            if (atualizaProjeto) {
-                return res.status(200).json({ mensagem: "Projeto atualizado com sucesso" });
-            }
+
+
         } catch (error) {
-            return res.status(400).json({ error: "Erro na atualização do projeto!", });
+            return res.status(500).json({ error: "Erro interno no servidor!" });
         }
     }
 
     async delete(req, res) {
         //TODO - Criar metodo para remover um projeto
-
         const userId = req.idUsuario;
         const tipoUsuario = req.tipoUsuario;
-        const { id_projeto } = req.body;
+        const id_projeto = req.params.id;
 
-        if (tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!" });
+        if (verificaTipoUsuario(req.tipoUsuario)) {
+            return res.status(401).json({ mensagem: "Não autorizado!" });
         } try {
             const deletaProjeto = await db("projeto")
                 .where({
                     id_projeto,
-                }).del();
-            if (deletaProjeto) {
-                return res.status(200).json({ mensagem: "Projeto removido com sucesso" });
-            }
+                }).del()
+                .then(() => {
+                    return res.status(200).json({ mensagem: "Projeto removido com sucesso" });
+                })
+                .catch(() => {
+                    return res.status(400).json({ error: "Erro em remover o projeto!", });
+                });
+
+
         } catch (error) {
-            return res.status(400).json({ error: "Erro em remover o projeto!", });
+
+            return res.status(500).json({ error: "Erro interno no servidor!" });
         }
 
 

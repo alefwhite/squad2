@@ -34,8 +34,8 @@ routes.post('/uploadusuario',
 
 // Projeto
 routes.post('/projeto', Authentication.store, ProjetoController.store);
-routes.delete('/projeto', Authentication.store, ProjetoController.delete);
 routes.get('/projeto', Authentication.store, ProjetoController.index);
-routes.put('/projeto', Authentication.store, ProjetoController.update);
+routes.put('/projeto/:id', Authentication.store, ProjetoController.update);
+routes.delete('/projeto/:id', Authentication.store, ProjetoController.delete);
 
 export default routes;
