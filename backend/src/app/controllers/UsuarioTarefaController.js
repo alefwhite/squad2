@@ -39,14 +39,29 @@ class UsuarioTarefaController {
         const id_usuariotarefa = req.params.id;
         const {id_tarefa, id_usuario} = req.body;
         const tipoUsuario = req.tipoUsuario;
-        const id_criador = req.idUsuario;
+        const idCriador = req.idUsuario;
+
         if(tipoUsuario === 3){
             return res.json({mensagem:"Não autorizado"});
         }
-        const verificaCriador = await db("tarefa").select("*").where({id_criador}).andWhere({id_tarefa}).first();
-        if(!verificaCriador){
-            return res.json({mensagem:"Tarefa inexistente"});
+
+        const existeTarefa = await db("tarefa").select("*").where({
+            id_tarefa,
+            id_criador:idCriador
+        }).first();
+        if(!existeTarefa){
+            return res.json({mesangem:"Tarefa inexistente"});
         }
+
+        const verificaCriador = await db("usuario_tarefa").select("*")
+        .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
+
+        if(verificaCriador.id_criador != idCriador){
+            return res.json({mensagem:"Id do criador diferente"});
+        }
+
+     
+        
         try{
             const editar_tarefa = await db("usuario_tarefa").where({id_usuariotarefa}).update({id_tarefa, id_usuario});
             if(editar_tarefa){
@@ -56,6 +71,19 @@ class UsuarioTarefaController {
         catch{
                 return res.json({mensagem:"Erro no servidor!"});
         }
+    }
+    
+    async delete(req,res){
+        const id_usuariotarefa = req.params.id;
+        const tipoUsuario = req.tipoUsuario;
+        const id_criador = req.idUsuario;
+
+        if(tipoUsuario === 3){
+            return res.json({mensagem:"Não autorizado"});
+        }
+        
+  
+        
     }
 }
 
