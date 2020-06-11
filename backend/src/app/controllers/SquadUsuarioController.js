@@ -10,15 +10,14 @@ class SquadUsuarioontroller {
         }
 
         try {
-            const usuarioSquad = await db("squad_usuario")
-                .select("usuario.nome as nome", "squad.nome as squad")
-                .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
-                .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
-                .where({                    
-                    "usuario.id_status": 1,
-                    "usuario.id_criador": id_usuario
-                });
-            
+           const usuarioSquad = await db("squad_usuario")
+            .select("usuario.nome as nome", "squad.nome as squad")
+            .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
+            .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
+            .where({                    
+                "usuario.id_status": 1,
+                "usuario.id_criador": id_usuario
+            });       
 
             if(usuarioSquad) {
                 return res.json(usuarioSquad);
@@ -42,26 +41,26 @@ class SquadUsuarioontroller {
             return res.status(400).json({ error: "Squad e usuário são obrigatórios!"});
         }
 
-        // Iremos verificar se o usuário já pertence a squad que foi passada
-        const usuarioPertenceSquad = await db("squad_usuario")
-            .select("usuario.nome as nome", "squad.nome as squad")
-            .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
-            .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
-            .where({
-                "squad_usuario.id_squad" : id_squad,
-                "squad_usuario.id_usuario" : id_usuario
-            })
-            .first();
-        
-        if(usuarioPertenceSquad) {
-             return res.status(400).json({ 
-                 error: 
-                    `O funcionário ${usuarioPertenceSquad.nome} já pertence a squad ${usuarioPertenceSquad.squad}.`
-            });
-        }
-
         try {
+            // Iremos verificar se o usuário já pertence a squad que foi passada
+            const usuarioPertenceSquad = await db("squad_usuario")
+                .select("usuario.nome as nome", "squad.nome as squad")
+                .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
+                .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
+                .where({
+                    "squad_usuario.id_squad" : id_squad,
+                    "squad_usuario.id_usuario" : id_usuario
+                })
+                .first();
             
+            if(usuarioPertenceSquad) {
+                return res.status(400).json({ 
+                    mensagem: 
+                        `O funcionário ${usuarioPertenceSquad.nome} já pertence a squad ${usuarioPertenceSquad.squad}.`
+                });
+            }
+
+                
             await db("squad_usuario").insert({
                 id_squad,
                 id_usuario
@@ -86,54 +85,58 @@ class SquadUsuarioontroller {
         const { id_squad, id_usuario } = req.body;
 
         if(tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!"});
+            return res.status(401).json({ mensagem: "Não autorizado!"});
         }
         
         if(!(id_squad && id_usuario)) {
-            return res.status(400).json({ error: "Squad e usuário são obrigatórios!"});
-        }
-
-        const existeUsuarioSquad = await db("squad_usuario")
-        .select("*")        
-        .where("squad_usuario.id_squadusuario", id_squadUsuario)
-        .first();
-
-        if(!existeUsuarioSquad) {
-            return res.status(400).json({ error: "Usuário/Squad não encontrado!"});
-        }
-
-        // Iremos verificar se o usuário já pertence a squad que foi passada
-        const usuarioPertenceSquad = await db("squad_usuario")
-            .select("usuario.nome as nome", "squad.nome as squad")
-            .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
-            .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
-            .where({
-                "squad_usuario.id_squad" : id_squad,
-                "squad_usuario.id_usuario" : id_usuario
-            })
-            .first();
-        
-        if(usuarioPertenceSquad) {
-             return res.status(400).json({ 
-                 error: 
-                    `O funcionário ${usuarioPertenceSquad.nome} já pertence a squad ${usuarioPertenceSquad.squad}.`
-            });
+            return res.status(400).json({ mensagem: "Squad e usuário são obrigatórios!"});
         }
 
         try {
-            const usuario_editado = await db('squad_usuario')
+
+            const existeUsuarioSquad = await db("squad_usuario")
+            .select("*")        
+            .where("squad_usuario.id_squadusuario", id_squadUsuario)
+            .first();
+
+            if(!existeUsuarioSquad) {
+                return res.status(400).json({ mensagem: "Usuário/Squad não encontrado!" });
+            }
+
+            // Iremos verificar se o usuário já pertence a squad que foi passada
+            const usuarioPertenceSquad = await db("squad_usuario")
+                .select("usuario.nome as nome", "squad.nome as squad")
+                .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
+                .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
+                .where({
+                    "squad_usuario.id_squad" : id_squad,
+                    "squad_usuario.id_usuario" : id_usuario
+                })
+                .first();
+        
+            if(usuarioPertenceSquad) {
+                return res.status(400).json({ 
+                    mensagem: 
+                        `O funcionário ${usuarioPertenceSquad.nome} já pertence a squad ${usuarioPertenceSquad.squad}.`
+                });
+            }
+
+        
+            await db('squad_usuario')
                 .where("squad_usuario.id_squadusuario", id_squadUsuario)
                 .update({
                     id_squad,
                     id_usuario
-                });            
-
-            if(usuario_editado) {
-                return res.json({error: "Alteração realizada com sucesso!"});
-            }
+                })
+                .then(() => {
+                    return res.json({ mensagem: "Alteração realizada com sucesso!" });
+                })
+                .catch(() => {
+                    return res.status(400).json({ mensagem: "Erro ao realizar alteração!" });
+                });
             
         } catch (error) {
-            return res.status(500).json({error: "Erro interno no servidor."});
+            return res.status(500).json({ error: "Erro interno no servidor." });
         }
 
     }
@@ -143,20 +146,23 @@ class SquadUsuarioontroller {
         const id_squadusuario = req.params.id;
 
         if(tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!"});
+            return res.status(401).json({ mensagem: "Não autorizado!" });
         }
         
         try {
-            const squadUsuario = await db("squad_usuario")
-                .where("squad_usuario.id_squadusuario", id_squadusuario)
-                .delete();
 
-            if(squadUsuario) {
-                return res.json({message: "Squad/Usuario deletado com sucesso!"});
-            }
+            await db("squad_usuario")
+                .where("squad_usuario.id_squadusuario", id_squadusuario)
+                .delete()
+                .then(() => {
+                    return res.json({ mensagem: "Squad/Usuario deletado com sucesso!" });
+                })
+                .catch(() => {
+                    return res.status(400).json({ mensagem: "Erro ao deletar Squad/Usuario!" });
+                });            
 
         } catch (error) {
-                return res.status(500).json({error: "Erro interno no servidor."}); 
+                return res.status(500).json({ error: "Erro interno no servidor." }); 
         }
     }
 }

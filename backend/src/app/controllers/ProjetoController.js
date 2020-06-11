@@ -10,19 +10,20 @@ class ProjetoController {
             return res.status(401).json({ error: "Não autorizado!"});
         }
         
-        const projeto = await db("projeto")
-            .where({ 
-                nome,
-                id_criador: userId
-            })
-            .first();
-
-
-        if(projeto) {
-            return res.status(400).json({ error: "Você já tem um projeto cadastrado com esse nome!"});
-        }
-
         try {
+            
+            const projeto = await db("projeto")
+                .where({ 
+                    nome,
+                    id_criador: userId
+                })
+                .first();
+
+
+            if(projeto) {
+                return res.status(400).json({ error: "Você já tem um projeto cadastrado com esse nome!"});
+            }
+
             await db("projeto").insert({
                 nome,
                 descricao,

@@ -13,6 +13,7 @@ import NotificacaoSquadTarefaController from './app/controllers/NotificacaoSquad
 import SquadTarefaController from './app/controllers/SquadTarefaController';
 
 import Authentication from './app/middlewares/Auth';
+import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
 
 const routes = new Router();
 const upload = multer(uploadConfig);
@@ -58,5 +59,7 @@ routes.post('/notificacaosquad', Authentication.store, NotificacaoSquadTarefaCon
 
 // Squad Tarefa
 routes.post('/squadtarefa', Authentication.store, SquadTarefaController.store);
+routes.put('/squadtarefa/:id', Authentication.store, SquadTarefaController.update);
+routes.delete('/squadtarefa/:id', Authentication.store, SquadTarefaController.delete);
 
 export default routes;

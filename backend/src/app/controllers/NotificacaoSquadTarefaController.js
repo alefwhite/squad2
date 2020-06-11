@@ -6,32 +6,38 @@ class NotificacaoSquadTarefaController {
     async index(req, res) {
         const notificacoes_squad = new Array();
         const id_usuario = req.idUsuario;
-        const squadsUsuario = await db("squad_usuario").where({ id_usuario });
 
-        if(!squadsUsuario) {
-            return res.status(400).json({ mensagem: "Usuário não pertence a nenhuma squad!" });
-        }   
-
-        for(let id of squadsUsuario ) {
-            const notificacoes = await NotificacaoSquadTarefa.find({
-                squad: id.id_squad,
-                lido: false
-            })
-            .sort({ createdAt: 'desc' })
-            .limit(10);
-
-            for(let notificacao of notificacoes) {
-                notificacoes_squad.unshift(notificacao);
-            }
+        try {
             
+            const squadsUsuario = await db("squad_usuario").where({ id_usuario });
+    
+            if(!squadsUsuario) {
+                return res.status(400).json({ mensagem: "Usuário não pertence a nenhuma squad!" });
+            }   
+    
+            for(let id of squadsUsuario ) {
+                const notificacoes = await NotificacaoSquadTarefa.find({
+                    squad: id.id_squad,
+                    lido: false
+                })
+                .sort({ createdAt: 'desc' })
+                .limit(10);
+    
+                for(let notificacao of notificacoes) {
+                    notificacoes_squad.unshift(notificacao);
+                }
+                
+            }
+    
+            const notificacoesSquadOrdenada = notificacoes_squad.sort((a,b) => {
+                return b.createdAt - a.createdAt;
+            })    
+    
+            return res.json(notificacoesSquadOrdenada);
+            
+        } catch (error) {
+            return res.status(500).json({ error: "Erro interno no servidor!" });
         }
-
-        const notificacoesSquadOrdenada = notificacoes_squad.sort((a,b) => {
-            return b.createdAt - a.createdAt;
-        })
-
-
-        return res.json(notificacoesSquadOrdenada);
     }
 
     async store(req, res) {
