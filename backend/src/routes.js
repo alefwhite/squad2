@@ -10,8 +10,10 @@ import ProjetoController from './app/controllers/ProjetoController';
 import SquadUsuarioController from './app/controllers/SquadUsuarioController';
 import NotificacaoController from './app/controllers/NotificacaoController';
 import TarefaController from './app/controllers/TarefaController';
+import UsuarioTarefaController from './app/controllers/UsuarioTarefaController';
 
 import Authentication from './app/middlewares/Auth';
+
 
 const routes = new Router();
 const upload = multer(uploadConfig);
@@ -49,9 +51,13 @@ routes.put('/notificacao/:id', Authentication.store, NotificacaoController.updat
 // Rota para testar inclusão de notificacao
 routes.post('/notificacao', Authentication.store, NotificacaoController.store);
 
-//tarefa
+// Rota tarefa
 routes.post('/tarefa', Authentication.store, TarefaController.store);
 routes.put('/tarefa/:id', Authentication.store, TarefaController.update);
 routes.get('/tarefa', Authentication.store, TarefaController.index);
 routes.delete('/tarefa/:id', Authentication.store, TarefaController.delete);
+
+// Rota para atribuir tarefas ao usuario
+routes.post('/usuariotarefa', Authentication.store, UsuarioTarefaController.store);
+
 export default routes;
