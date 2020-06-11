@@ -59,5 +59,5 @@ routes.delete('/tarefa/:id', Authentication.store, TarefaController.delete);
 
 // Rota para atribuir tarefas ao usuario
 routes.post('/usuariotarefa', Authentication.store, UsuarioTarefaController.store);
-
+routes.put('/usuariotarefa/:id', Authentication.store, UsuarioTarefaController.update);
 export default routes;
