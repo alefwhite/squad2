@@ -10,6 +10,7 @@ import ProjetoController from './app/controllers/ProjetoController';
 
 import Authentication from './app/middlewares/Auth';
 
+
 const routes = new Router();
 const upload = multer(uploadConfig);
 
@@ -33,5 +34,8 @@ routes.post('/uploadusuario',
 
 // Projeto
 routes.post('/projeto', Authentication.store, ProjetoController.store);
+routes.delete('/projeto', Authentication.store, ProjetoController.delete);
+routes.get('/projeto', Authentication.store, ProjetoController.index);
+routes.put('/projeto', Authentication.store, ProjetoController.update);
 
 export default routes;
