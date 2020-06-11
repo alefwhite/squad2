@@ -9,6 +9,8 @@ import UploadUsuarioController from './app/controllers/UploadUsuarioController';
 import ProjetoController from './app/controllers/ProjetoController';
 import SquadUsuarioController from './app/controllers/SquadUsuarioController';
 import NotificacaoController from './app/controllers/NotificacaoController';
+import NotificacaoSquadTarefaController from './app/controllers/NotificacaoSquadTarefaController';
+import SquadTarefaController from './app/controllers/SquadTarefaController';
 
 import Authentication from './app/middlewares/Auth';
 
@@ -47,5 +49,14 @@ routes.get('/notificacao', Authentication.store, NotificacaoController.index);
 routes.put('/notificacao/:id', Authentication.store, NotificacaoController.update);
 // Rota para testar inclusão de notificacao
 routes.post('/notificacao', Authentication.store, NotificacaoController.store);
+
+// Notificacao Squad Tarefa
+routes.get('/notificacaosquad', Authentication.store, NotificacaoSquadTarefaController.index);
+routes.put('/notificacaosquad/:id', Authentication.store, NotificacaoSquadTarefaController.update);
+// Rota para testar inclusão de notificacao para squad
+routes.post('/notificacaosquad', Authentication.store, NotificacaoSquadTarefaController.store);
+
+// Squad Tarefa
+routes.post('/squadtarefa', Authentication.store, SquadTarefaController.store);
 
 export default routes;

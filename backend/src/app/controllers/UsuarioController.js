@@ -39,7 +39,7 @@ class UsuarioController {
         try {
            const retorno = await db("usuario").insert({
                 nome,
-                email,
+                email: email.toLowerCase(),
                 senha: senha_hash,
                 cpf: cpfValido.cpfUsuario,
                 codigo: md5(Math.random(0 * 999) + authConfig.SALT_KEY),
