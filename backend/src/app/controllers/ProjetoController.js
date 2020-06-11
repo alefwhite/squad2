@@ -12,7 +12,6 @@ class ProjetoController {
         }
 
         try {
-
             const projeto = await db("projeto")
                 .where({
                     nome,
@@ -78,14 +77,24 @@ class ProjetoController {
         }
 
         try {
+            const Projeto = await db("projeto")
+                .where({
+                    id_criador: userId,
+                    id_projeto
+                })
+                .first();
+            if (!Projeto) {
+                return res.status(400).json({ error: "Você não pode alterar esse projeto" });
+            }
+
             const atualizaProjeto = await db("projeto")
                 .where({
-                    id_projeto,
+                    id_projeto
                 }).update({
                     nome: nome.toLowerCase(),
                     descricao: descricao.toLowerCase(),
                     data_inicial,
-                    data_final,
+                    data_final
                 })
 
                 .then(() => {
@@ -110,9 +119,22 @@ class ProjetoController {
         if (verificaTipoUsuario(req.tipoUsuario)) {
             return res.status(401).json({ mensagem: "Não autorizado!" });
         } try {
+
+            const Projeto = await db("projeto")
+                .where({
+                    id_criador: userId,
+                    id_projeto
+                })
+                .first();
+            if (!Projeto) {
+                return res.status(400).json({ error: "Você não pode deletar esse projeto" });
+            }
+
+
             const deletaProjeto = await db("projeto")
                 .where({
-                    id_projeto,
+                    id_criador: userId,
+                    id_projeto
                 }).del()
                 .then(() => {
                     return res.status(200).json({ mensagem: "Projeto removido com sucesso" });
@@ -123,7 +145,6 @@ class ProjetoController {
 
 
         } catch (error) {
-
             return res.status(500).json({ error: "Erro interno no servidor!" });
         }
 
