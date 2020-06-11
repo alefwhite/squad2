@@ -1,15 +1,24 @@
 import db from '../../database/connection';
 
 class TarefaController{
+    /************************************************************************************************
+    Classe responsável por criar,editar,listar e deletar tarefas.
+    Método store é responsavel por cadastrar as tarefas e relacionar ao projeto.
+    Método update é repsonsavel por editar a tarefa.
+    Método index é responsavel por listar as tarefas de acordo com o nome da mesma e o id do criador
+    Método delete é reponsavel por deletar a tarefa.
+    Os parametros req(requisição) e res(resposta).
+    **************************************************************************************************/ 
     async store(req,res){
         const id_criador = req.idUsuario;
         const tipoUsuario = req.tipoUsuario;
 
         const {nome,descricao,prazo,hora_estimada, id_projeto = null} = req.body;
-
+ 
         if(tipoUsuario===3){
             return res.status(401).json({error:"Não autorizado!"});
         }
+
         try{
             const nova_tarefa = await db("tarefa").insert({
                 nome,
@@ -32,15 +41,25 @@ class TarefaController{
     }
 
     async update(req,res){
+     
         const id_tarefa = req.params.id;
         const tipoUsuario = req.tipoUsuario;
         const id_criador = req.idUsuario;
 
-        const {nome,descricao,prazo,hora_estimada,id_projeto = null,entregue} = req.body;
+        let {nome,descricao,prazo,hora_estimada,id_projeto,entregue} = req.body;
+
+        //tratando dados caso o campo venha vazio
+        nome = nome == "" ? undefined:nome; 
+        prazo = prazo == "" ? undefined:prazo;  
+        hora_estimada = hora_estimada == "" ? undefined:hora_estimada;  
+        id_projeto = id_projeto == "" ? undefined:id_projeto; 
+        entregue = entregue == "" ? undefined:entregue; 
+        
         if(tipoUsuario===3){
             return res.status(401).json({error:"Não autorizado"});
         }
 
+      
         try{
             const editar_tarefa = await db("tarefa").update({
                 nome,
@@ -53,14 +72,16 @@ class TarefaController{
                 id_tarefa,
                 id_criador
             })
-
+     
             if(editar_tarefa){
                 return res.json({mensagem:"Tarefa editada com sucesso!"});
             }
+
             else{
                 return res.json({mensagem:"Tarefa não existente!"});
             }
             }
+
         catch(error){
             return res.status(500).json({error:`Erro no servidor ${error}`});
         }
