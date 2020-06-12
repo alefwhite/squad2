@@ -22,8 +22,20 @@ class ProjetoController {
         if (verificaTipoUsuario(req.tipoUsuario)) {
             return res.status(401).json({ mensagem: "Não autorizado!" });
         }
-
         try {
+            
+            const projeto = await db("projeto")
+                .where({ 
+                    nome,
+                    id_criador: userId
+                })
+                .first();
+
+
+            if(projeto) {
+                return res.status(400).json({ error: "Você já tem um projeto cadastrado com esse nome!"});
+            }
+
             await db("projeto").insert({
                 nome,
                 descricao,
