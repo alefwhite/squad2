@@ -10,8 +10,11 @@ import ProjetoController from './app/controllers/ProjetoController';
 import SquadUsuarioController from './app/controllers/SquadUsuarioController';
 import NotificacaoController from './app/controllers/NotificacaoController';
 import TarefaController from './app/controllers/TarefaController';
+import NotificacaoSquadTarefaController from './app/controllers/NotificacaoSquadTarefaController';
+import SquadTarefaController from './app/controllers/SquadTarefaController';
 
 import Authentication from './app/middlewares/Auth';
+import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
 
 const routes = new Router();
 const upload = multer(uploadConfig);
@@ -54,4 +57,16 @@ routes.post('/tarefa', Authentication.store, TarefaController.store);
 routes.put('/tarefa/:id', Authentication.store, TarefaController.update);
 routes.get('/tarefa', Authentication.store, TarefaController.index);
 routes.delete('/tarefa/:id', Authentication.store, TarefaController.delete);
+// Notificacao Squad Tarefa
+routes.get('/notificacaosquad', Authentication.store, NotificacaoSquadTarefaController.index);
+routes.put('/notificacaosquad/:id', Authentication.store, NotificacaoSquadTarefaController.update);
+// Rota para testar inclusão de notificacao para squad
+routes.post('/notificacaosquad', Authentication.store, NotificacaoSquadTarefaController.store);
+
+// Squad Tarefa
+routes.get('/squadtarefa', Authentication.store, SquadTarefaController.index);
+routes.post('/squadtarefa', Authentication.store, SquadTarefaController.store);
+routes.put('/squadtarefa/:id', Authentication.store, SquadTarefaController.update);
+routes.delete('/squadtarefa/:id', Authentication.store, SquadTarefaController.delete);
+
 export default routes;
