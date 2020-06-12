@@ -1,6 +1,14 @@
 import db from '../../database/connection';
 
 class UsuarioTarefaController {
+/*****************************************************************************************
+ Classe responsavel por relacionar tarefas aos usuarios.
+ Método store é responsavel por relacionar tarefa ao usuario.
+ Método update é responsavel por alterar a relação do usuario a terefa.
+ Método delete é responsavel por apagar a relação entre o usuario e a tarefa.
+ Método index é responsavel por retornar as tarefas relacionadas ao usuario.
+ Os parametros req(requisiçao) e res(resposta).
+******************************************************************************************/
 
     async store(req,res){
         const {id_usuario, id_tarefa} = req.body;
@@ -37,32 +45,39 @@ class UsuarioTarefaController {
    
     async update(req,res){
         const id_usuariotarefa = req.params.id;
-        const {id_tarefa, id_usuario} = req.body;
+        let {id_tarefa, id_usuario} = req.body;
         const tipoUsuario = req.tipoUsuario;
         const idCriador = req.idUsuario;
+        
+        //tratando caso o campo venha vazio
+        id_tarefa = id_tarefa == "" ? undefined:id_tarefa;
+        id_usuario = id_usuario == "" ? undefined:id_usuario;
 
         if(tipoUsuario === 3){
             return res.json({mensagem:"Não autorizado"});
         }
 
-        const existeTarefa = await db("tarefa").select("*").where({
-            id_tarefa,
-            id_criador:idCriador
-        }).first();
-        if(!existeTarefa){
-            return res.json({mesangem:"Tarefa inexistente"});
-        }
-
-        const verificaCriador = await db("usuario_tarefa").select("*")
-        .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
-
-        if(verificaCriador.id_criador != idCriador){
-            return res.json({mensagem:"Id do criador diferente"});
-        }
-
-     
-        
         try{
+            
+            if(id_tarefa != undefined){ 
+                const existeTarefa = await db("tarefa").select("*").where({
+                id_tarefa,
+                id_criador:idCriador
+                }).first();
+    
+            if(!existeTarefa){
+                return res.json({mesangem:"Tarefa inexistente"});
+            }
+        }
+            
+            const verificaCriador = await db("usuario_tarefa").select("*")
+            .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
+    
+            if(verificaCriador.id_criador != idCriador){
+                return res.json({mensagem:"Id do criador diferente"});
+            }
+
+
             const editar_tarefa = await db("usuario_tarefa").where({id_usuariotarefa}).update({id_tarefa, id_usuario});
             if(editar_tarefa){
                 return res.json({mensagem:"Relação editada com sucesso"});
@@ -81,20 +96,20 @@ class UsuarioTarefaController {
         if(tipoUsuario === 3){
             return res.json({mensagem:"Não autorizado"});
         }
-
-        const verificaCriador = await db("usuario_tarefa").select("*")
-        .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
-        
-        if(verificaCriador.id_criador != id_criador){
-            return res.json({mensagem:"Tarefa inexistente"});
-        }
-        
-        const verificaUsuarioTarefa = await db("usuario_tarefa").select("*").where({id_usuariotarefa}).first();
-        if(!verificaUsuarioTarefa){
-            return res.json({mensagem:"Tarefa inexistente"});
-        }
         
         try{
+            const verificaCriador = await db("usuario_tarefa").select("*")
+            .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
+            
+            if(verificaCriador.id_criador != id_criador){
+                return res.json({mensagem:"Tarefa inexistente"});
+            }
+            
+            const verificaUsuarioTarefa = await db("usuario_tarefa").select("*").where({id_usuariotarefa}).first();
+            if(!verificaUsuarioTarefa){
+                return res.json({mensagem:"Tarefa inexistente"});
+            }
+
             const deletarTarefa = await db("usuario_tarefa").where({id_usuariotarefa}).delete();
 
             if(deletarTarefa){
