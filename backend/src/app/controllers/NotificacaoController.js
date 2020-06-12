@@ -3,7 +3,7 @@ import Notificacao from '../models/Notificacao';
 class NotificacaoController {
     async index(req, res) {
         const notificacoes = await Notificacao.find({
-            // user: req.idUsuario,
+            user: req.idUsuario,
             lido: false
         })
         .sort({ createdAt: 'desc' })

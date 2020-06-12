@@ -58,6 +58,7 @@ routes.put('/notificacaosquad/:id', Authentication.store, NotificacaoSquadTarefa
 routes.post('/notificacaosquad', Authentication.store, NotificacaoSquadTarefaController.store);
 
 // Squad Tarefa
+routes.get('/squadtarefa', Authentication.store, SquadTarefaController.index);
 routes.post('/squadtarefa', Authentication.store, SquadTarefaController.store);
 routes.put('/squadtarefa/:id', Authentication.store, SquadTarefaController.update);
 routes.delete('/squadtarefa/:id', Authentication.store, SquadTarefaController.delete);

@@ -4,29 +4,60 @@ import formatarDataBr from '../../utils/formatarDataBr';
 import NotificacaoSquadTarefa from '../models/NotificacaoSquadTarefa';
 
 class SquadTarefaController {
+    async index(req, res) {
+        const id_usuario = req.idUsuario;        
+
+        if(verificaTipoUsuario(req.tipoUsuario)) {
+            return res.status(401).json({ mensagem: "Não autorizado!" });
+        }       
+       
+
+        const existeSquad_E_Tarefa = await db("squad_tarefa as ST")
+            .select([
+                "ST.id_squadtarefa", 
+                "S.nome as squad", 
+                "P.nome as projeto", 
+                "P.descricao as descricao_projeto", 
+                "T.descricao as tarefa", 
+                "T.prazo", 
+                "T.hora_estimada"
+            ])
+            .distinct("ST.id_squadtarefa")
+            .innerJoin("squad as S", "S.id_squad", "=", "ST.id_squad")
+            .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
+            .innerJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
+            .where({
+                "S.id_criador" : id_usuario,
+                "T.id_criador" : id_usuario,
+                "P.id_criador" : id_usuario
+            })
+            .orderBy("ST.id_squadtarefa", "desc");
+
+        return res.json(existeSquad_E_Tarefa);
+    }
     async store(req, res) {
         const id_usuario = req.idUsuario;
         const { id_squad, id_tarefa } = req.body;
 
+        if(verificaTipoUsuario(req.tipoUsuario)) {
+            return res.status(401).json({ mensagem: "Não autorizado!" });
+        }
+
         try {
 
-            if(verificaTipoUsuario(req.tipoUsuario)) {
-                return res.status(401).json({ mensagem: "Não autorizado!" });
-            }
-
-            const existeSquad_E_Tarefa = await db("usuario")
-                .join("squad as S")
-                .join("tarefa as F")
-                .join("projeto as P")
-                .select("S.nome as squad ", "F.descricao", "F.prazo", "P.nome")
+            const existeSquad_E_Tarefa = await db("usuario as U")
+                .innerJoin("squad as S", "S.id_criador", "=", "U.id_usuario")
+                .innerJoin("tarefa as T", "T.id_criador", "=", "U.id_usuario")
+                .innerJoin("projeto as P", "P.id_criador", "=", "U.id_usuario")
+                .select("S.nome as squad ", "T.descricao", "T.prazo", "P.nome")
                 .where({
                     "S.id_squad"   : id_squad,
                     "S.id_criador" : id_usuario,
-                    "F.id_tarefa"  : id_tarefa,
-                    "F.id_criador" : id_usuario,
+                    "T.id_tarefa"  : id_tarefa,
+                    "T.id_criador" : id_usuario,
                     "P.id_criador" : id_usuario
-                })
-                .first();             
+                }).first();
+                
 
             if(!existeSquad_E_Tarefa) {
                 return res.status(400).json({ mensagem: "Squad e tarefa não encontrada!" });
@@ -86,19 +117,19 @@ class SquadTarefaController {
 
         try {
 
-            const existeSquad_E_Tarefa = await db("usuario")
-                .join("squad as S")
-                .join("tarefa as F")
-                .join("projeto as P")
-                .select("S.nome as squad ", "F.descricao", "F.prazo", "P.nome")
-                .where({
-                    "S.id_squad"   : id_squad,
-                    "S.id_criador" : id_usuario,
-                    "F.id_tarefa"  : id_tarefa,
-                    "F.id_criador" : id_usuario,
-                    "P.id_criador" : id_usuario
-                })
-                .first();
+            const existeSquad_E_Tarefa = await db("usuario as U")
+            .innerJoin("squad as S", "S.id_criador", "=", "U.id_usuario")
+            .innerJoin("tarefa as T", "T.id_criador", "=", "U.id_usuario")
+            .innerJoin("projeto as P", "P.id_criador", "=", "U.id_usuario")
+            .select("S.nome as squad ", "T.descricao", "T.prazo", "P.nome")
+            .where({
+                "S.id_squad"   : id_squad,
+                "S.id_criador" : id_usuario,
+                "T.id_tarefa"  : id_tarefa,
+                "T.id_criador" : id_usuario,
+                "P.id_criador" : id_usuario
+            }).first();
+            
 
             if(!existeSquad_E_Tarefa) {
                 return res.status(400).json({ mensagem: "Squad e tarefa não encontrada!" });
@@ -112,7 +143,6 @@ class SquadTarefaController {
             if(existeSquadTarefa) {
                 return res.status(400).json({ mensagem: `A tarefa(${existeSquad_E_Tarefa.descricao}) já está adicionada para a squad(${existeSquad_E_Tarefa.squad}), você não pode adicionar novamente!`});
             }
-
             
             const formatter = new Intl.DateTimeFormat('pt-BR', {
                 month: '2-digit',
@@ -168,20 +198,19 @@ class SquadTarefaController {
             }    
 
             const { id_squad, id_tarefa } = squad_tarefa;
-                
-            const existeSquad_E_Tarefa = await db("usuario")
-                .innerJoin("squad as S")
-                .innerJoin("tarefa as F")
-                .innerJoin("projeto as P")
-                .select("S.nome as squad ", "F.descricao", "F.prazo", "P.nome")
-                .where({              
+
+            const existeSquad_E_Tarefa = await db("usuario as U")
+                .innerJoin("squad as S", "S.id_criador", "=", "U.id_usuario")
+                .innerJoin("tarefa as T", "T.id_criador", "=", "U.id_usuario")
+                .innerJoin("projeto as P", "P.id_criador", "=", "U.id_usuario")
+                .select("S.nome as squad ", "T.descricao", "T.prazo", "P.nome")
+                .where({
                     "S.id_squad"   : id_squad,
                     "S.id_criador" : id_usuario,
-                    "F.id_tarefa"  : id_tarefa,
-                    "F.id_criador" : id_usuario,
+                    "T.id_tarefa"  : id_tarefa,
+                    "T.id_criador" : id_usuario,
                     "P.id_criador" : id_usuario
-                })
-                .first();
+                }).first();
             
 
             if(!existeSquad_E_Tarefa) {
