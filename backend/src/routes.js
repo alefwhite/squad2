@@ -13,6 +13,7 @@ import TarefaController from './app/controllers/TarefaController';
 import UsuarioTarefaController from './app/controllers/UsuarioTarefaController';
 import NotificacaoSquadTarefaController from './app/controllers/NotificacaoSquadTarefaController';
 import SquadTarefaController from './app/controllers/SquadTarefaController';
+import SquadController from './app/controllers/SquadController';
 
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
@@ -79,5 +80,13 @@ routes.get('/squadtarefa', Authentication.store, SquadTarefaController.index);
 routes.post('/squadtarefa', Authentication.store, SquadTarefaController.store);
 routes.put('/squadtarefa/:id', Authentication.store, SquadTarefaController.update);
 routes.delete('/squadtarefa/:id', Authentication.store, SquadTarefaController.delete);
+//Squad
+routes.get('/squad',Authentication.store, SquadController.index);
+routes.post('/squad',Authentication.store, SquadController.store);
+routes.put('/squad/:id',Authentication.store, SquadController.update);
+routes.delete('/squad/:id',Authentication.store, SquadController.delete);
+
+        
+
 
 export default routes;
