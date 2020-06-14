@@ -2,13 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './pages/App';
+import TesteImagem from './pages/TesteImagem'
+
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+
+
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <BrowserRouter>
   <Switch>
-    <Route path="/" component={App}/>
+    <Route exact path="/" component={App}/>
+    <Route path="/teste" component={TesteImagem}/>
   </Switch>
   </BrowserRouter>
   
