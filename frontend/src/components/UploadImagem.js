@@ -21,9 +21,10 @@ export default function UploadImagem(){
     }
 
     function corte(newCrop){
-        if(crop.width<=307 && crop.height<=307){
-        setCrop(newCrop);
-        console.log(newCrop);
+        let teste = newCrop;
+
+        if(newCrop.width<=298 || newCrop.height<=298){
+        setCrop(teste);
         }
     }
     
