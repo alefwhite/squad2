@@ -29,6 +29,7 @@ routes.post('/session', SessionController.store);
 routes.post('/usuario', UsuarioController.store);
 
 // ConviteUsuario
+routes.get('/convite',Authentication.store, ConviteUsuarioController.index)
 routes.get('/convite', Authentication.store, ConviteUsuarioController.show);
 routes.post('/convite', ConviteUsuarioController.store);
 
