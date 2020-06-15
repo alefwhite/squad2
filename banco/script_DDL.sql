@@ -53,6 +53,7 @@ CREATE TABLE projeto (
 
 CREATE TABLE timesheet (
 	id_timesheet INT PRIMARY KEY AUTO_INCREMENT,
+	data_ponto DATE NOT NULL,
     entrada TIME NOT NULL,
     almoco_ida TIME,
     almoco_volta TIME,
@@ -83,6 +84,7 @@ CREATE TABLE squad_usuario(
 
 CREATE TABLE tarefa (
 	id_tarefa INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
     descricao TEXT NOT NULL,
     prazo DATE NOT NULL,
     hora_estimada INT,
