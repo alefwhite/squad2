@@ -3,8 +3,8 @@
 }
 
 .uploadLabel{
-    margin-left:5%;
-    padding:0.6vh 1vw;
+    font-size:10px;
+    padding:0.2vh 1vw;
     cursor:pointer;
     background-color: orange;
     color:white;
