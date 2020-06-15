@@ -3,6 +3,7 @@ import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css';
 import './UploadImagem.css'
 
+
 export default function UploadImagem(){
     const [imagem, setImagem] = useState(null);
     const [img, setImg] = useState(null);
@@ -94,7 +95,7 @@ export default function UploadImagem(){
             <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
             <img src={cropImg}></img>
             <button onClick={makeCrop}>Aperte-me</button>
-          
+
         </>
     )
 }
