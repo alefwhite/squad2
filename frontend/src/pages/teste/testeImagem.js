@@ -1,5 +1,5 @@
 import React from 'react'
-import UploadImagem from '../components/uploadImagem/UploadImagem'
+import UploadImagem from '../../components/uploadImagem/UploadImagem'
 
 export default function uploadImagem(){
     return(
