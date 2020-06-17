@@ -2,13 +2,14 @@ import React, { useState }  from 'react'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css';
 import './UploadImagem.css'
-
+import Modal from '@material-ui/core/Modal';
 
 export default function UploadImagem(){
     const [imagem, setImagem] = useState(null);
     const [img, setImg] = useState(null);
     const [cropImg,setCropImg] = useState(null);
     const [crop, setCrop] = useState({ aspect: 1/1 , unit: '%',width: 1,height: 1, x: 2, y: 2 });
+    const [open,setOpen] = useState("false");
    
     function handleImagem(event){
       const img = event.target.files
@@ -21,18 +22,12 @@ export default function UploadImagem(){
             setImagem(resultado);
         })
            reader.readAsDataURL(img[0]);
-      }
-      var onImageLoaded = teste =>{
-          console.log(teste);
+           
       }
     }
     
     function corte(newCrop){
-        let teste = newCrop;
-
-        if(newCrop.width<=298 || newCrop.height<=298){
-        setCrop(teste);
-        }
+        setCrop(newCrop);
     }
     //teste
     function load(img){
@@ -81,7 +76,6 @@ export default function UploadImagem(){
         }, "image/jpeg")
         })
     }
-    
     return(
         <>
             <p></p>
@@ -89,13 +83,45 @@ export default function UploadImagem(){
                 Selecione a imagem
                 <input type="file" className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
             </label>
-        <p>a</p>
-        <p>a</p>
-     
-            <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
-            <img src={cropImg}></img>
-            <button onClick={makeCrop}>Aperte-me</button>
-
+            {
+                modal()
+            }           
         </>
     )
+
+    function modal(){
+        const handleOpen = () => {
+            setOpen(true);
+          };
+          const handleClose = () => {
+            setOpen(false);
+
+          }
+        return(
+            
+            <>
+                
+                
+                <div>
+            <button type="button" onClick={handleOpen}>
+                Open Modal
+            </button>
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+         >
+        
+        <div>
+        <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
+                <img src={cropImg}></img>
+        </div>
+      </Modal>
+    </div>
+           </>
+        )
+    
+    }
 }
+
