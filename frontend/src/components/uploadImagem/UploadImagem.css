@@ -1,0 +1,13 @@
+.upload{
+    display:none;
+}
+
+.uploadLabel{
+    font-size:10px;
+    padding:0.2vh 1vw;
+    cursor:pointer;
+    background-color: orange;
+    color:white;
+    border:1px solid orange;
+    border-radius:5px;
+}

@@ -34,8 +34,12 @@ class App {
             useNewUrlParser: true,
             useFindAndModify: false,
             useUnifiedTopology: true,
-        }, () => {
-            console.log("Conexão com mongodb feita com sucesso!");
+        })
+        .then(() => {
+            console.log("Conexão com MongoDB realizado com sucesso!");
+        })
+        .catch((error) => {
+            console.log("Error: Conexão com MongoDB não realizado com sucesso!" + error);
         });
     }
 }

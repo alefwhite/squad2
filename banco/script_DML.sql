@@ -21,7 +21,7 @@ VALUES('administrador', 'adm@adm.com', '123', '00000000000', 1, 1, 1);
 SELECT * FROM usuario;
 
 -- projeto
-INSERT INTO projeto(nome, descricao, data_inicial, data_final, id_criador) VALUES('Erp Facil', 'desenvolvimento de um erp integrando com crm', '2020-07-11', '2021-07-11', 1);
+INSERT INTO projeto(nome, descricao, data_inicial, data_final, id_criador) VALUES('Erp Facil Dois', 'desenvolvimento de um erp integrando com crm', '2020-07-11', '2021-07-11', 1);
 SELECT * FROM projeto;
 
 -- timesheet 
@@ -49,8 +49,10 @@ INSERT INTO usuario_tarefa(id_usuario, id_tarefa) VALUES(3, 2);
 SELECT * FROM usuario_tarefa;
 
 use fcamara;
+select * from projeto;
 select * from usuario;
 
-delete from usuario where id_usuario = 25;
+
+delete from usuario where id_usuario = 8;
 
 select * from tipo_usuario;
