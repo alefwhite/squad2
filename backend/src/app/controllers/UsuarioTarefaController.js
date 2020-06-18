@@ -1,4 +1,6 @@
 import db from '../../database/connection';
+import NotificacaoUsuarioTarefa from '../models/NotificacaoUsuarioTarefa';
+import formatarDataBr from '../../utils/formatarDataBr';
 
 class UsuarioTarefaController {
 /*****************************************************************************************
@@ -11,122 +13,228 @@ class UsuarioTarefaController {
 ******************************************************************************************/
 
     async store(req,res){
-        const {id_usuario, id_tarefa} = req.body;
-        const tipoUsuario = req.tipoUsuario;
+        const { id_usuario, id_tarefa } = req.body;
         const id_criador = req.idUsuario;
+        
+        try {
 
-        if(tipoUsuario === 3){
-           return res.json({mensagem:"Não autorizado!"});
-        }
+            const existeUsuario = await db("usuario").select("*")
+                .where({ 
+                    id_usuario,
+                    id_criador 
+                })
+                .first();
+    
+            if(!existeUsuario){
+                return res.status(400).json({ mensagem: "Usuario inexistente" });
+            }
+         
+            const existeTarefa = await db("tarefa")
+                .select("*")
+                .where({id_tarefa})
+                .andWhere({id_criador}).first();
+           
+            if(!existeTarefa){
+               return res.status(400).json({ mensagem: "Tarefa inexistente" });
+            }
 
-        const existeUsuario = await db("usuario").select("*").where({id_usuario}).first();
-        if(!existeUsuario){
-            return res.json({mensagem:"Usuario inexistente"});
-        }
-     
-        const existeTarefa = await db("tarefa").select("*").where({id_tarefa}).andWhere({id_criador}).first();
-        if(!existeTarefa){
-           return res.json({mensagem:"Tarefa inexistente"});
-        }
-
-        try{
-            const usuarioTarefa = await db("usuario_tarefa").insert({
+            const existeUsuarioTarefa = await db("usuario_tarefa").where({
                 id_usuario,
                 id_tarefa
-            });
-            if(usuarioTarefa){
-                return res.json({mensagem:"A tarefa foi atribuida ao usuario com sucesso!"});
+            }).first();
+
+            console.log(existeTarefa)
+            if(existeUsuarioTarefa) {
+                return res.status(400).json(
+                    { mensagem: 
+                        `A tarefa(${existeTarefa.nome}) já está adicionada ao (${existeUsuario.nome}), você não pode adicionar novamente!`
+                    });
             }
+
+            const formatter = new Intl.DateTimeFormat('pt-BR', {
+                month: '2-digit',
+                day: '2-digit',               
+                year: 'numeric',
+            });
+
+            const prazo = formatarDataBr(formatter.format(existeTarefa.prazo));
+
+            await db("usuario_tarefa").insert({
+                id_usuario,
+                id_tarefa
+            })
+            .then(async (retorno) => {
+
+                if(retorno) {
+                    await NotificacaoUsuarioTarefa.create({
+                        conteudo: `Você recebeu uma nova tarefa(${existeTarefa.nome}) com o prazo até ${prazo}`,
+                        user: id_usuario,
+                    });
+    
+                    return res.json({ mensagem: `A tarefa(${existeTarefa.nome}) foi atribuida ao funcionário(${existeUsuario.nome}) com sucesso!`});
+                }
+
+                return res.status(400).json({ mensagem: "Não foi possível atribuir tarefa!" });
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+
+                return res.status(400).json({ mensagem: "Erro ao atribuir tarefa!" });
+            });
+           
         }
         catch{
-            return res.status(500).json({mensagem:"Erro no servidor!"});
+            return res.status(500).json({ mensagem:"Erro no servidor!" });
         }
     }
    
     async update(req,res){
         const id_usuariotarefa = req.params.id;
-        let {id_tarefa, id_usuario} = req.body;
-        const tipoUsuario = req.tipoUsuario;
+        let { id_tarefa, id_usuario } = req.body;
+        let existeTarefa = null;
         const idCriador = req.idUsuario;
         
-        //tratando caso o campo venha vazio
-        id_tarefa = id_tarefa == "" ? undefined:id_tarefa;
-        id_usuario = id_usuario == "" ? undefined:id_usuario;
+        // tratamento caso o campo venha vazio
+        id_tarefa = id_tarefa == "" ? undefined : id_tarefa;
+        id_usuario = id_usuario == "" ? undefined : id_usuario;       
 
-        if(tipoUsuario === 3){
-            return res.json({mensagem:"Não autorizado"});
-        }
+        try {
 
-        try{
+            const existeUsuario = await db("usuario").select("*")
+            .where({ 
+                id_usuario,
+                id_criador: req.idUsuario 
+            })
+            .first();
+
+            if(!existeUsuario){
+                return res.status(400).json({ mensagem: "Usuario inexistente" });
+            }
             
             if(id_tarefa != undefined){ 
-                const existeTarefa = await db("tarefa").select("*").where({
-                id_tarefa,
-                id_criador:idCriador
+
+                existeTarefa = await db("tarefa").select("*").where({
+                    id_tarefa,
+                    id_criador : idCriador
                 }).first();
     
-            if(!existeTarefa){
-                return res.json({mesangem:"Tarefa inexistente"});
+                if(!existeTarefa){
+                    return res.status(400).json({ mesangem: "Tarefa inexistente" });
+                }
             }
-        }
             
-            const verificaCriador = await db("usuario_tarefa").select("*")
-            .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
+            const verificaCriador = await db("usuario_tarefa")
+                .select("*")
+                .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
+                .where("usuario_tarefa.id_usuariotarefa", id_usuariotarefa).first();
     
             if(verificaCriador.id_criador != idCriador){
-                return res.json({mensagem:"Id do criador diferente"});
+                return res.status(400).json( { mensagem: "Id do criador diferente" });
             }
 
+            const existeUsuarioTarefa = await db("usuario_tarefa").where({
+                id_usuario,
+                id_tarefa
+            }).first();
 
-            const editar_tarefa = await db("usuario_tarefa").where({id_usuariotarefa}).update({id_tarefa, id_usuario});
-            if(editar_tarefa){
-                return res.json({mensagem:"Relação editada com sucesso"});
+            if(existeUsuarioTarefa) {
+                return res.status(400).json(
+                    { mensagem: 
+                        `A tarefa(${existeTarefa.nome}) já está adicionada ao (${existeUsuario.nome}), você não pode adicionar novamente!`
+                    });
             }
-        }
-        catch{
-                return res.json({mensagem:"Erro no servidor!"});
+
+            const formatter = new Intl.DateTimeFormat('pt-BR', {
+                month: '2-digit',
+                day: '2-digit',               
+                year: 'numeric',
+            });
+
+            const prazo = formatarDataBr(formatter.format(existeTarefa.prazo));
+
+            await db("usuario_tarefa")
+                .where({ id_usuariotarefa })
+                .update({ id_tarefa, id_usuario })
+                .then(async (retorno) => {
+
+                    if(retorno) {
+                        await NotificacaoUsuarioTarefa.create({
+                            conteudo: `Você recebeu uma nova tarefa(${existeTarefa.nome}) com o prazo até ${prazo}`,
+                            user: id_usuario,
+                        });
+        
+                        return res.json({ mensagem: "A tarefa editada foi atribuida ao usuario com sucesso!" });
+                    }
+
+                    return res.status(400).json({ mensagem: "Não foi possível atribuir a tarefa!" });
+                })
+                .catch((error) => {
+                    console.error("Error: ", error);
+
+                    return res.status(400).json({ mensagem: "Erro ao editar tarefa atribuida!" });
+                });
+
+        } catch(error) {
+            console.error("Error: ", error);
+
+            return res.json({ mensagem:"Erro interno servidor!" });
         }
     }
     
     async delete(req,res){
         const id_usuariotarefa = req.params.id;
-        const tipoUsuario = req.tipoUsuario;
         const id_criador = req.idUsuario;
-
-        if(tipoUsuario === 3){
-            return res.json({mensagem:"Não autorizado"});
-        }
         
-        try{
-            const verificaCriador = await db("usuario_tarefa").select("*")
-            .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa").where("usuario_tarefa.id_usuariotarefa",id_usuariotarefa).first();
+        try {
+            const verificaCriador = await db("usuario_tarefa")
+                .select("*")
+                .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
+                .where("usuario_tarefa.id_usuariotarefa", id_usuariotarefa)
+                .first();
             
             if(verificaCriador.id_criador != id_criador){
-                return res.json({mensagem:"Tarefa inexistente"});
+                return res.status(400).json({ mensagem: "Tarefa inexistente" });
             }
             
-            const verificaUsuarioTarefa = await db("usuario_tarefa").select("*").where({id_usuariotarefa}).first();
+            const verificaUsuarioTarefa = await db("usuario_tarefa")
+                .select("*")
+                .where({id_usuariotarefa})
+                .first();
+            
             if(!verificaUsuarioTarefa){
-                return res.json({mensagem:"Tarefa inexistente"});
+                return res.status(400).json({ mensagem: "Tarefa inexistente!" });
             }
 
-            const deletarTarefa = await db("usuario_tarefa").where({id_usuariotarefa}).delete();
+            await db("usuario_tarefa").where({id_usuariotarefa})
+                .delete()
+                .then((retorno) => {
+                    
+                    if(retorno) {
+                        return res.json({ mensagem: "Tarefa deletada com sucesso!" });
+                    }
 
-            if(deletarTarefa){
-                return res.json({mensagem:"Tarefa deletada com sucesso"});
-            }
-        }
-        catch{
-            return res.status(500).json({mensagem:"Erro no servidor"});
+                    return res.status(400).json({ mensagem: "Não foi possível deletar a tarefa!" });
+
+                })
+                .catch((error) => {
+                    console.error("Error: ", error);
+
+                    return res.status(400).json({ mensagem: "Erro ao deletar tarefa do usuario!" });
+                }); 
+
+        } catch(error) {
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!" });
         }
     }
 
     async index(req,res){
         const idUsuario = req.idUsuario;
-        const {nome,entregue=0} = req.body;
+        const { nome, entregue = 0} = req.body;
 
         try{
-            const usuarioTarefa = await db("usuario_tarefa").select(
+           await db("usuario_tarefa").select(
                 "tarefa.nome",
                 "tarefa.descricao",
                 "tarefa.prazo",
@@ -135,12 +243,28 @@ class UsuarioTarefaController {
                 "tarefa.entregue"
                 )
             .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
-            .join("projeto","tarefa.id_criador","=","projeto.id_criador").where("usuario_tarefa.id_usuario",idUsuario).
-            andWhere("tarefa.entregue",entregue).andWhere("tarefa.nome","like",`%${nome}%`);
-            return res.json(usuarioTarefa);
-        }
-        catch{
-            return res.status(400).json({mensagem:"Erro no servidor"});
+            .join("projeto","tarefa.id_criador","=","projeto.id_criador")
+            .where("usuario_tarefa.id_usuario", idUsuario)
+            .andWhere("tarefa.entregue", entregue)
+            //.andWhere("tarefa.nome","like",`%${nome}%`);
+            .then((usuarioTarefa) => {
+
+                if(usuarioTarefa) {
+                    return res.json(usuarioTarefa);
+                }
+
+                return res.status(400).json({ mensagem: "Não foi possível listar usuario/tarefa!"});
+            })
+            .catch((error) => {
+                console.error("Erro: ", error);
+
+                return res.status(400).json({ mensagem: "Erro ao listar usuário/tarefa!"});
+            });
+
+        } catch(error) {
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!" });
         }
     }
 }

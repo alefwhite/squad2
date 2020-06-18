@@ -2,15 +2,11 @@ import db from '../../database/connection';
 
 class SquadUsuarioontroller {
     async index(req, res) {
-        const id_usuario = req.idUsuario;
-        const tipoUsuario = req.tipoUsuario;
-
-        if(tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!"});
-        }
+        const id_usuario = req.idUsuario;              
 
         try {
-           const usuarioSquad = await db("squad_usuario")
+
+           await db("squad_usuario")
             .select("squad_usuario.id_squadusuario", "usuario.nome as nome", "squad.nome as squad")
             .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
             .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
@@ -19,29 +15,38 @@ class SquadUsuarioontroller {
                 "usuario.id_criador" : id_usuario,
                 "squad.id_criador"   : id_usuario
             })
-            .orderBy("squad_usuario.id_squadusuario", "desc");       
+            .orderBy("squad_usuario.id_squadusuario", "desc")
+            .then((usuarioSquad) => {
 
-            if(usuarioSquad) {
-                return res.json(usuarioSquad);
-            }
+                if(usuarioSquad) {
+                    return res.json(usuarioSquad);
+                }
+
+                return res.status(400).json({ mensagem: "Não foi possível listar squad/usuario" });
+
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+
+                return res.status(400).json({ mensagem: "Erro listar squad usuario."});
+            });    
+
             
         } catch (error) {
-            return res.status(500).json({error: "Erro interno no servidor."});            
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor." });            
         }            
 
     }
 
     async store(req, res) {
-        const tipoUsuario = req.tipoUsuario;
         const gestorId = req.idUsuario;
         const { id_squad, id_usuario } = req.body;
-
-        if(tipoUsuario === 3) {
-            return res.status(401).json({ error: "Não autorizado!"});
-        }
+       
         
         if(!(id_squad && id_usuario)) {
-            return res.status(400).json({ error: "Squad e usuário são obrigatórios!"});
+            return res.status(400).json({ mensagem: "Squad e usuário são obrigatórios!"});
         }
 
         try {
@@ -83,30 +88,36 @@ class SquadUsuarioontroller {
             await db("squad_usuario").insert({
                 id_squad,
                 id_usuario
-            }).then(() => {
-                return res.json({ mensagem: "Usuário foi incluindo a squad com sucesso!"});
+            }).then((retorno) => {
+
+                if(retorno) {
+                    return res.json({ mensagem: "Usuário foi incluindo a squad com sucesso!"});
+                }
+
+                return res.status(400).json({ mensagem: "Não foi possível incluir usuário a squad!"});
+
             })
-            .catch(() => {
+            .catch((error) => {
+                console.error("Error: ", error);
+
                 return res.status(400).json({ mensagem: "Erro ao inlcuir usuário a squad!"});
             });
             
             
         } catch (error) {
-            return res.status(500).json({ error: "Erro interno no servidor!" });
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!" });
         }
 
     }
 
     async update(req, res) {
-        const tipoUsuario = req.tipoUsuario;
         const gestorId = req.idUsuario;
         const id_squadUsuario = req.params.id;        
 
         const { id_squad, id_usuario } = req.body;
-
-        if(tipoUsuario === 3) {
-            return res.status(401).json({ mensagem: "Não autorizado!"});
-        }
+               
         
         if(!(id_squad && id_usuario)) {
             return res.status(400).json({ mensagem: "Squad e usuário são obrigatórios!"});
@@ -163,27 +174,31 @@ class SquadUsuarioontroller {
                     id_squad,
                     id_usuario
                 })
-                .then(() => {
-                    return res.json({ mensagem: "Alteração realizada com sucesso!" });
+                .then((retorno) => {
+
+                    if(retorno) {
+                        return res.json({ mensagem: "Alteração realizada com sucesso!" });
+                    }
+
+                    return res.status(400).json({ mensagem: "Não foi possível alterar squad/usuario!" });
                 })
-                .catch(() => {
+                .catch((error) => {
+                    console.error("Error: ", error);
+
                     return res.status(400).json({ mensagem: "Erro ao realizar alteração!" });
                 });
             
         } catch (error) {
-            return res.status(500).json({ error: "Erro interno no servidor." });
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor." });
         }
 
     }
 
     async delete(req, res) {
         const gestorId = req.idUsuario;
-        const tipoUsuario = req.tipoUsuario;
         const id_squadusuario = req.params.id;
-
-        if(tipoUsuario === 3) {
-            return res.status(401).json({ mensagem: "Não autorizado!" });
-        }
         
         try {
 
@@ -218,15 +233,24 @@ class SquadUsuarioontroller {
             await db("squad_usuario")
                 .where("squad_usuario.id_squadusuario", id_squadusuario)
                 .delete()
-                .then(() => {
-                    return res.json({ mensagem: "Squad/Usuario deletado com sucesso!" });
+                .then((retorno) => {
+
+                    if(retorno) {
+                        return res.json({ mensagem: "Squad/Usuario deletado com sucesso!" });
+                    }
+
+                    return res.status(400).json({ mensagem: "Não foi possível deletar Squad/Usuario!" });
                 })
-                .catch(() => {
+                .catch((error) => {
+                    console.error("Error: ", error);
+
                     return res.status(400).json({ mensagem: "Erro ao deletar Squad/Usuario!" });
                 });            
 
-        } catch (error) {
-                return res.status(500).json({ error: "Erro interno no servidor." }); 
+        } catch(error) {
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor." }); 
         }
     }
 }

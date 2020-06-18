@@ -11,133 +11,178 @@ class TarefaController{
     **************************************************************************************************/ 
     async store(req,res){
         const id_criador = req.idUsuario;
-        const tipoUsuario = req.tipoUsuario;
 
-        const {nome,descricao,prazo,hora_estimada, id_projeto = null} = req.body;
- 
-        if(tipoUsuario===3){
-            return res.status(401).json({error:"Não autorizado!"});
+        let { nome, descricao, prazo, hora_estimada, id_projeto } = req.body;              
+
+        if(!(nome && descricao && prazo)) {
+            return res.status(400).json({ mensagem: "Dados obrigatórios não informados!" });
         }
 
-        try{
-            const nova_tarefa = await db("tarefa").insert({
+        // Tratando dados não obrigatórios no banco de dados
+        id_projeto = id_projeto == "" || id_projeto == undefined || id_projeto == null ? null : id_projeto
+        hora_estimada = hora_estimada == "" || hora_estimada == undefined || hora_estimada == null ? null : hora_estimada
+
+        try {
+
+           await db("tarefa").insert({
                 nome,
                 descricao,
                 prazo,
                 hora_estimada,
                 id_criador,
-                id_projeto 
+                id_projeto
+            })
+            .then((nova_tarefa) => {
+
+                if(nova_tarefa){
+                    return res.json({ mensagem:"Tarefa cadastrada com sucesso!" });
+                }
+
+                return res.status(400).json({ mensagem: "Não foi possível cadastrar a tarefa!" });
+
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+
+                return res.status(400).json({ mensagem:"Erro ao cadastrar tarefa!" });
             });
-            if(nova_tarefa){
-                return res.json({mensagem:"Tarefa cadastrada com sucesso!"});
-            }
-            else{
-                return res.json({mensagem:"Tarefa não cadastrada!"});
-            }
-        }
-        catch(error){
-            return res.status(500).json({error:`Erro no servidor ${error}`});
+
+           
+        } catch(error){
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!" });
         }        
     }
 
-    async update(req,res){
-     
+    async update(req,res){     
         const id_tarefa = req.params.id;
-        const tipoUsuario = req.tipoUsuario;
         const id_criador = req.idUsuario;
 
-        let {nome,descricao,prazo,hora_estimada,id_projeto,entregue} = req.body;
+        let { 
+            nome, 
+            descricao,
+            prazo,
+            hora_estimada,
+            id_projeto,
+            entregue 
+        } = req.body;
 
         //tratando dados caso o campo venha vazio
-        nome = nome == "" ? undefined:nome; 
-        prazo = prazo == "" ? undefined:prazo;  
-        hora_estimada = hora_estimada == "" ? undefined:hora_estimada;  
-        id_projeto = id_projeto == "" ? undefined:id_projeto; 
-        entregue = entregue == "" ? undefined:entregue; 
+        nome = nome == "" ? undefined : nome; 
+        prazo = prazo == "" ? undefined : prazo;  
+        hora_estimada = hora_estimada == "" ? undefined : hora_estimada;  
+        id_projeto = id_projeto == "" ? undefined : id_projeto; 
+        entregue = entregue == "" ? undefined : entregue; 
         
-        if(tipoUsuario===3){
-            return res.status(401).json({error:"Não autorizado"});
-        }
-
       
-        try{
-            const editar_tarefa = await db("tarefa").update({
+        try {
+
+            await db("tarefa").update({
                 nome,
                 descricao,
                 prazo,
                 hora_estimada,
                 entregue,
                 id_projeto
+                
             }).where({
                 id_tarefa,
                 id_criador
             })
-     
-            if(editar_tarefa){
-                return res.json({mensagem:"Tarefa editada com sucesso!"});
-            }
+            .then((retorno) => {
 
-            else{
-                return res.json({mensagem:"Tarefa não existente!"});
-            }
-            }
+                if(retorno) {
+                    return res.json({ mensagem: "Tarefa editada com sucesso!" });
+                }              
 
-        catch(error){
-            return res.status(500).json({error:`Erro no servidor ${error}`});
+                return res.status(400).json({ mensagem: "Não foi possível editar a tarefa!" });
+
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+
+                return res.status(400).json({ mensagem: "Erro ao editar tarefa!" });
+            });
+            
+
+            
+        } catch(error) {
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!" });        
         }
     }
     
     async index(req,res){
         const id_criador = req.idUsuario;
-        const {entregue=0,nome} = req.query;
-        console.log(`nome:${nome}, entregue:${entregue}`);
-        try{
-            const tarefa = await db("tarefa").join("projeto","projeto.id_projeto","=","tarefa.id_projeto").select(
-                "tarefa.id_tarefa",
-                "tarefa.nome",
-                "tarefa.descricao",
-                "tarefa.prazo",
-                "tarefa.hora_estimada",
-                "tarefa.entregue",
-                "tarefa.id_criador",
-                "tarefa.id_projeto",
-                {"nome_projeto":"projeto.nome"}
-                ).where("tarefa.entregue",entregue).andWhere("tarefa.nome","like",`%${nome}%`).andWhere("tarefa.id_criador",id_criador);
+        const { entregue = 0, nome} = req.query;
+
+        try {
+
+           await db("tarefa")
+                .join("projeto","projeto.id_projeto","=","tarefa.id_projeto")
+                .select(
+                    "tarefa.id_tarefa",
+                    "tarefa.nome",
+                    "tarefa.descricao",
+                    "tarefa.prazo",
+                    "tarefa.hora_estimada",
+                    "tarefa.entregue",
+                    "tarefa.id_criador",
+                    "tarefa.id_projeto",
+                    {"nome_projeto":"projeto.nome"}
+                )
+                .where("tarefa.entregue", entregue)
+                //.andWhere("tarefa.nome","like",`%${nome}%`)
+                .andWhere("tarefa.id_criador",id_criador)
+                .then((tarefa) => {
+                    return res.json(tarefa);
+                })
+                .catch((error) => {
+                    console.error("Error: ", error);
+
+                    return res.status(400).json({ mensagem: "Erro ao listar tarefa!" });
+                });
                 
-                return res.json(tarefa);
-                
-        }
-        catch(error){
-            return res.status(500).json({error:"Erro no servidor"});
+        } catch(error) {
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!" });        
         }
     }
 
     async delete(req,res){
        const id_tarefa = req.params.id;
        const id_criador = req.idUsuario;
-       const tipoUsuario = req.tipoUsuario;
+      
+       try {
 
-       if(tipoUsuario === 3){
-           return res.json({mensagem:"Ação não permitida!"});
-       }
+            await db("tarefa").where({
+                id_tarefa,
+                id_criador
+            })
+            .delete()
+            .then((retorno) => {
+                
+                if(retorno) {
+                    return res.json({ mensagem: "Tarefa deletada com sucesso!" });
+                }
 
-       try{
-        const deletar_tarefa = await db("tarefa").where({
-            id_tarefa,
-            id_criador
-        }).delete();
-        if(deletar_tarefa){
-            res.json({mensagem:"Tarefa deletada com sucesso!"});
-            console.log(deletar_tarefa);
+                return res.status(400).json({ mensagem: "Não foi possível deletar tarefa" });
+
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+
+                return res.status(400).json({ mensagem: "Erro ao deletar tarefa!" }); 
+            });      
+
+        } catch(error) {
+            console.error("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!" });  
         }
-        else{
-            res.json({mensagem:"Não foi possivel deletar a tarefa"});
-            console.log(deletar_tarefa);
-        }
-       }
-       catch(error){
-           res.status(401).json({error:"Erro no servidor!"});
-       }
     }
 }
 

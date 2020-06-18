@@ -10,11 +10,11 @@ class SessionController {
             const user = await db("usuario").select("*").where("email", email).first();
     
             if(!user) {
-                return res.status(401).json({ error: "Email incorreto!"});
+                return res.status(401).json({ mensagem: "Email incorreto!"});
             }
     
             if(!(await verificaSenha(senha, user.senha))) {
-                return res.status(401).json({ error: 'Senha incorreta!' });
+                return res.status(401).json({ mensagem: "Senha incorreta!" });
             }
     
             const { id_usuario, nome, id_tipousuario} = user;
@@ -31,7 +31,7 @@ class SessionController {
             });
             
         } catch (error) {
-            return res.status(500).json({error: "Erro interno no servidor."});
+            return res.status(500).json({ mensagem: "Erro interno no servidor." });
         }
     }
 }
