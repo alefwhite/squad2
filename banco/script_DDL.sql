@@ -53,7 +53,7 @@ CREATE TABLE projeto (
 
 CREATE TABLE timesheet (
 	id_timesheet INT PRIMARY KEY AUTO_INCREMENT,
-    data_ponto DATE NOT NULL,
+	data_ponto DATE NOT NULL,
     entrada TIME NOT NULL,
     almoco_ida TIME,
     almoco_volta TIME,

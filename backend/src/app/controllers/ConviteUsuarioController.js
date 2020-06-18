@@ -3,6 +3,25 @@ import emailService from '../../lib/emailService';
 import db from '../../database/connection';
 
 class ConviteUsuarioController {
+    async index(req, res){
+        const id_usuario = req.idUsuario;
+        const { nome, email, cpf, id_cargo} = req.body;
+        try {
+        const listaUsuario = await db("usuario").where({
+            nome,
+            email,
+            cpf,
+            id_cargo,
+            id_usuario : id_usuario
+        });
+
+        return res.json(listaUsuario);
+            
+        } catch (error) {
+            return res.status(400).json({ mensagem:`não foi possível listar os usuarios`});        
+        }
+    }
+
      async show(req, res) {
          const id_usuario = req.idUsuario; 
 
