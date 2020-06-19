@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const NotificacaoSchema = new mongoose.Schema(
+const NotificacaoUsuarioTarefaSchema = new mongoose.Schema(
     {
         conteudo: {
             type: String,
@@ -25,4 +25,4 @@ const NotificacaoSchema = new mongoose.Schema(
     }
 );
 
-export default mongoose.model('Notificacao', NotificacaoSchema);
+export default mongoose.model('NotificacaoUsuarioTarefa', NotificacaoUsuarioTarefaSchema);

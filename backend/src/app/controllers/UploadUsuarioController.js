@@ -3,21 +3,23 @@ import UploadUsuario from '../models/UploadUsuario';
 class UploadUsuarioController {
     async show(req, res) {
         const userId = req.idUsuario;
+
         try {
+
             if(!userId) {
-                return res.status(401).json({ error: "Não autorizado!"});
+                return res.status(401).json({ mensagem: "Não autorizado!"});
             }
     
             const existeImg = await UploadUsuario.findOne({ user: userId });
     
             if(!existeImg) {
-                return res.status(400).json({ error: "O usuário não tem imagem cadastrada!"});
+                return res.status(400).json({ mensagem: "O usuário não tem imagem cadastrada!"});
             }
     
             return res.json({ imgurl: existeImg.img_url });        
             
         } catch (error) {
-            return res.status(500).json({error: "Erro interno no servidor."});
+            return res.status(500).json({ mensagem: "Erro interno no servidor."});
         }
     }
 
@@ -26,8 +28,9 @@ class UploadUsuarioController {
         const userId = req.idUsuario;
 
         try {
+
             if(!userId) {
-                return res.status(401).json({ error: "Não autorizado!"});
+                return res.status(401).json({ mensagem: "Não autorizado!"});
             }
     
             const existeImg = await UploadUsuario.findOne({ user: userId });
@@ -38,12 +41,16 @@ class UploadUsuarioController {
             
             const query = { user: userId };
     
-            const ret = await UploadUsuario.findOneAndUpdate(query, { img_usuario: filename }, {new: true});
+            const ret = await UploadUsuario.findOneAndUpdate(
+                query, 
+                { img_usuario: filename }, 
+                {new: true}
+            );
             
-            return res.json({ret});
+            return res.json({ ret });
             
         } catch (error) {
-            return res.status(500).json({error: "Erro interno no servidor."});
+            return res.status(500).json({ mensagem: "Erro interno no servidor." });
         }
     }
 }
