@@ -69,6 +69,7 @@ class UsuarioTarefaController {
                     await NotificacaoUsuarioTarefa.create({
                         conteudo: `Você recebeu uma nova tarefa(${existeTarefa.nome}) com o prazo até ${prazo}`,
                         user: id_usuario,
+                        id_criador
                     });
     
                     return res.json({ mensagem: `A tarefa(${existeTarefa.nome}) foi atribuida ao funcionário(${existeUsuario.nome}) com sucesso!`});
@@ -161,6 +162,7 @@ class UsuarioTarefaController {
                         await NotificacaoUsuarioTarefa.create({
                             conteudo: `Você recebeu uma nova tarefa(${existeTarefa.nome}) com o prazo até ${prazo}`,
                             user: id_usuario,
+                            id_criador
                         });
         
                         return res.json({ mensagem: "A tarefa editada foi atribuida ao usuario com sucesso!" });
