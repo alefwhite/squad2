@@ -6,22 +6,35 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
+    container: {
+        background: 'linear-gradient(180deg, #303030 0%, #000000 100%)',
+    },
+    campos: {
+        borderRadius: '20px',
+        background: 'white',
+        border: '2px solid #7A57EA',
+        marginTop: theme.spacing(5),
+    },
+
     paper: {
+        height: '100%',
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
+
+
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        background: '#FE963D',
+        borderRadius: '10px',
+        width: '180px',
+        height: '40px',
+        margin: theme.spacing(5, 10),
     },
 }));
 
@@ -29,11 +42,12 @@ export default function Cadastrar() {
     const classes = useStyles();
 
     return (
-        <Container component="main" maxWidth="xs">
+
+        <Container className={classes.container} component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <form className={classes.form} noValidate>
-                    <TextField
+                    <TextField className={classes.campos}
                         variant="outlined"
                         margin="normal"
                         required
@@ -44,7 +58,7 @@ export default function Cadastrar() {
                         autoComplete="name"
                         autoFocus
                     />
-                    <TextField
+                    <TextField className={classes.campos}
                         variant="outlined"
                         margin="normal"
                         required
@@ -55,7 +69,7 @@ export default function Cadastrar() {
                         autoComplete="email"
                         autoFocus
                     />
-                    <TextField
+                    <TextField className={classes.campos}
                         variant="outlined"
                         margin="normal"
                         required
@@ -65,7 +79,7 @@ export default function Cadastrar() {
                         name="cpf"
                         autoFocus
                     />
-                    <TextField
+                    <TextField className={classes.campos}
                         variant="outlined"
                         margin="normal"
                         required
@@ -76,20 +90,20 @@ export default function Cadastrar() {
                         id="senha"
                         autoComplete="new-password"
                     />
-                    <TextField
+                    <TextField className={classes.campos}
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
                         name="confirmaSenha"
-                        label="Comfirmar Senha"
+                        label="Confirmar Senha"
                         type="password"
                         id="password"
                         autoComplete="new-password"
                     />
                     <Button
+                        size="medium"
                         type="submit"
-                        fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
