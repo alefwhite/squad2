@@ -78,6 +78,7 @@ routes.put('/funcionario', FuncionarioController.update);
 
 
 // Rota timesheet
+routes.get('/timesheet', TimesheetController.index);
 routes.post('/timesheet', TimesheetController.store);
 routes.put('/timesheet', TimesheetController.update);
 

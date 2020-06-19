@@ -5,6 +5,30 @@ import formatarDataBr from '../../utils/formatarDataBr';
 import moment from 'moment';
 
 class TimesheetController {
+    async index(req, res) {
+        const id_usuario = req.idUsuario;
+     
+        try {
+            const validaTimesheet = await db("timesheet")
+                .where({    
+                    id_usuario
+                });               
+            
+                if(validaTimesheet) {
+                    return res.json(validaTimesheet);
+                } else {
+                    return res.status(400).json({ mensagem: "Não foi possível listar o timesheet!"});
+                }
+
+        } catch (error) {
+            console.log("Error: ", error);
+
+            return res.status(500).json({ mensagem: "Erro interno no servidor!"});
+        }
+
+
+    }
+
     async store(req, res) {
         const id_usuario = req.idUsuario;
         const data_ponto = IntlFormatDate(new Date());
@@ -132,7 +156,7 @@ class TimesheetController {
                 validaTimesheet.almoco_ida && validaTimesheet.entrada
                 ){                 
                
-                const saida = "16:01:00"//IntlFormatTime(new Date());
+                const saida = "15:01:00"//IntlFormatTime(new Date());
                 
                 let hora_extra = 0;
                 let hora_negativa = 0;
