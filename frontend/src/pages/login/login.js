@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import './login.css';
 import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import api from '../../service/api';
+import {useHistory} from 'react-router-dom';
 
+const useStyles = makeStyles((theme) => ({
 
-
-export default function Login() {
-  const [login, setLogin] = useState({email:"",senha:""})
-
-  const StyledText = withStyles({
-    root: {
+  campos: {
+     
       '& label.Mui-focused': {
         color: '#7A57EA',
 
-      },
-      
+      },    
       '& .MuiOutlinedInput-root': {
         '& fieldset': {
           border: "2px solid #7A57EA ",
@@ -34,41 +32,69 @@ export default function Login() {
           width: "250px"
         }
       },
-    },
-  })(TextField);
-  
-  
+    }
+  ,
+}));
+
+export default function Login() {
+  const classes = useStyles();
+  const [email,setEmail] = useState("");
+  const [senha,setSenha] = useState("");
+  const history = useHistory();
 
   function handlePreencher(evento,espaco) {
     if(espaco==="email"){
-      setLogin({email:evento.target.value});
-      console.log(login);
+      setEmail(evento.target.value);
     }
+    if(espaco==="senha"){
+      setSenha(evento.target.value);
+    }
+  }
 
+  async function Logar(e){
+    e.preventDefault();
+    var data = {
+      senha,
+      email
+    }
+    
+    try {
+     const response = await api.post("/session",data)
+      const {user,token} = response.data
+      
+      
+      if(response.status===200){
+        localStorage.setItem("nome",user.nome);
+        localStorage.setItem("token",token);  
+        history.push("/teste");
+      }
+    } 
+    catch (error) {
+      
+    }
+  
   }
 
   return (
 
-
-
     <div className="container">
-      <form className="form">
+      <form className="form" onSubmit={Logar}>
         <p style={{ color: "#7A57EA" }}>E-mail</p>
+        <TextField className={classes.campos} variant="outlined"id="email" label="Insira seu e-mail" name="email" autoComplete="email" onChange={(evento) => handlePreencher(evento, "email")}/>
 
-
-        <StyledText value={login.email}  id="outlined-basic" label="Insira seu e-mail" variant="outlined" onChange={(evento) => handlePreencher(evento, "email")}></StyledText>
-
-        <input type="text"  onChange={(evento) => handlePreencher(evento, "email")}></input>
+       
 
         <p style={{ color: "#7A57EA" }}>Senha</p>
-
-        <StyledText id="outlined-basice"  type="password" label="Outlined" variant="outlined"></StyledText>
+        <TextField className={classes.campos} variant="outlined" type="password" id="senha" label="Insira sua senha" name="email" autoComplete="email" onChange={(evento) => handlePreencher(evento, "senha")}/>
+       
         <p style={{ textAlign: "center" }}>
-          <button className="botao">Entrar</button>
+        <button className="botao" type="submit">Entrar</button>
         </p>
-        <TextField value={login.email} id="outlined-basic" onChange={(evento) => handlePreencher(evento, "email")} label="Outlined" variant="outlined" />
+    
         <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/login">clique aqui</a></p>
+        
       </form>
+      
     </div>
   )
 }

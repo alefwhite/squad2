@@ -41,10 +41,10 @@ routes.post('/uploadusuario',
 );
 
 // Projeto
-routes.post('/projeto', Authentication.store, ProjetoController.store);
-routes.get('/projeto', Authentication.store, ProjetoController.index);
-routes.put('/projeto/:id', Authentication.store, ProjetoController.update);
-routes.delete('/projeto/:id', Authentication.store, ProjetoController.delete);
+//routes.post('/projeto', Authentication.store, ProjetoController.store);
+//routes.get('/projeto', Authentication.store, ProjetoController.index);
+//routes.put('/projeto/:id', Authentication.store, ProjetoController.update);
+//routes.delete('/projeto/:id', Authentication.store, ProjetoController.delete);
 
 // Squad Usuario
 routes.get('/squadusuario', Authentication.store, SquadUsuarioController.index);

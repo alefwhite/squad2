@@ -1,4 +1,4 @@
-import db from '../../database/connection';
+/*import db from '../../database/connection';
 import verificaTipoUsuario from '../../utils/verificaTipoUsuario';
 
 class ProjetoController {
@@ -189,3 +189,4 @@ class ProjetoController {
 }
 
 export default new ProjetoController();
+*/
