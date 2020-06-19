@@ -1,0 +1,22 @@
+.container{
+    display:flex;
+    width:100vw;
+    height:100vh;
+    background-color:black;
+    align-items: center;
+    justify-content: center;
+}
+
+.campo{
+    color:red;
+}
+
+.botao{
+    font-size:24px;
+    background-color: orange;
+    color:white;
+    border:1px solid orange;
+    border-radius:5px;
+    align-self:center;
+    margin-top:25px;
+}
