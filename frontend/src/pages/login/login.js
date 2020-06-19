@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../service/api';
 import {useHistory} from 'react-router-dom';
+import Input from '../../components/Input/Input';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -45,9 +46,12 @@ export default function Login() {
   function handlePreencher(evento,espaco) {
     if(espaco==="email"){
       setEmail(evento.target.value);
+      console.log(email);
     }
     if(espaco==="senha"){
+      
       setSenha(evento.target.value);
+      console.log(senha);
     }
   }
 
@@ -80,13 +84,13 @@ export default function Login() {
     <div className="container">
       <form className="form" onSubmit={Logar}>
         <p style={{ color: "#7A57EA" }}>E-mail</p>
-        <TextField className={classes.campos} variant="outlined"id="email" label="Insira seu e-mail" name="email" autoComplete="email" onChange={(evento) => handlePreencher(evento, "email")}/>
-
+       
+        <Input id="email"  label="insira seu email" name="email" autoComplete="email" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
        
 
         <p style={{ color: "#7A57EA" }}>Senha</p>
-        <TextField className={classes.campos} variant="outlined" type="password" id="senha" label="Insira sua senha" name="email" autoComplete="email" onChange={(evento) => handlePreencher(evento, "senha")}/>
-       
+   
+        <Input  type="password" id="email" label="Insira sua senha" name="senha" autoComplete="password" funcao={(evento) => handlePreencher(evento, "senha")}></Input>
         <p style={{ textAlign: "center" }}>
         <button className="botao" type="submit">Entrar</button>
         </p>
