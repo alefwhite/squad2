@@ -1,44 +1,12 @@
 import React, { useState } from 'react';
 import './login.css';
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
 import api from '../../service/api';
 import {useHistory} from 'react-router-dom';
 import Input from '../../components/Input/Input';
 
-const useStyles = makeStyles((theme) => ({
 
-  campos: {
-     
-      '& label.Mui-focused': {
-        color: '#7A57EA',
-
-      },    
-      '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-          border: "2px solid #7A57EA ",
-          borderRadius: "20px",
-          color: "red"
-        },
-        '&:hover fieldset': {
-          borderColor: '#7A57EA',
-        },
-        '&.Mui-focused fieldset': {
-          borderColor: '#7A57EA',
-        },
-        "& .MuiInputBase-input": {
-          color: "#7A57EA",
-          backgroundColor: "white",
-          borderRadius: "22px",
-          width: "250px"
-        }
-      },
-    }
-  ,
-}));
 
 export default function Login() {
-  const classes = useStyles();
   const [email,setEmail] = useState("");
   const [senha,setSenha] = useState("");
   const history = useHistory();
@@ -89,8 +57,9 @@ export default function Login() {
        
 
         <p style={{ color: "#7A57EA" }}>Senha</p>
-   
+
         <Input  type="password" id="email" label="Insira sua senha" name="senha" autoComplete="password" funcao={(evento) => handlePreencher(evento, "senha")}></Input>
+
         <p style={{ textAlign: "center" }}>
         <button className="botao" type="submit">Entrar</button>
         </p>
