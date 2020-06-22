@@ -53,12 +53,12 @@ export default function Login() {
       <form className="form" onSubmit={Logar}>
         <p style={{ color: "#7A57EA" }}>E-mail</p>
        
-        <Input id="email"  label="insira seu email" name="email" autoComplete="email" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
+        <Input id="email"  label="Insira seu email" name="email" autoComplete="email" variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
        
 
         <p style={{ color: "#7A57EA" }}>Senha</p>
 
-        <Input  type="password" id="email" label="Insira sua senha" name="senha" autoComplete="password" funcao={(evento) => handlePreencher(evento, "senha")}></Input>
+        <Input  type="password" id="email" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
 
         <p style={{ textAlign: "center" }}>
         <button className="botao" type="submit">Entrar</button>

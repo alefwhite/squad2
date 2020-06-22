@@ -5,10 +5,11 @@
     border-radius:50%;
     pointer-events: none;
     overflow:hidden;
+    margin-right:20px;
 }
 .container2{
     background-color: black;
-    width:20vw;
+    width:50vw;
     height:180px;
     overflow: hidden;
 }
