@@ -1,0 +1,25 @@
+.container{
+    display:flex;
+    width:100vw;
+    height:100vh;
+    background:linear-gradient(180deg, #303030 0%, #000000 100%);
+    align-items: center;
+    justify-content: center;
+}
+
+.campo{
+    color:red;
+}
+
+.form{
+    
+}
+.botao{
+    font-size:24px;
+    background-color: orange;
+    color:white;
+    border:1px solid orange;
+    border-radius:5px;
+    align-self:center;
+    margin-top:25px;
+}

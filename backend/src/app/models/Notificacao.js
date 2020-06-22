@@ -10,6 +10,10 @@ const NotificacaoSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        id_criador: {
+            type: Number,
+            required: true,
+        },
         lido: {
             type: Boolean,
             required: true,

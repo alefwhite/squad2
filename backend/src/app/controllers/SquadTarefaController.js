@@ -104,6 +104,7 @@ class SquadTarefaController {
                     await NotificacaoSquadTarefa.create({
                         conteudo: `Projeto(${existeSquad_E_Tarefa.nome}) recebeu uma nova tarefa(${existeSquad_E_Tarefa.descricao})\n Prazo ${prazo}`,
                         squad: id_squad,
+                        id_criador: id_usuario
                     });
     
                     return res.status(201).json({ 
@@ -185,6 +186,7 @@ class SquadTarefaController {
                     await NotificacaoSquadTarefa.create({
                         conteudo: `Projeto(${existeSquad_E_Tarefa.nome}) recebeu uma nova tarefa(${existeSquad_E_Tarefa.descricao})\n Prazo ${prazo} - teste`,
                         squad: id_squad,
+                        id_criador: id_usuario
                     });
     
                     return res.status(200).json({ 

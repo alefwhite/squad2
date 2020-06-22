@@ -1,6 +1,6 @@
 import multer from 'multer';
 import { resolve, extname, basename } from 'path';
-import removeCaracteresEspacos from '../utils/removeCaracteresEspaços';
+import removeCaracteresEspacos from '../utils/removeCaracteresEspacos';
 
 export default {
     storage: multer.diskStorage({
