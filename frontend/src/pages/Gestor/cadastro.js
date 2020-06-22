@@ -97,7 +97,7 @@ export default function Cadastrar() {
         //     console.log('erro');
         // }
 
-        api.post('/convite', data)
+        api.post('/usuario', data)
             .then(function (response) {
                 console.log(response);
             })
