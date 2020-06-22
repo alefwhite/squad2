@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '77vw',
-        height: '100vh'
+        height: '100vh',
+
     },
     submit: {
         background: '#FE963D',
@@ -51,10 +52,10 @@ export default function Cadastrar() {
     const classes = useStyles();
 
     const [nome, setNome] = useState("")
-    const [email,setEmail] = useState("");
-    const [cpf,setCpf] = useState("");
-    const [senha,setSenha] = useState("");
-    const [confirmaSenha,setConfirmaSenha] = useState("");
+    const [email, setEmail] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [senha, setSenha] = useState("");
+    const [confirmaSenha, setConfirmaSenha] = useState("");
 
 
     function cadastrarUsuario(evento, campo) {
@@ -78,23 +79,31 @@ export default function Cadastrar() {
             setConfirmaSenha(evento.target.value);
             console.log(setConfirmaSenha);
         }
-        
-        
+
+
     }
 
     async function enviarCadastro(evento) {
         evento.preventDefault()
-        const data = { nome,email,cpf, senha, confirmaSenha}
+        const data = { nome, email, cpf, senha, confirmaSenha, id_cargo: 2 }
         console.log(data)
 
-        try {
-            const response = await api.post('/Gestor', data)
-            if (response.status === 200) {
-                console.log('cadastrado com sucesso');
-            }
-        } catch (error) {
-            console.log('erro');
-        }
+        // try {
+        //     const response = await api.post('/convite', data)
+        //     if (response.status === 200) {
+        //         console.log('cadastrado com sucesso');
+        //     }
+        // } catch (error) {
+        //     console.log('erro');
+        // }
+
+        api.post('/convite', data)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     return (
