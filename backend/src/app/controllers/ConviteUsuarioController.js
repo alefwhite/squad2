@@ -6,6 +6,7 @@ class ConviteUsuarioController {
     async index(req, res){
         const id_usuario = req.idUsuario;
         const { nome, email, cpf, id_cargo} = req.body;
+
         try {
         const listaUsuario = await db("usuario").where({
             nome,
@@ -33,7 +34,7 @@ class ConviteUsuarioController {
                 .then((codigo) => {
 
                     if(codigo) {
-                        const url = `${process.env.APP_URL_CONVITE}${usuarioCodigo.codigo}`;
+                        const url = `${process.env.APP_URL_CONVITE}${codigo.codigo}`;
                         
                         // emailService.send("alefwhite@gmail.com", "Cadastre-se no Squad2", sendConfig.EMAIL_TMPL.replace('{0}', "Squad Dois"));
                         return res.json({url});

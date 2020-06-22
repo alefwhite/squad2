@@ -2,6 +2,9 @@ import React, { useState }  from 'react'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css';
 import './UploadImagem.css'
+import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 
 export default function UploadImagem(){
@@ -9,7 +12,23 @@ export default function UploadImagem(){
     const [img, setImg] = useState(null);
     const [cropImg,setCropImg] = useState(null);
     const [crop, setCrop] = useState({ aspect: 1/1 , unit: '%',width: 1,height: 1, x: 2, y: 2 });
+    const [open,setOpen] = useState(false);
+    const useStyles = makeStyles((theme) => ({
+        modal: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        paper: {
+          backgroundColor: theme.palette.background.paper,
+          border: '2px solid #000',
+          boxShadow: theme.shadows[5],
+          padding: theme.spacing(2, 4, 3),
+        },
+      }));
+  const classes = useStyles();
    
+
     function handleImagem(event){
       const img = event.target.files
 
@@ -21,22 +40,17 @@ export default function UploadImagem(){
             setImagem(resultado);
         })
            reader.readAsDataURL(img[0]);
+           setOpen(true);
       }
-      var onImageLoaded = teste =>{
-          console.log(teste);
-      }
+      
     }
     
     function corte(newCrop){
-        let teste = newCrop;
-
-        if(newCrop.width<=298 || newCrop.height<=298){
-        setCrop(teste);
-        }
+        setCrop(newCrop);
+        makeCrop();
     }
     //teste
     function load(img){
-        console.log(img);
         setImg(img);
     }
     
@@ -45,7 +59,6 @@ export default function UploadImagem(){
             let cropURL = await getCroppedImg(img,crop,"novo.jpeg");
             setCropImg(cropURL);
         }
-        
     }
 
     function getCroppedImg(img,crop,fileName){
@@ -67,6 +80,7 @@ export default function UploadImagem(){
       crop.width,
       crop.height
     );
+
     return new Promise((resolve, reject)=>{
         canvas.toBlob(blob=>{
             if(!blob){
@@ -81,7 +95,7 @@ export default function UploadImagem(){
         }, "image/jpeg")
         })
     }
-    
+
     return(
         <>
             <p></p>
@@ -89,13 +103,44 @@ export default function UploadImagem(){
                 Selecione a imagem
                 <input type="file" className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
             </label>
-        <p>a</p>
-        <p>a</p>
-     
-            <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
-            <img src={cropImg}></img>
-            <button onClick={makeCrop}>Aperte-me</button>
-
+            {
+                modal()
+            }           
         </>
     )
+
+    function modal(){    
+
+        const handleClose = () => {
+          setOpen(false);
+        }
+
+        return(
+           
+            <>  
+             
+                  <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="simple-modal-title"
+                  aria-describedby="simple-modal-description"
+                  className={classes.modal}
+                  >
+                   <div className="modal">
+                   <Grid container direction="row" justify="center" alignItems="center">
+                    <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop imge" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
+                    <img src={cropImg} className="imgCrop"></img> 
+                    </Grid>
+                    <Grid container direction="row" justify="center" alignItems="center">
+                    <button className="botao">Confirmar</button>
+                    </Grid>
+                    </div>
+                    
+                  </Modal>
+                    
+           </>
+        )
+    
+    }
 }
+
