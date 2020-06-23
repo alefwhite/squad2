@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
 import Inicio from './pages/teste/inicio'
 import TesteImagem from './pages/teste/testeImagem';
-import CadastroGestor from './pages/Gestor/cadastro'
+import CadastroGestor from './pages/CadastroGestor/cadastro'
 import Login from './pages/login/login';
 
 export default function Routes(){
