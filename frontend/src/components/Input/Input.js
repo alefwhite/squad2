@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
             color: "#7A57EA",
             backgroundColor: 'white',
             borderRadius: '22px',
-            width: '250px'
+            width: '77vw'
           },
       
         },

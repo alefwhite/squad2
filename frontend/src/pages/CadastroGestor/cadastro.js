@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     form: {
+        display:'flex',
+        flexDirection:'column',
         width: '77vw',
         height: '100vh',
 
@@ -55,7 +57,7 @@ export default function Cadastrar() {
     const [email, setEmail] = useState("");
     const [cpf, setCpf] = useState("");
     const [senha, setSenha] = useState("");
-    const [confirmaSenha, setConfirmaSenha] = useState("");
+    const [confirmar_senha, setconfirmar_senha] = useState("");
 
 
     function cadastrarUsuario(evento, campo) {
@@ -76,8 +78,8 @@ export default function Cadastrar() {
             console.log(senha);
         }
         if (campo === 'senha') {
-            setConfirmaSenha(evento.target.value);
-            console.log(setConfirmaSenha);
+            setconfirmar_senha(evento.target.value);
+            console.log(setconfirmar_senha);
         }
 
 
@@ -85,24 +87,16 @@ export default function Cadastrar() {
 
     async function enviarCadastro(evento) {
         evento.preventDefault()
-        const data = { nome, email, cpf, senha, confirmaSenha, id_cargo: 2 }
+        const data = { nome, email, cpf, senha, confirmar_senha, id_cargo: 2 }
         console.log(data)
+        
 
-        // try {
-        //     const response = await api.post('/convite', data)
-        //     if (response.status === 200) {
-        //         console.log('cadastrado com sucesso');
-        //     }
-        // } catch (error) {
-        //     console.log('erro');
-        // }
-
-        api.post('/usuario', data)
+        api.post('/gestor', data)
             .then(function (response) {
-                console.log(response);
+                console.log(response.data);
             })
             .catch(function (error) {
-                console.log(error);
+                console.log(error.response);
             });
     }
 
@@ -144,7 +138,7 @@ export default function Cadastrar() {
                         id="confirmasenha"
                         label="Confirmar senha"
                         variant="outlined"
-                        funcao={evento => cadastrarUsuario(evento, 'confirmaSenha')} >
+                        funcao={evento => cadastrarUsuario(evento, 'confirmar_senha')} >
                     </Input>
 
                     <Button
