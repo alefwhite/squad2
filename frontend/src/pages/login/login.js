@@ -38,7 +38,7 @@ export default function Login() {
       if(response.status===200){
         localStorage.setItem("nome",user.nome);
         localStorage.setItem("token",token);  
-        history.push("/teste");
+        history.push("/home");
       }
     } 
     catch (error) {
@@ -64,7 +64,7 @@ export default function Login() {
         <button className="botao" type="submit">Entrar</button>
         </p>
     
-        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/login">clique aqui</a></p>
+        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/cadastrogestor">clique aqui</a></p>
         
       </form>
       
