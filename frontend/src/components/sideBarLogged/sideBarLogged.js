@@ -19,7 +19,10 @@ import Content from '../../pages/contents/content/content'
 import Content2 from '../../pages/contents/content2/content2'
 import Content3 from '../../pages/contents/content3/content3'
 import Content4 from '../../pages/contents/content4/content4'
+import Button from '@material-ui/core/Button';
 
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Badge from '@material-ui/core/Badge';
 
 const drawerWidth = 240;
 
@@ -82,6 +85,15 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+          display: 'flex',
+        },
+    },
+    grow: {
+        flexGrow: 1,
+    },
 }));
 
 const SideBar = ({ userPermissionsData }) => {
@@ -107,7 +119,7 @@ const SideBar = ({ userPermissionsData }) => {
             case 'content3':
                 return <Content3 />;
             case 'content4':
-                return <Content4 />;
+                return <Content4 />;    
             default:
                 return;
         }
@@ -142,7 +154,18 @@ const SideBar = ({ userPermissionsData }) => {
                     </IconButton>
                     <Typography variant="h6" noWrap>
                         Mini variant drawer
-          </Typography>
+                    </Typography>
+                    <div className={classes.grow} />
+
+                    <div className={classes.sectionDesktop}>
+                        <IconButton aria-label="show 17 new notifications" color="inherit">
+                            <Badge badgeContent={17} color="secondary">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                        <Button  edge="end" color="inherit">Sair</Button>
+
+                    </div>
                 </Toolbar>
             </AppBar>
             <Drawer
