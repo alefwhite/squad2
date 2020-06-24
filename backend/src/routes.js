@@ -29,38 +29,6 @@ const upload = multer(uploadConfig);
 // Rota Session
 routes.post('/session', SessionController.store);
 
-<<<<<<< HEAD
-// Usuario
-routes.post('/usuario', UsuarioController.store);
-
-// ConviteUsuario
-routes.get('/convite', Authentication.store, ConviteUsuarioController.show);
-routes.post('/convite', ConviteUsuarioController.store);
-
-// Upload da Imagem do usuário
-routes.get('/uploadusuario', Authentication.store, UploadUsuarioController.show);
-routes.post('/uploadusuario',  
-        upload.single("img_usuario"), 
-        Authentication.store, 
-        UploadUsuarioController.store
-);
-
-// Projeto
-//routes.post('/projeto', Authentication.store, ProjetoController.store);
-//routes.get('/projeto', Authentication.store, ProjetoController.index);
-//routes.put('/projeto/:id', Authentication.store, ProjetoController.update);
-//routes.delete('/projeto/:id', Authentication.store, ProjetoController.delete);
-
-// Squad Usuario
-routes.get('/squadusuario', Authentication.store, SquadUsuarioController.index);
-routes.post('/squadusuario', Authentication.store, SquadUsuarioController.store);
-routes.put('/squadusuario/:id', Authentication.store, SquadUsuarioController.update);
-routes.delete('/squadusuario/:id', Authentication.store, SquadUsuarioController.delete);
-
-// Notificacao
-routes.get('/notificacao', Authentication.store, NotificacaoController.index);
-routes.put('/notificacao/:id', Authentication.store, NotificacaoController.update);
-=======
 // Rota Cargos
 routes.get('/cargos', CargoController.index);
 
@@ -84,7 +52,6 @@ routes.use(Authentication.store);
 routes.get('/notificacao', NotificacaoController.index);
 routes.put('/notificacao/:id', NotificacaoController.update);
 routes.delete('/notificacao/:id', NotificacaoController.delete);
->>>>>>> desenvolvimento
 // Rota para testar inclusão de notificacao
 routes.post('/notificacao', NotificacaoController.store);
 
