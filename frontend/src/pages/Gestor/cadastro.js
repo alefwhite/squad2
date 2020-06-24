@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+
+
     },
     form: {
         display:'flex',
@@ -42,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: '17px',
         paddingLeft: '20px'
     },
+    scrol:{
+        overflow:'hidden'
+    }
 
 }));
 
@@ -102,7 +107,7 @@ export default function Cadastrar() {
 
     return (
         <div className={classes.container}>
-            <CssBaseline />
+            <CssBaseline/>
             <div className={classes.paper}>
                 <form className={classes.form} noValidate onSubmit={enviarCadastro}>
                     <Input
