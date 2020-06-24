@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
             width: '150px'
           },
           
-          '&:hover .MuiInputBase-input':{
+          '& .MuiInputBase-input':{
             borderColor:'#7A57EA',
           }
         }

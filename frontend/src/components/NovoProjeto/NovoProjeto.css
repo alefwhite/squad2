@@ -1,6 +1,20 @@
 .container3{
-    height:25vh;
-    width:150px;
+    height:50vh;
+    width:50vw;
     margin:0 auto;
-    background-color:black;
+    background-color:#B7B4B4;
+    border-radius: 10px;
+}
+
+.teste{
+    text-align: center;
+}
+
+.forms{
+    display:flex;
+    flex-direction: column;
+}
+.X{
+    display:flex;
+    justify-content: space-between;
 }
