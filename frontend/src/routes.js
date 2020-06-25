@@ -6,6 +6,7 @@ import TesteImagem from './pages/teste/testeImagem';
 import CadastroGestor from './pages/Gestor/cadastro';
 import Login from './pages/login/login';
 import Home from './pages/Home/home';
+import CadastroUsuario from './pages/CadastroUsuario/cadastroUsuario';
 
 export default function Routes(){
     return(
@@ -16,6 +17,7 @@ export default function Routes(){
                 <Route path="/cadastrogestor" component={CadastroGestor}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/home" component={Home}/>
+                <Route path="/cadastrousuario" component={CadastroUsuario}/>
             </Switch>
         </BrowserRouter>
         )
