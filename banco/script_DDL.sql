@@ -25,6 +25,7 @@ CREATE TABLE status_usuario (
 CREATE TABLE usuario (
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
+	nome_social VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
     cpf char(11) UNIQUE NOT NULL,
@@ -53,6 +54,7 @@ CREATE TABLE projeto (
 
 CREATE TABLE timesheet (
 	id_timesheet INT PRIMARY KEY AUTO_INCREMENT,
+	data_ponto DATE NOT NULL,
     entrada TIME NOT NULL,
     almoco_ida TIME,
     almoco_volta TIME,
@@ -63,6 +65,9 @@ CREATE TABLE timesheet (
     
     FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario)
 );
+
+-- ALTER TABLE timesheet ADD COLUMN data_ponto DATE NOT NULL;
+SELECT * FROM timesheet;
 
 CREATE TABLE squad (
 	id_squad INT PRIMARY KEY AUTO_INCREMENT,
@@ -83,6 +88,7 @@ CREATE TABLE squad_usuario(
 
 CREATE TABLE tarefa (
 	id_tarefa INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
     descricao TEXT NOT NULL,
     prazo DATE NOT NULL,
     hora_estimada INT,
@@ -114,7 +120,7 @@ CREATE TABLE usuario_tarefa (
 );
 
 
-SELECT * FROM usuario;
+
 
 
 

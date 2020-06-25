@@ -1,70 +1,56 @@
-export default (cpfUsuario) => {
-    let Resultado = false;
-    let CpfCalculo = "";
+export default (cpf) => {
+    cpf = cpf.replace(/[^\d]+/g,'');	
 
-    let Resto = 0, Calculo = 0;
+    if(cpf == '') return false;	
 
-    const V1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
-    const V2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
-
-    let Digito_Verificador = "";
-    let Digito_VerificadorDois = "";    
-
-    // Retira os caracteres especiais
-    cpfUsuario = cpfUsuario.replace(".", "");
-    cpfUsuario = cpfUsuario.replace(".", "");
-    cpfUsuario = cpfUsuario.replace(" ", "");
-    cpfUsuario = cpfUsuario.replace("-", "");
+    // Elimina CPFs invalidos conhecidos	
+    if(cpf.length != 11 || 
+        cpf == "00000000000" || 
+        cpf == "11111111111" || 
+        cpf == "22222222222" || 
+        cpf == "33333333333" || 
+        cpf == "44444444444" || 
+        cpf == "55555555555" || 
+        cpf == "66666666666" || 
+        cpf == "77777777777" || 
+        cpf == "88888888888" || 
+        cpf == "99999999999"
+    )  return false;            
     
-    if(cpfUsuario.length < 11) {
-        return {valido: Resultado};
-    }
-   
+    // Valida 1o digito	
+    let add = 0;
+    let rev = 0;
 
-    // Retorna apenas os 8 primeiros digitos do cpf passado por parametro
-    CpfCalculo = cpfUsuario.substring(0, 9);
-    for(let i = 0; i <= 8; i++) {
-        Calculo += Number(CpfCalculo[i].toString()) * V1[i]; 
-    }
+    for (let i = 0; i < 9; i++) {
+        add += parseInt(cpf.charAt(i)) * (10 - i);	
+        rev = 11 - (add % 11);
+    }	
 
-    Resto = Calculo % 11;
-    Calculo = 11 - Resto;
-
-    if(Calculo > 9) {
-        Digito_Verificador = "0";
-    } else {
-        Digito_Verificador = Calculo.toString();
+    if (rev == 10 || rev == 11)	{
+        rev = 0;
+    }	
+    
+    if (rev != parseInt(cpf.charAt(9))) {
+        return false;
     }
 
-    if(Digito_Verificador == cpfUsuario[9].toString()) {
-        Resultado = true;
+    // Valida 2o digito	
+    add = 0;
+
+    for (let i = 0; i < 10; i ++) {
+        add += parseInt(cpf.charAt(i)) * (11 - i);
     }
 
-    Resto = 0;
+    rev = 11 - (add % 11);
 
-    CpfCalculo = CpfCalculo + Calculo;
-    Calculo = 0;
-
-    for(let i = 0; i <=9; i++) {
-        Calculo += Number(CpfCalculo[i].toString()) * V2[i];
+    if (rev == 10 || rev == 11) {
+        rev = 0;
     }
 
-    Resto = Calculo % 11;
-    Calculo = 11 - Resto;
-
-    if(Calculo > 9) {
-        Digito_VerificadorDois = "0";
-    } else {
-        Digito_VerificadorDois = Calculo.toString()
+    if (rev != parseInt(cpf.charAt(10))) {
+        return false;
     }
 
-
-    if(Digito_VerificadorDois == cpfUsuario[10].toString()) {
-        Resultado = true;
-    } else {
-        Resultado = false;
-    }
-
-    return {valido: Resultado, cpfUsuario};
+    return {valido: true, cpfUsuario: cpf};
 };
 
