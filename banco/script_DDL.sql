@@ -25,6 +25,7 @@ CREATE TABLE status_usuario (
 CREATE TABLE usuario (
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
+	nome_social VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
     cpf char(11) UNIQUE NOT NULL,
