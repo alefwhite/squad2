@@ -6,6 +6,7 @@ import TesteImagem from './pages/teste/testeImagem';
 import CadastroGestor from './pages/Gestor/cadastro';
 import Login from './pages/login/login';
 import Home from './pages/Home/home';
+import CadastroTarefa from './pages/CadastroTarefas/tarefas'
 
 export default function Routes(){
     return(
@@ -14,6 +15,7 @@ export default function Routes(){
                 <Route exact path="/" component={Inicio}/>
                 <Route path="/teste" component={TesteImagem}/>
                 <Route path="/cadastrogestor" component={CadastroGestor}/>
+                <Route path="/cadastrotarefa" component={CadastroTarefa}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/home" component={Home}/>
             </Switch>
