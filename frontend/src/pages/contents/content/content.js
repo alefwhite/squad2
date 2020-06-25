@@ -1,7 +1,20 @@
 import React from 'react'
 
 const Content = () => {
-    return <h1>Content</h1>
+    return (
+        <>  
+            <div>
+                <h1>Content</h1>
+                <h1>Content</h1>
+                <h1>Content</h1>
+                <h1>Content</h1>
+                <h1>Content</h1>
+                <h1>Content</h1>
+                <h1>Content</h1>
+
+            </div>
+        </>
+    )
 }
 
 export default Content

@@ -1,0 +1,27 @@
+/* Profile */
+.profile_info {
+    padding: 5px 10px 10px 10px;
+    text-align: center;
+  }
+  
+.profile_info .profile_img {
+    width: 150px;
+    margin: 0 auto 5px;
+}
+
+.profile_info .profile_img img {
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.profile_info .profile_data .name {
+    font-size: 24px;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: 'Trade Winds';
+}
+
+
+

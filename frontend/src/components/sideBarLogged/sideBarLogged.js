@@ -21,6 +21,10 @@ import Content3 from '../../pages/contents/content3/content3'
 import Content4 from '../../pages/contents/content4/content4'
 import Button from '@material-ui/core/Button';
 
+// profile
+import './profile.css';
+import profile from './Profile_id.png';
+
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 
@@ -28,7 +32,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: 'flex',        
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -36,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        background: "#303030",
+        color: "#FE963D"
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -52,11 +58,15 @@ const useStyles = makeStyles((theme) => ({
         display: 'none',
     },
     drawer: {
+        background: "#303030",
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
+        color: "#FE963D",
+
     },
     drawerOpen: {
+        background: "#303030",
         width: drawerWidth,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
@@ -64,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     drawerClose: {
+        background: "#303030",
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -77,16 +88,16 @@ const useStyles = makeStyles((theme) => ({
     toolbar: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-end', 
         padding: theme.spacing(0, 1),
         ...theme.mixins.toolbar,
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(3),       
     },
     sectionDesktop: {
-        display: 'none',
+        display: 'flex',
         [theme.breakpoints.up('md')]: {
           display: 'flex',
         },
@@ -94,6 +105,22 @@ const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
     },
+    outlinedPrimary: {
+        /* … */
+        '&:hover': { background: "#7A57EA", color: "#fff !important" },
+    },
+    itemColor: {
+        color: "#FE963D"
+    },
+    inboard: {
+        color: "#7A57EA",
+        fontSize: "30px",
+        fontWeight: "bold !important",
+        cursor: "pointer"
+    },
+    margin_right: {
+        marginRight: "12px"
+    }
 }));
 
 const SideBar = ({ userPermissionsData }) => {
@@ -101,12 +128,15 @@ const SideBar = ({ userPermissionsData }) => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [content, setContent] = useState('')
+    const [profileImg, setProfileImg] = useState('none')
 
     const handleDrawerOpen = () => {
+        setProfileImg('block');
         setOpen(true);
     };
 
     const handleDrawerClose = () => {
+        setProfileImg('none');
         setOpen(false);
     };
 
@@ -146,24 +176,24 @@ const SideBar = ({ userPermissionsData }) => {
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
-                        className={clsx(classes.menuButton, {
+                        className={clsx(classes.menuButton, classes.outlinedPrimary,{
                             [classes.hide]: open,
                         })}
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap>
-                        Mini variant drawer
+                    <Typography variant="h6" noWrap className={classes.inboard}>
+                       In<span className={classes.itemColor}>Board</span>
                     </Typography>
                     <div className={classes.grow} />
 
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 17 new notifications" color="inherit">
+                        <IconButton aria-label="show 17 new notifications" color="inherit" className={clsx(classes.outlinedPrimary, classes.margin_right)}>
                             <Badge badgeContent={17} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
-                        <Button  edge="end" color="inherit">Sair</Button>
+                        <Button  className={classes.outlinedPrimary} edge="end" color="inherit">Sair</Button>
 
                     </div>
                 </Toolbar>
@@ -180,18 +210,27 @@ const SideBar = ({ userPermissionsData }) => {
                         [classes.drawerClose]: !open,
                     }),
                 }}
-            >
+            >   
+               
                 <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    <IconButton onClick={handleDrawerClose} style={{color: "#7A57EA"}} size="medium">
+                        {theme.direction === 'rtl' ? <ChevronRightIcon fontSize="large"/> : <ChevronLeftIcon fontSize="large"/>}
                     </IconButton>
                 </div>
+                <div className="profile_info" id="profile" style={{display: profileImg}}>
+                    <div className="profile_img">
+                        <img src={profile} alt="profile"/>
+                    </div>
+                    <div className="profile_data">
+                        <p className="name">Scarlett Rosey</p>
+                    </div>
+                </div>
                 <Divider />
-                <List>
+                <List className={classes.itemColor}>
                     {userPermissionsData.map((item) => (
-                        <ListItem button key={item.route} onClick={() => setContent(item.contentName)}>
-                            {defineIcons(item.icon)}
-                            <ListItemText primary={item.name} style={{ marginLeft: '40px' }} />
+                        <ListItem button key={item.route}  onClick={() => setContent(item.contentName)} className={classes.outlinedPrimary}>
+                            <span  >{defineIcons(item.icon)}</span>
+                            <ListItemText  primary={item.name} style={{ marginLeft: '35px',fontWeight: "900" }} />
                         </ListItem>
                     ))}
                 </List>

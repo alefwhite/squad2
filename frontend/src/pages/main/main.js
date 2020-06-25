@@ -28,6 +28,36 @@ const userPermissionsData = [
     name: 'Sessao 4',
     route: '/rota-4'
   },
+  {
+    contentName: 'content4',
+    icon: 'EmailIcon',
+    name: 'Sessao 4',
+    route: '/rota-5'
+  },
+  {
+    contentName: 'content4',
+    icon: 'EmailIcon',
+    name: 'Sessao 4',
+    route: '/rota-5'
+  },
+  {
+    contentName: 'content4',
+    icon: 'EmailIcon',
+    name: 'Sessao 4',
+    route: '/rota-7'
+  },
+  {
+    contentName: 'content4',
+    icon: 'EmailIcon',
+    name: 'Sessao 4',
+    route: '/rota-8'
+  },
+  {
+    contentName: 'content4',
+    icon: 'EmailIcon',
+    name: 'Sessao 4',
+    route: '/rota-9'
+  },
 ]
 
 const Main = () => <SideBar userPermissionsData={userPermissionsData} />

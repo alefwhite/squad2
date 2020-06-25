@@ -210,7 +210,6 @@ body{
 }
 
 
-
 /* Profile */
 .sidebar_menu .profile_info {
     padding: 5px 10px 10px 10px;
@@ -222,27 +221,27 @@ body{
     margin: 0 auto 5px;
 }
 
-.sidebar_menu .profile_info .profile_img img {
+.profile_info .profile_img img {
     width: 100%;
     display: block;
 }
 
-.sidebar_menu .profile_info .profile_data .name {
+.profile_info .profile_data .name {
     font-size: 18px;
     color: #fff;
     margin-bottom: 5px;
     font-family: 'Trade Winds';
 }
 
-.sidebar_menu .profile_info .profile_data span {
+.profile_info .profile_data span {
     color: #c4dcff;
 }
 
-.wrapper.active .sidebar_menu .profile_info .profile_img {
+.profile_info .profile_img {
     width: 65px;
     margin-bottom: 5px;
 }
 
-.wrapper.active .sidebar_menu .profile_info .profile_data .name {
+.profile_info .profile_data .name {
     font-size: 14px;
 }
