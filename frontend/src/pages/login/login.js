@@ -3,7 +3,7 @@ import './login.css';
 import api from '../../service/api';
 import {useHistory} from 'react-router-dom';
 import Input from '../../components/Input/Input';
-
+import Botao from '../../components/Botao/Botao';
 
 
 export default function Login() {
@@ -29,7 +29,7 @@ export default function Login() {
       senha,
       email
     }
-    
+    console.log("TESTE");
     try {
      const response = await api.post("/session",data)
       const {user,token} = response.data
@@ -51,17 +51,36 @@ export default function Login() {
 
     <div className="container">
       <form className="form" onSubmit={Logar}>
-        <p style={{ color: "#7A57EA" }}>E-mail</p>
+        <p style={{ color: "#7A57EA", marginBottom:'20px' }}>E-mail</p>
        
-        <Input id="email"  label="Insira seu email" name="email" autoComplete="email" variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
-       
+       <p style={{marginBottom:'20px'}}>
+         <Input 
+          id="email"  
+          width="250px" 
+         
+          name="email" 
+          autoComplete="email" 
+          variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}>
+         </Input>
+       </p>
 
-        <p style={{ color: "#7A57EA" }}>Senha</p>
-
-        <Input  type="password" id="email" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
+        <p style={{ color: "#7A57EA", marginBottom:'20px' }}>Senha</p>
+    
+        <p style={{marginBottom:'20px' }}>
+          <Input  
+            type="password" 
+            style={{marginBottom:'20px' }} 
+            width="250px" 
+            id="email" 
+        
+            name="senha" autoComplete="password" 
+            variant="outlined" 
+            funcao={(evento) => handlePreencher(evento, "senha")}>
+          </Input>
+        </p>
 
         <p style={{ textAlign: "center" }}>
-        <button className="botao" type="submit">Entrar</button>
+        <Botao type="submit" children="ENTRAR"></Botao>
         </p>
     
         <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/login">clique aqui</a></p>

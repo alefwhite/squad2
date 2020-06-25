@@ -3,17 +3,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 
-const useStyles = makeStyles((theme) => ({
+
+function Input(props){
+  const useStyles = makeStyles((theme) => ({
 
     campos: {
        
         '& label.Mui-focused': {
           color: '#7A57EA',
           fontWeight:'bold',
+          fontSize:'25px'
       
         }, 
         '& .MuiFormLabel-root':{
-          color:'#7A57EA'
+          color:'#7A57EA',
+          
         },
 
         '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
@@ -38,17 +42,13 @@ const useStyles = makeStyles((theme) => ({
             color: "#7A57EA",
             backgroundColor: 'white',
             borderRadius: '22px',
-            width: '250px'
+            width: props.width,
+            
           },
       
         },
         '& .MuiInputBase-root':{
-          '& .MuiInputBase-input': {
-            color: "#7A57EA",
-            
-            borderBottom: '2px solid #7A57EA',
-            width: '150px'
-          },
+          
           
           '& .MuiInputBase-input':{
             borderColor:'#7A57EA',
@@ -60,7 +60,15 @@ const useStyles = makeStyles((theme) => ({
             borderBottom: '2px solid #7A57EA',
             
           },
-         
+          '& .MuiInput-underline:hover':{
+            borderBottom: '1px solid #7A57EA',
+            
+          },
+          '& .MuiInputBase-input': {
+            width: props.width,
+            borderBottom: '2px solid #7A57EA',
+            
+          },
          
        
       },
@@ -68,11 +76,18 @@ const useStyles = makeStyles((theme) => ({
      
   }));
 
-function Input(props){
     const classes = useStyles();
     return(
       <>
-        <TextField className={classes.campos} variant={props.variant} id={props.id} type={props.type} label={props.label} name={props.name} autoComplete={props.autoComplete} onChange={props.funcao}/>
+        <TextField className={classes.campos} 
+        variant={props.variant} 
+        id={props.id} 
+        type={props.type} 
+        label={props.label} 
+        name={props.name} 
+        autoComplete={props.autoComplete} 
+        onChange={props.funcao}
+        multiline={props.multiline}/>
         
         </>
     )

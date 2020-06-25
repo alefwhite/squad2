@@ -21,8 +21,7 @@ function Botao(props){
     const classes = useStyles();
 
     return(
-    <Button variant="contained"  className={classes.botao} onClick={props.funcao}>{props.children}</Button>
-    
+    <Button variant="contained" type={props.type} className={classes.botao} onClick={props.funcao}>{props.children}</Button>
     )
 }
 

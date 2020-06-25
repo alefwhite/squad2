@@ -5,7 +5,16 @@ import DateFnsUtils from '@date-io/date-fns';
 const useStyles = makeStyles((theme) => ({
 
     campos: {
-       
+      '& label.Mui-focused': {
+        color: '#FE963D',
+  
+    
+      },
+      '& .MuiFormLabel-root':{
+        color:'#FE963D',
+        fontSize:'25px',
+        
+      },
         '& .MuiInputBase-root':{
           '& .MuiInputBase-input': {
             color: "#7A57EA",
@@ -26,17 +35,22 @@ const useStyles = makeStyles((theme) => ({
            
           },
           '& .MuiIconButton-label':{
-            color:'#FE963D',
+            color:'#7A57EA',
     },
  
     '& .MuiInput-underline:before':{
         borderBottom:'2px solid #7A57EA '
-    }
+    },
+    '& .MuiInput-underline:hover':{
+      borderBottom: '1px solid #7A57EA',
+      
+    },
          
        
       },
       
-        
+      
+     
      
   }));
 
@@ -44,7 +58,13 @@ function InputData(props){
     const classes = useStyles();
     return(
         <>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}><KeyboardDatePicker style={props.style}  format="dd/MM/yyyy" className={classes.campos}></KeyboardDatePicker></MuiPickersUtilsProvider>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}><KeyboardDatePicker 
+        style={props.style} 
+        label={props.label}  
+        format="dd/MM/yyyy" 
+        className={classes.campos}
+        onChange={props.funcao}
+        value={props.value}/></MuiPickersUtilsProvider>
         </>
     )
 }
