@@ -31,18 +31,18 @@ export default function Login() {
     }
     console.log("TESTE");
     try {
-     const response = await api.post("/session",data)
-      const {user,token} = response.data
-      
+      const response = await api.post("/session",data)
+      const {user,token} = response.data;
       
       if(response.status===200){
         localStorage.setItem("nome",user.nome);
         localStorage.setItem("token",token);  
+
         history.push("/teste");
       }
     } 
     catch (error) {
-      
+      console.log(`erro:${error}`);
     }
   
   }

@@ -4,6 +4,7 @@ import Input from '../Input/Input';
 import Botao from '../Botao/Botao';
 import InputData from '../InputData/InputData';
 import {format} from 'date-fns'
+import api from '../../service/api';
 
 const estilo = {
     input:[
@@ -51,18 +52,32 @@ function NovoProjeto(){
         
     }
 
-    function enviar(x){
+   async function enviar(x){
         x.preventDefault();
-        inicio =  format(inicio,"dd/MM/yyyy");
-        fim =  format(fim,"dd/MM/yyyy");
+        console.log(inicio);
+        
+     
+        let data_inicial =  format(inicio,"dd/MM/yyyy");
+        let data_final =  format(fim,"dd/MM/yyyy");
+   
         
         let data = {
             nome,
             descricao,
-            inicio,
-            fim
+            data_inicial,
+            data_final
         }
 
+        try {
+            const response = await api.post("/projeto",data);
+
+            if(response.status===200){
+                console.log(response);
+            }
+
+        } catch (error) {
+            console.log(`erro:${error}`);
+        }
 
     }
 
@@ -81,7 +96,7 @@ function NovoProjeto(){
 
                 <p style={estilo.espacoCampo}><Input funcao={(evento)=>handlePreencher(evento,"descricao")} multiline="false" width="35vw"/></p>
 
-                <p style={{textAlign:'center'}}><Botao children="CONCLUIR" width="90px"></Botao></p>
+                <p style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></p>
                 
                 
             </form>
