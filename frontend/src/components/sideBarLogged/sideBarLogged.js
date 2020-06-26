@@ -20,6 +20,9 @@ import Content4 from '../../pages/contents/content4/content4'
 import Button from '@material-ui/core/Button';
 
 import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 // profile
 import './profile.css';
 import profile from './Profile_id.png';
@@ -234,6 +237,7 @@ const SideBar = ({ userPermissionsData }) => {
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
+                <ToastContainer/>
                 {defineContent(content)}
             </main>
         </div>

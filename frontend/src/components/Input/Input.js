@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     campos: {
        
         '& label.Mui-focused': {
-          color: '#7A57EA',
+          color: '#FE963D',
           fontWeight:'bold',
       
         }, 
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         },
 
         '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
-          color: '#7A57EA',
+          color: '#FE963D',
           fontWeight:'bold',
       
         },  
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
             color: "#FE963D",
             
             borderBottom: '2px solid #7A57EA',
-            width: '150px'
+            width: '190px'
           },
           
           '&:hover .MuiInputBase-input':{
@@ -72,7 +72,7 @@ function Input(props){
     const classes = useStyles();
     return(
       <>
-        <TextField className={classes.campos} variant={props.variant} id={props.id} type={props.type} label={props.label} name={props.name} autoComplete={props.autoComplete} onChange={props.funcao}/>
+          <TextField disabled={props.leitura} value={props.value} className={classes.campos} variant={props.variant} id={props.id} type={props.type} label={props.labels} name={props.nome} autoComplete={props.autoComplete} onChange={props.funcao}/>
         
         </>
     )
