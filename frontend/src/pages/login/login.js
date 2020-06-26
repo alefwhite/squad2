@@ -3,7 +3,8 @@ import './login.css';
 import api from '../../service/api';
 import {useHistory} from 'react-router-dom';
 import Input from '../../components/Input/Input';
-
+import {parseJWT}  from '../../service/parseJWT';
+import { toast } from 'react-toastify';
 
 
 export default function Login() {
@@ -31,14 +32,19 @@ export default function Login() {
     }
     
     try {
-     const response = await api.post("/session",data)
+      const response = await api.post("/session", data)
       const {user,token} = response.data
       
       
-      if(response.status===200){
-        localStorage.setItem("nome",user.nome);
-        localStorage.setItem("token",token);  
-        history.push("/home");
+      if(response.status === 200){
+          localStorage.setItem("nome", user.nome);
+          localStorage.setItem("token", token);         
+          toast.success("Login efetuado com sucesso!");
+
+          console.log(parseJWT());
+          console.log("Tipo de usuário: ", parseJWT().id_tipousuario);
+
+          history.push("/dashboard");
       }
     } 
     catch (error) {
@@ -58,7 +64,7 @@ export default function Login() {
 
         <p style={{ color: "#7A57EA" }}>Senha</p>
 
-        <Input  type="password" id="email" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
+        <Input  type="password" id="senha" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
 
         <p style={{ textAlign: "center" }}>
         <button className="botao" type="submit">Entrar</button>

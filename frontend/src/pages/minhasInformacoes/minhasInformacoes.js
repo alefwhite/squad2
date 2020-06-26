@@ -178,12 +178,13 @@ const MinhasInformacoes = () => {
     
             await api.put("/gestor", data)
             .then( response => {
-                console.log(response)
+
                 if(response.status === 200) {
                     console.log(response.data);
                     toast.warning(response.data.mensagem);
                     ListarInformacoes();
                 }
+                
             });        
 
         } else {

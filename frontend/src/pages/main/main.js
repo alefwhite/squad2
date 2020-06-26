@@ -1,5 +1,5 @@
 import React from 'react'
-import SideBar from '../../components/sideBarLogged/sideBarLogged'
+import SideBar from '../../components/Sidebar/sidebar';
 
 
 // @ Get this values from server
