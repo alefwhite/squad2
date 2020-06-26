@@ -3,7 +3,7 @@ import './NovoProjeto.css';
 import Input from '../Input/Input';
 import Botao from '../Botao/Botao';
 import InputData from '../InputData/InputData';
-import {format} from 'date-fns'
+
 import api from '../../service/api';
 
 const estilo = {
@@ -25,18 +25,20 @@ const estilo = {
 }
 
 function NovoProjeto(){
-    let nome,descricao;
-    let [inicio,setInicio] = useState(new Date());
-    let [fim,setFim] = useState(new Date());
+    const [nome,setNome]= useState('');
+    const [descricao,setDescricao] = useState('');
+    const [inicio,setInicio] = useState(new Date());
+    const [fim,setFim] = useState(new Date());
+    
 
     function handlePreencher(evento,espaco){
         switch(espaco){
             case "nome":{
-                nome = evento.target.value;
+                setNome(evento.target.value);
                 break;
             }
             case "descricao":{
-                descricao = evento.target.value;
+                setDescricao(evento.target.value);
                 break;
             }
             case "inicio":{
@@ -57,8 +59,8 @@ function NovoProjeto(){
         console.log(inicio);
         
      
-        let data_inicial =  format(inicio,"dd/MM/yyyy");
-        let data_final =  format(fim,"dd/MM/yyyy");
+        let data_inicial =  inicio;
+        let data_final =  fim;
    
         
         let data = {
@@ -67,7 +69,7 @@ function NovoProjeto(){
             data_inicial,
             data_final
         }
-
+        console.log(data)
         try {
             const response = await api.post("/projeto",data);
 

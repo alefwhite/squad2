@@ -57,7 +57,6 @@ export default function Login() {
          <Input 
           id="email"  
           width="250px" 
-         
           name="email" 
           autoComplete="email" 
           variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}>
@@ -72,7 +71,6 @@ export default function Login() {
             style={{marginBottom:'20px' }} 
             width="250px" 
             id="email" 
-        
             name="senha" autoComplete="password" 
             variant="outlined" 
             funcao={(evento) => handlePreencher(evento, "senha")}>

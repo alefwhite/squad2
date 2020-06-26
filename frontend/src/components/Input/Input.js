@@ -39,7 +39,7 @@ function Input(props){
             borderColor: '#7A57EA',
           },
          '& .MuiInputBase-input': {
-            color: "#7A57EA",
+            color: "#FE963D",
             backgroundColor: 'white',
             borderRadius: '22px',
             width: props.width,
@@ -52,6 +52,7 @@ function Input(props){
           
           '& .MuiInputBase-input':{
             borderColor:'#7A57EA',
+            color:'#FE963D'
           }
         }
         ,

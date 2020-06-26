@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       },
         '& .MuiInputBase-root':{
           '& .MuiInputBase-input': {
-            color: "#7A57EA",
+            color:'#FE963D',
             
             borderBottom: '2px solid #7A57EA',
             width: '90px'
