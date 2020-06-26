@@ -20,7 +20,7 @@ import defineIcons from '../../utils/defineIcon'
 import Content from '../../pages/contents/content/content'
 import Content4 from '../../pages/contents/content4/content4'
 
-import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
+import MinhasInformacoes from '../../pages/MinhasInformacoes/minhasInformacoes';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
