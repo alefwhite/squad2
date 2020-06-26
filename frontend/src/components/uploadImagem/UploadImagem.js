@@ -128,7 +128,7 @@ export default function UploadImagem(){
                   >
                    <div className="modal">
                    <Grid container direction="row" justify="center" alignItems="center">
-                    <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop img" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
+                    <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop imge" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
                     <img src={cropImg} className="imgCrop"></img> 
                     </Grid>
                     <Grid container direction="row" justify="center" alignItems="center">

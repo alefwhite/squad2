@@ -170,4 +170,3 @@ class ProjetoController {
 }
 
 export default new ProjetoController();
-*/
