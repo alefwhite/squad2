@@ -101,6 +101,7 @@ const MinhasInformacoes = () => {
     const classes = useStyles();
 
     const [estado, setEstado] = useState({estado: ''});
+    const [modificado, setModificado] = useState(false);
 
     const [senha_antiga, setSenhaAntiga] = useState('');    
     const [nova_senha, setNovaSenha] = useState('');    
@@ -109,9 +110,35 @@ const MinhasInformacoes = () => {
     const [cargos, setCargos] = useState([]);    
     const [novo_cargo, setNovoCargo] = useState("");    
     
-    const handleChange = (event) => {
-        setNovoCargo(event.target.value);
+    const AtualizaCargo = (e) => {
+        setNovoCargo(e.target.value);
+        setModificado(true);
         console.log(novo_cargo)
+    };
+
+    const AtualizaNovaSenha = (e) => {
+        setNovaSenha(e.target.value);
+        setModificado(true);
+        console.log(nova_senha)
+    };
+
+    const AtualizaConfirmarSenha = (e) => {
+        setConfirmarSenha(e.target.value);
+        setModificado(true);
+        console.log(confirmar_senha)
+    };
+
+    const AtualizaSenhaAntiga = (e) => {
+        setSenhaAntiga(e.target.value);
+        setModificado(true);
+        console.log(senha_antiga)
+    };
+
+    const AtualizadoEstado = (e) => {
+        setEstado({...estado, [e.target.name]: e.target.value})
+        setModificado(true);
+        console.log(modificado);
+        console.log(estado)
     };
 
     const ListarInformacoes = async () => {
@@ -122,7 +149,7 @@ const MinhasInformacoes = () => {
             console.log(response.data)
         });
         
-    }
+    };
 
     const ListarCargos = async () => {
         
@@ -133,37 +160,41 @@ const MinhasInformacoes = () => {
         })
     };
 
+       
     const EditarInformacoes = async (e) => {
         e.preventDefault();
-        console.log("teste")
-        let data = {
-            nome: estado.nome,
-            nome_social: estado.nome_social, 
-            email: estado.email, 
-            cpf: estado.cpf, 
-            senha_antiga,
-            nova_senha, 
-            confirmar_senha, 
-            novo_cargo
-        };
+        
+        if(modificado) {
+            let data = {
+                nome: estado.nome,
+                nome_social: estado.nome_social, 
+                email: estado.email, 
+                cpf: estado.cpf, 
+                senha_antiga,
+                nova_senha, 
+                confirmar_senha, 
+                novo_cargo
+            };
+    
+            await api.put("/gestor", data)
+            .then( response => {
+                console.log(response)
+                if(response.status === 200) {
+                    console.log(response.data);
+                    toast.warning(response.data.mensagem);
+                    ListarInformacoes();
+                }
+            });        
 
-        await api.put("/gestor", data)
-        .then( response => {
-            if(response.status === 200) {
-                console.log(response.data);
-                toast.warning(response.data.mensagem);
-            }
-        })
-        .catch( error => {
-            console.log(error)
-        })
+        } else {
+            return toast.info("Você não atualizou nenhuma informação");
+        }
     };
 
     useEffect(() => {
         ListarInformacoes();
         ListarCargos();
     },[]);
-
     
 
     return (
@@ -176,28 +207,28 @@ const MinhasInformacoes = () => {
                     <Grid container spacing={1}>
                         <Grid container item xs={12} spacing={3} justify="space-around" alignItems="center" className={classes.GridBottom}>
                             <Grid item md="auto">
-                                <Input type="text" nome="nome"  value={estado.nome || ''} labels="Nome completo" funcao={e => setEstado({...estado, nome: e.target.value})}/>
+                                <Input type="text" name="nome"  value={estado.nome || ''} label="Nome completo" funcao={AtualizadoEstado}/>
                             </Grid>
                             <Grid item md="auto">
-                                <Input type="text" nome="social"  value={estado.nome_social || ''} labels="Nome social" funcao={e => setEstado({...estado, nome_social: e.target.value})}/>
+                                <Input type="text" name="nome_social"  value={estado.nome_social || ''} label="Nome social" funcao={AtualizadoEstado}/>
                             </Grid>
                             <Grid item md="auto">
-                                <Input type="text" nome="email"  value={estado.email || ''} labels="E-mail" funcao={e => setEstado({...estado, email: e.target.value})}/>
+                                <Input type="text" name="email"  value={estado.email || ''} label="E-mail" funcao={AtualizadoEstado}/>
                             </Grid>
                             <Grid item md="auto">
-                                <Input type="text" nome="cpf"  value={estado.cpf || ''} labels="Cpf" funcao={e => setEstado({...estado, cpf: e.target.value})}/>
+                                <Input type="text" name="cpf"  value={estado.cpf || ''} label="Cpf" funcao={AtualizadoEstado}/>
                             </Grid>
                         </Grid>
                         <Grid container item xs={12} spacing={3} justify="space-around" alignItems="center" className={classes.GridBottom}>
                                 <Grid item md="auto">
-                                    <Input type="text" leitura={true} nome="cargo_atual"  value={estado.cargo || ''} labels="Cargo atual" />
+                                    <Input type="text" leitura={true} name="cargo_atual"  value={estado.cargo || ''} label="Cargo atual" />
                                 </Grid>                        
                                 <Grid item md="auto">
                                     <FormControl  className={clsx(classes.formControl, classes.campos)}>
                                             <InputLabel htmlFor="outlined-age-native-simple">Alterar Cargo</InputLabel>
                                             <Select            
                                                 native
-                                                onChange={handleChange}
+                                                onChange={AtualizaCargo}
                                                 value={novo_cargo}
                                                 label="cargo"
                                                 inputProps={{
@@ -215,15 +246,15 @@ const MinhasInformacoes = () => {
                                     </FormControl>
                                 </Grid> 
                                 <Grid item md="auto">
-                                    <Input type="password" nome="senha_atinga"  value={senha_antiga || ''} labels="Senha antiga" funcao={e => setSenhaAntiga(e.target.value)}/>
+                                    <Input type="password" name="senha_atinga"  value={senha_antiga || ''} label="Senha antiga" funcao={AtualizaSenhaAntiga}/>
                                 </Grid>
                                 <Grid item md="auto">
-                                    <Input type="password" nome="nova_senha"  value={nova_senha || ''} labels="Nova senha" funcao={e => setNovaSenha(e.target.value)}/>
+                                    <Input type="password" name="nova_senha"  value={nova_senha || ''} label="Nova senha" funcao={AtualizaNovaSenha}/>
                                 </Grid>
                         </Grid>
                         <Grid container item xs={12} spacing={3} justify="space-around" alignItems="center" className={classes.GridBottom} >                                     
                                     <Grid item md="auto">
-                                        <Input type="password" nome="confirmar_senha"  value={confirmar_senha || ''} labels="Confirmar senha" funcao={e => setConfirmarSenha(e.target.value)}/>
+                                        <Input type="password" name="confirmar_senha"  value={confirmar_senha || ''} label="Confirmar senha" funcao={AtualizaConfirmarSenha}/>
                                     </Grid>                       
                         </Grid>            
                         <Grid container item xs={12} spacing={3} justify="space-around" alignItems="center" className={classes.GridBottom}>                                     

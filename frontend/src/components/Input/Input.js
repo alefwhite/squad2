@@ -72,7 +72,7 @@ function Input(props){
     const classes = useStyles();
     return(
       <>
-          <TextField disabled={props.leitura} value={props.value} className={classes.campos} variant={props.variant} id={props.id} type={props.type} label={props.labels} name={props.nome} autoComplete={props.autoComplete} onChange={props.funcao}/>
+          <TextField disabled={props.leitura} value={props.value} className={classes.campos} variant={props.variant} id={props.id} type={props.type} label={props.label} name={props.name} autoComplete={props.autoComplete} onChange={props.funcao}/>
         
         </>
     )
