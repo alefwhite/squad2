@@ -16,11 +16,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import defineIcons from '../../utils/defineIcon'
 import Content from '../../pages/contents/content/content'
-import Content2 from '../../pages/contents/content2/content2'
-import Content3 from '../../pages/contents/content3/content3'
 import Content4 from '../../pages/contents/content4/content4'
 import Button from '@material-ui/core/Button';
 
+import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
 // profile
 import './profile.css';
 import profile from './Profile_id.png';
@@ -144,10 +143,8 @@ const SideBar = ({ userPermissionsData }) => {
         switch (content) {
             case 'content':
                 return <Content />;
-            case 'content2':
-                return <Content2 />;
-            case 'content3':
-                return <Content3 />;
+            case 'MinhasInformacoes':
+                return <MinhasInformacoes />;            
             case 'content4':
                 return <Content4 />;    
             default:

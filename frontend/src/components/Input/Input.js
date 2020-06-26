@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
       
         }, 
         '& .MuiFormLabel-root':{
-          color:'#7A57EA'
+          color:'#FE963D'
         },
 
         '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
             borderColor: '#7A57EA',
           },
          '& .MuiInputBase-input': {
-            color: "#7A57EA",
+            color: "#FE963D",
             backgroundColor: 'white',
             borderRadius: '22px',
             width: '77vw'
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         },
         '& .MuiInputBase-root':{
           '& .MuiInputBase-input': {
-            color: "#7A57EA",
+            color: "#FE963D",
             
             borderBottom: '2px solid #7A57EA',
             width: '150px'

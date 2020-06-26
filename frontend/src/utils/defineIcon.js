@@ -13,7 +13,7 @@ export default function defineIcon(iconName) {
         case 'CreateIcon':
             return <CreateIcon />;
         case 'EmailIcon':
-            return <EmailIcon />
+            return <EmailIcon />         
         default:
             return;
     }

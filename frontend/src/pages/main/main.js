@@ -11,53 +11,18 @@ const userPermissionsData = [
     route: '/rota-1'
   },
   {
-    contentName: 'content2',
+    contentName: 'MinhasInformacoes',
     icon: 'AssessmentIcon',
-    name: 'Sessao 2',
+    name: 'Minhas Informações',
     route: '/rota-2'
   },
   {
-    contentName: 'content3',
+    contentName: 'CriarTarefa',
     icon: 'CreateIcon',
-    name: 'Sessao 3',
+    name: 'Criar Tarefa',
     route: '/rota-3'
   },
-  {
-    contentName: 'content4',
-    icon: 'EmailIcon',
-    name: 'Sessao 4',
-    route: '/rota-4'
-  },
-  {
-    contentName: 'content4',
-    icon: 'EmailIcon',
-    name: 'Sessao 4',
-    route: '/rota-5'
-  },
-  {
-    contentName: 'content4',
-    icon: 'EmailIcon',
-    name: 'Sessao 4',
-    route: '/rota-5'
-  },
-  {
-    contentName: 'content4',
-    icon: 'EmailIcon',
-    name: 'Sessao 4',
-    route: '/rota-7'
-  },
-  {
-    contentName: 'content4',
-    icon: 'EmailIcon',
-    name: 'Sessao 4',
-    route: '/rota-8'
-  },
-  {
-    contentName: 'content4',
-    icon: 'EmailIcon',
-    name: 'Sessao 4',
-    route: '/rota-9'
-  },
+ 
 ]
 
 const Main = () => <SideBar userPermissionsData={userPermissionsData} />
