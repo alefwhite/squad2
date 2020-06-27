@@ -9,10 +9,7 @@ const UpoloadUsuarioSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    gestor: {
-        type: Number,
-        required: true,
-    },
+    gestor: Number,
 }, {
     timestamps: true,
     toJSON: {

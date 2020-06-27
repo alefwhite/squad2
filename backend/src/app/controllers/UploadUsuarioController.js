@@ -27,7 +27,8 @@ class UploadUsuarioController {
     async store(req, res) {
         const { filename } = req.file;
         const userId = req.idUsuario;
-        
+        let gestor_id = null;
+
         try {
 
             if(!userId) {
@@ -36,13 +37,19 @@ class UploadUsuarioController {
     
             const existeImg = await UploadUsuario.findOne({ user: userId });
 
-            const gestor_id = await db("usuario as U")
-                .select("U.id_criador")
-                .where({ id_usuario: userId})
-                .first();
-    
+            if(req.tipoUsuario === 3) {
+                gestor_id = await db("usuario as U")
+                    .select("U.id_criador")
+                    .where({ id_usuario: userId})
+                    .first();        
+            }
+
             if(!existeImg) {
-                await UploadUsuario.create({ img_usuario: filename, user: userId, gestor: gestor_id.id_criador });
+                if(req.tipoUsuario === 3) {
+                    await UploadUsuario.create({ img_usuario: filename, user: userId, gestor: gestor_id.id_criador });
+                } else {
+                    await UploadUsuario.create({ img_usuario: filename, user: userId });
+                }
             }
             
             const query = { user: userId };
