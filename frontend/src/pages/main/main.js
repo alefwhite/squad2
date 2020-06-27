@@ -17,9 +17,9 @@ const userPermissionsData = [
     route: '/rota-2'
   },
   {
-    contentName: 'CriarTarefa',
+    contentName: 'Squad',
     icon: 'CreateIcon',
-    name: 'Criar Tarefa',
+    name: 'Cadastrar Squad',
     route: '/rota-3'
   },
  

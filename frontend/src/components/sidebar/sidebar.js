@@ -17,10 +17,12 @@ import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import defineIcons from '../../utils/defineIcon'
-import Content from '../../pages/contents/content/content'
-import Content4 from '../../pages/contents/content4/content4'
 
+// Pages
+import Content4 from '../../pages/contents/content4/content4'
 import MinhasInformacoes from '../../pages/MinhasInformacoes/minhasInformacoes';
+import Squad from '../../pages/Squad/squad';
+
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
@@ -148,11 +150,11 @@ const SideBar = ({ userPermissionsData }) => {
     const defineContent = (content) => {
         switch (content) {
             case 'content':
-                return <Content />;
+                return <Content4 />;
             case 'MinhasInformacoes':
                 return <MinhasInformacoes />;            
-            case 'content4':
-                return <Content4 />;    
+            case 'Squad':
+                return <Squad />;    
             default:
                 return;
         }
