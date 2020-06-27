@@ -20,7 +20,7 @@ import defineIcons from '../../utils/defineIcon'
 
 // Pages
 import Content4 from '../../pages/contents/content4/content4'
-import MinhasInformacoes from '../../pages/MinhasInformacoes/minhasInformacoes';
+import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
 import Squad from '../../pages/Squad/squad';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -236,7 +236,7 @@ const SideBar = ({ userPermissionsData }) => {
                         <img src={profile} alt="profile"/>
                     </div>
                     <div className="profile_data">
-                        <p className="name">Scarlett Rosey</p>
+                        <p className="name">{localStorage.getItem("nome")}</p>
                     </div>
                 </div>
                 <Divider />
