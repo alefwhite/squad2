@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
+import SaveAlt from '@material-ui/icons/SaveAlt';
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Container from '@material-ui/core/Container';
@@ -9,10 +10,12 @@ import Modal from '@material-ui/core/Modal';
 
 import { toast } from 'react-toastify';
 import Input from '../../components/Input/Input';
+import PrimeiraLetraMaiuscula from '../../utils/primeiraLetraMaiuscula';
 import api from '../../service/api';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} style={{fontSize: "2.0em", color: "#7A57EA"}}/>),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} style={{fontSize: "2.0em", color: "#FE963D"}}/>)
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -89,10 +92,16 @@ const useStyles = makeStyles((theme) => ({
         outline: 0,
         borderRadius: "3px"
     },
-    form: {
+    formEdit: {
         display: "flex",
         flexDirection: "column",
         padding: "10px"
+    },
+    formDel: {
+        display: "flex",
+        padding: "16px",
+        marginTop: "5px",
+        justifyContent: "space-between"
     }
     
 }));
@@ -111,16 +120,19 @@ function getModalStyle() {
 const Squad = () => {
     const classes = useStyles();
     const [modalStyle] = useState(getModalStyle);
+    const [modalBody, setModalBody] = useState(true)
     const [open, setOpen] = useState(false);
     const [squad, setSquad] = useState('');
+    const [id_squad, setIdSquad] = useState(null);
     const [state, setState] = useState({        
         data: [
           
         ],
     });
 
-    const handleOpen = () => {
-     setOpen(true);
+    const handleOpen = (id) => {
+        setIdSquad(id);
+        setOpen(true);
     };
     
     const handleClose = () => {
@@ -139,47 +151,78 @@ const Squad = () => {
     };
 
     const InserirSquad = async (novaSquad) => {
-        // e.preventDefault();
-
+       
         let data = {
-            nome: novaSquad
+            nome: PrimeiraLetraMaiuscula(novaSquad)
         };
-        console.log("Suqds", novaSquad);
 
         await api.post("/squad", data)
         .then((response) => {
             if(response.status === 201) {
-                toast.warning(response.data.mensagem);
+                toast.success(response.data.mensagem);
                 ListarSquads();
             }
         })
     }
 
-    const EditarSquad = async () => {
-        // e.preventDefault();
+    const EditarSquad = async (e, id) => {
+        e.preventDefault();
 
         let data = {
             nome: squad
         };
 
 
-        await api.put("/squad", data)
+        await api.put(`/squad/${id_squad}`, data)
         .then((response) => {
-            if(response.status === 201) {
-                toast.warning(response.data.mensagem);
+            if(response.status === 200) {
+                toast.success(response.data.mensagem);
                 ListarSquads();
                 handleClose();
             }
         })
     }
     
-    const body = (
+    const bodyEditar = (
         <div style={modalStyle} className={classes.paper}>
-          <h2 style={{color: "#7A57EA", marginBottom: "11px"}} id="simple-modal-title">Alterar Squad</h2>
+          <h2 style={{color: "#7A57EA", marginBottom: "11px"}} id="simple-modal-title">Editar nome da Squad</h2>
           <div id="simple-modal-description">
-              <form className={clsx(classes.form)} onSubmit={EditarSquad}>
+              <form className={clsx(classes.formEdit)} onSubmit={EditarSquad}>
                     <Input style={{width: "100%"}} type="text" name="squad"  value={squad || ''} label="Nome da squad" funcao={e => setSquad(e.target.value)}/>
-                    <button style={{marginTop: "30px"}} className="botao" type="submit">Inserir</button>
+                    <div style={{display: "flex", justifyContent: "space-between"}}> 
+                        <button style={{marginTop: "30px"}} className="botao" type="submit">Editar</button>
+                        <button style={{marginTop: "30px"}} className="botao" onClick={() => handleClose()}>Fechar</button>
+                    </div>
+              </form>
+          </div>
+        </div>
+    );
+
+    const ExcluirSquad = async (e, id) => {
+        e.preventDefault();
+
+        let data = {
+            nome: squad
+        };
+
+
+        await api.delete(`/squad/${id_squad}`, data)
+        .then((response) => {
+            if(response.status === 200) {
+                toast.success(response.data.mensagem);
+                ListarSquads();
+                handleClose();
+            }
+        })
+    }
+
+    const bodyExcluir = (
+        <div style={modalStyle} className={classes.paper}>
+          <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
+          <div id="simple-modal-description">
+              <form className={clsx(classes.formDel)} onSubmit={ExcluirSquad}>
+                    <button style={{marginTop: "30px"}} className="botao" type="submit">Sim</button>
+                    <button style={{marginTop: "30px"}} className="botao" onClick={() => handleClose()}>Não</button>
               </form>
           </div>
         </div>
@@ -217,26 +260,34 @@ const Squad = () => {
                             icon: 'edit',
                             tooltip: 'Editar',
                             onClick: (event, rowData) => {
-                                alert("You saved " + rowData.id_squad) 
-                                handleOpen();
+                                setModalBody(true);
+                                setSquad(rowData.nome);
+                                handleOpen(rowData.id_squad);
                             }
                         },
                         {
                             icon: 'delete',
                             tooltip: 'Deletar',
                             onClick: (event, rowData) => {
-                                 alert("You saved " + rowData.id_squad)
+                                setModalBody(false);
+                                handleOpen(rowData.id_squad);
                             }    
                         }
                     ]}
                     localization={{
                         body: {
                           emptyDataSourceMessage: 'Nenhum registro para exibir',
-                          addTooltip: "Inserir nova squad"
+                          addTooltip: "Inserir nova squad",
+                          editRow: {
+                                saveTooltip: "Inserir",
+                                cancelTooltip: "Cancelar"
+                          }
                         },
                         toolbar: {
                           searchTooltip: 'Pesquisar',
-                          searchPlaceholder: 'Pesquisar'
+                          searchPlaceholder: 'Pesquisar',
+                          exportName: "Exportar",
+                          exportTitle: "Exportar"
 
                         },
                         header:{
@@ -249,7 +300,8 @@ const Squad = () => {
                           previousTooltip: 'Página anterior',
                           nextTooltip: 'Próxima página',
                           lastTooltip: 'Última página'
-                        }
+                        },
+                        
                     }}
                     options={{
                         cellStyle: {
@@ -280,18 +332,19 @@ const Squad = () => {
                         loadingType: "overlay",
                         toolbarButtonAlignment: "right",
                         searchFieldAlignment: "left",
-                        pageSizeOptions: [5,10]
+                        pageSizeOptions: [5,10],
+                        toolbar: true,
+                        exportButton: true,
+                        exportFileName: "squads",
 
                     }}
                     editable={{
                         onRowAdd: novoNome =>
-                          new Promise((resolve, reject) => {
-                            setSquad(novoNome.nome);
-                            console.log("teste", novoNome.nome)
+                          new Promise((resolve, reject) => {                            
                             setTimeout(() => {
                                InserirSquad(novoNome.nome);
                                 resolve();
-                            }, 1000);
+                            }, 500);
                           }),
                     }}
                 />
@@ -302,7 +355,9 @@ const Squad = () => {
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
                     >
-                        {body}
+                        {
+                            modalBody ? bodyEditar : bodyExcluir
+                        }
                     </Modal>
                 </div>
             </Container>

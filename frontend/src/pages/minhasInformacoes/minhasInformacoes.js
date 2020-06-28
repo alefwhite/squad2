@@ -181,7 +181,7 @@ const MinhasInformacoes = () => {
 
                 if(response.status === 200) {
                     console.log(response.data);
-                    toast.warning(response.data.mensagem);
+                    toast.success(response.data.mensagem);
                     ListarInformacoes();
                 }
                 

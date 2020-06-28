@@ -81,7 +81,7 @@ class SquadController {
 
                 if(retorno) {
                     return res.status(200).json({
-                        mensagem:`A Squad ${nome},foi cadastrada com sucesso`
+                        mensagem:`A Squad ${nome}, foi editada com sucesso`
                     });                    
                 }
 
