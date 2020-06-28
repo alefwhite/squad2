@@ -60,7 +60,13 @@ const useStyles = makeStyles((theme) => ({
             borderBottom: '2px solid #7A57EA',
             
           },
-         
+          '& .MuiInput-underline:before':{
+            borderBottom: '2px solid #7A57EA',
+            
+          },
+          '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderColor: '#FE963D',
+          }
          
        
       },

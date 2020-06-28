@@ -10,12 +10,16 @@
 }
 
 .profile_info .profile_img img {
-    width: 100%;
+    width: 150px;
     display: block;
-    margin-bottom: 5px;
+    border-radius: 50%;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #FE963D;
 }
 
 .profile_info .profile_data .name {
+    margin-top: 6px;
     font-size: 24px;
     color: #7A57EA;
     font-weight: bold;

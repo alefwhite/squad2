@@ -10,6 +10,9 @@
 
 body{
     background:linear-gradient(180deg, #303030 0%, #000000 100%) !important;
-    width: 100vw;
     height: 100vh;
+}
+
+.IconColor {
+    color: "red";
 }

@@ -18,17 +18,19 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import defineIcons from '../../utils/defineIcon'
 
+import api from '../../service/api';
+
 // Pages
 import Content4 from '../../pages/contents/content4/content4'
 import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
-import Squad from '../../pages/Squad/squad';
+import Squad from '../../pages/SquadCadastro/squad';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 // profile
 import './profile.css';
-import profile from './Profile_id.png';
+import ProfilePadrao from './Profile_id.png';
 
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
@@ -136,6 +138,7 @@ const SideBar = ({ userPermissionsData }) => {
     const [open, setOpen] = useState(false);
     const [content, setContent] = useState('')
     const [profileImg, setProfileImg] = useState('none')
+    const [profile, setProfile] = useState('');
 
     const handleDrawerOpen = () => {
         setProfileImg('block');
@@ -165,10 +168,20 @@ const SideBar = ({ userPermissionsData }) => {
         history.push("/login");
     };
 
+    const ImgProfile = async () => {
+        await api.get("/uploadusuario")
+        .then((response) => {
+            console.log(response.data.imgurl)
+            setProfile(response.data.imgurl);
+        });   
+    };
     useEffect(() => {
         if (!content) {
             setContent('content')
         }
+
+        ImgProfile();
+
     }, [content])
 
     return (
@@ -233,7 +246,12 @@ const SideBar = ({ userPermissionsData }) => {
                 </div>
                 <div className="profile_info" id="profile" style={{display: profileImg}}>
                     <div className="profile_img">
-                        <img src={profile} alt="profile"/>
+                        {/* <img src={profile} alt="profile"/> */}
+                        {
+                            
+                            profile ? <img src={profile} alt="profile" /> : <img src={ProfilePadrao} alt="profile"/>
+                           
+                        }
                     </div>
                     <div className="profile_data">
                         <p className="name">{localStorage.getItem("nome")}</p>

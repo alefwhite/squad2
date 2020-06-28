@@ -37,7 +37,7 @@ export default function Login() {
       
       
       if(response.status === 200){
-          localStorage.setItem("nome", user.nome);
+          localStorage.setItem("nome", user.nome_social);
           localStorage.setItem("token", token);         
           toast.success("Login efetuado com sucesso!");
 
