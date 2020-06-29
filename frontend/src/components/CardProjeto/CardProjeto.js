@@ -24,7 +24,7 @@ function CardProjeto(props){
 
                             <p style={{color:'#FE963D'}}>
                                 <CreateRoundedIcon style={{cursor:'pointer'}} onClick={editar}/>
-                                <DeleteRoundedIcon style={{marginLeft:"20px", cursor:'pointer'}} onClick={deletar}/>
+                                <DeleteRoundedIcon style={{marginLeft:"20px", cursor:'pointer'}} onClick={props.deletar}/>
                             </p>
                         </p>
                         <p style={{color:'#7A57EA', fontSize:'20px', marginTop:'20px'}}>{props.descricao}</p>

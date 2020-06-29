@@ -8,8 +8,8 @@ import api from '../../service/api';
 
 const estilo = {
     input:[
-        {marginLeft:'2%', marginRight:'60%',marginTop:'0px'},
-        {marginLeft:'2%'}
+        {marginRight:'55%',marginTop:'0px'},
+    
     ],
     p:{
         color:'#FE963D',
@@ -86,19 +86,18 @@ function NovoProjeto(){
     return(
         <div className="container3">
             <form className='forms' onSubmit={enviar}>
-           
+                <div>
                 <p style={estilo.p}>Nome do projeto</p>
-          
-                <p style={estilo.espacoCampo}><Input  funcao={(evento)=>handlePreencher(evento,"nome")} width="45vw" variant="standard"/></p>
+                </div>
+                <h1 style={estilo.espacoCampo}><Input  funcao={(evento)=>handlePreencher(evento,"nome")} width="45vw" variant="standard"/></h1 >
 
-                <p style={estilo.espacoCampo}><InputData value={inicio}  funcao={(evento)=>handlePreencher(evento,"inicio")} style={estilo.input[0]} label="Início"/>
-                <InputData value={fim} funcao={(evento)=>handlePreencher(evento,"fim")} style={estilo.input[1]} label="Fim"/></p>
-
+                <h1 style={estilo.espacoCampo}><InputData value={inicio}  funcao={(evento)=>handlePreencher(evento,"inicio")} style={estilo.input[0]} label="Início"/>
+                <InputData value={fim} funcao={(evento)=>handlePreencher(evento,"fim")} style={estilo.input[1]} label="Fim"/></h1 >
+                <div>
                 <p style={estilo.p}>Descrição do projeto</p>
-
-                <p style={estilo.espacoCampo}><Input funcao={(evento)=>handlePreencher(evento,"descricao")} multiline="false" width="35vw"/></p>
-
-                <p style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></p>
+                <h1  style={estilo.espacoCampo}><Input funcao={(evento)=>handlePreencher(evento,"descricao")} multiline="false" width="35vw"/></h1 >
+                </div>
+                <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
                 
                 
             </form>
