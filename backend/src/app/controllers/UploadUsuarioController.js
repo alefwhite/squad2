@@ -14,7 +14,7 @@ class UploadUsuarioController {
             const existeImg = await UploadUsuario.findOne({ user: userId });
     
             if(!existeImg) {
-                return res.status(200).json({ imgurl: null, mensagem: "O usuário não tem imagem cadastrada!"});
+                return res.status(200).json({ imgurl: false, mensagem: "O usuário não tem imagem cadastrada!"});
             }
     
             return res.json({ imgurl: existeImg.img_url });        
