@@ -1,4 +1,5 @@
 import UploadUsuario from '../models/UploadUsuario';
+import db from '../../database/connection';
 
 class UploadUsuarioController {
     async show(req, res) {
@@ -13,7 +14,7 @@ class UploadUsuarioController {
             const existeImg = await UploadUsuario.findOne({ user: userId });
     
             if(!existeImg) {
-                return res.status(400).json({ mensagem: "O usuário não tem imagem cadastrada!"});
+                return res.status(200).json({ imgurl: false, mensagem: "O usuário não tem imagem cadastrada!"});
             }
     
             return res.json({ imgurl: existeImg.img_url });        
@@ -26,6 +27,7 @@ class UploadUsuarioController {
     async store(req, res) {
         const { filename } = req.file;
         const userId = req.idUsuario;
+        let gestor_id = null;
 
         try {
 
@@ -34,9 +36,20 @@ class UploadUsuarioController {
             }
     
             const existeImg = await UploadUsuario.findOne({ user: userId });
-    
+
+            if(req.tipoUsuario === 3) {
+                gestor_id = await db("usuario as U")
+                    .select("U.id_criador")
+                    .where({ id_usuario: userId})
+                    .first();        
+            }
+
             if(!existeImg) {
-                await UploadUsuario.create({ img_usuario: filename, user: userId });
+                if(req.tipoUsuario === 3) {
+                    await UploadUsuario.create({ img_usuario: filename, user: userId, gestor: gestor_id.id_criador });
+                } else {
+                    await UploadUsuario.create({ img_usuario: filename, user: userId });
+                }
             }
             
             const query = { user: userId };

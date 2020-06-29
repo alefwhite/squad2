@@ -10,18 +10,17 @@ function Input(props){
     campos: {
        
         '& label.Mui-focused': {
-          color: '#7A57EA',
+          color: '#FE963D',
           fontWeight:'bold',
           fontSize:'25px'
       
         }, 
         '& .MuiFormLabel-root':{
-          color:'#7A57EA',
-          
+          color:'#FE963D'
         },
 
         '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
-          color: '#7A57EA',
+          color: '#FE963D',
           fontWeight:'bold',
       
         },  
@@ -48,6 +47,12 @@ function Input(props){
       
         },
         '& .MuiInputBase-root':{
+          '& .MuiInputBase-input': {
+            color: "#FE963D",
+            
+            borderBottom: '2px solid #7A57EA',
+            width: '190px'
+          },
           
           
           '& .MuiInputBase-input':{
@@ -70,6 +75,13 @@ function Input(props){
             borderBottom: '2px solid #7A57EA',
             
           },
+          '& .MuiInput-underline:before':{
+            borderBottom: '2px solid #7A57EA',
+            
+          },
+          '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderColor: '#FE963D',
+          }
          
        
       },
@@ -80,15 +92,18 @@ function Input(props){
     const classes = useStyles();
     return(
       <>
-        <TextField className={classes.campos} 
-        variant={props.variant} 
-        id={props.id} 
-        type={props.type} 
-        label={props.label} 
-        name={props.name} 
-        autoComplete={props.autoComplete} 
-        onChange={props.funcao}
-        multiline={props.multiline}/>
+          <TextField 
+          required={props.required} 
+          disabled={props.leitura} 
+          value={props.value} 
+          className={classes.campos} 
+          variant={props.variant} 
+          id={props.id} type={props.type} 
+          label={props.label} 
+          name={props.name} 
+          autoComplete={props.autoComplete} 
+          onChange={props.funcao}
+          multiline={props.multiline}/>
         
         </>
     )

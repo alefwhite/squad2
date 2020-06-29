@@ -16,6 +16,7 @@ class FuncionarioController {
                 .select([
                     "U.id_usuario", 
                     "U.nome",
+                    "U.nome_social",
                     "U.email",
                     "U.cpf",
                     "U.id_tipousuario",
@@ -52,13 +53,13 @@ class FuncionarioController {
     
     async store(req, res) {
         const { codigo } = req.query
-        const { nome, email, senha, confirmar_senha, cpf, id_cargo} = req.body;        
+        const { nome, email, senha, confirmar_senha, cpf, id_cargo, nome_social} = req.body;        
 
         if(!codigo) {
             return res.status(401).json({ mensagem: "Não autorizado!"});
         }
 
-        if(!(nome && email && senha && confirmar_senha && cpf && id_cargo)) {
+        if(!(nome && email && senha && confirmar_senha && cpf && id_cargo && nome_social)) {
             return res.status(400).json({ mensagem: "Dados obrigatórios não informados!" });
         }
 
@@ -104,6 +105,7 @@ class FuncionarioController {
         
             await db("usuario").insert({
                     nome,
+                    nome_social,
                     email: email.toLowerCase(),
                     senha: senha_hash,
                     cpf: cpfValido.cpfUsuario,
@@ -140,7 +142,8 @@ class FuncionarioController {
     async update(req, res) {
         const id_usuario = req.idUsuario;
         let { 
-            nome, 
+            nome,
+            nome_social, 
             email, 
             senha_antiga, 
             nova_senha, 
@@ -157,6 +160,7 @@ class FuncionarioController {
         cpf = cpf == "" || cpf == undefined || cpf == null ? undefined : cpf
         novo_cargo = novo_cargo == "" || novo_cargo == undefined || novo_cargo == null ? undefined : novo_cargo;
         nova_senha = nova_senha == "" || nova_senha == undefined || nova_senha == null ? undefined : nova_senha;
+        nome_social = nome_social == "" || nome_social == undefined || nome_social == null ? undefined : nome_social;
 
         try {
 
@@ -218,6 +222,7 @@ class FuncionarioController {
         
             await db("usuario").update({
                         nome,
+                        nome_social,
                         email: email ? email.toLowerCase() : email,
                         senha: senha_hash !== null ? senha_hash : user.senha,
                         cpf: cpf.cpfUsuario,

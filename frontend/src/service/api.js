@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const api = axios.create({
     baseURL:"http://localhost:3333",
@@ -7,6 +8,22 @@ const api = axios.create({
         "Acess-Control-Allow-Origin":"*",
         "Authorization": "Bearer " + localStorage.getItem("token")
     }
-})
+});
+
+api.interceptors.response.use((response) => {
+    console.log("Response: , ", response);
+    
+    return response;
+}, error => {
+    const { mensagem } = error.response.data;
+    
+    if(error.response.status === 400) {       
+        return toast.error(mensagem);
+    } else if (error.response.status === 401) {       
+        return toast.error(mensagem);
+    }
+
+    return Promise.reject(error);
+});
 
 export default api;

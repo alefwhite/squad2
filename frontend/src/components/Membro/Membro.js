@@ -31,37 +31,37 @@ function Membro(props){
            <ul onWheel={(event)=>horizontalScroll(event)}>
                <li>
                    
-                       <img className="img" style={stilo.cores[cores()]}></img>
+                       <img className="img" style={stilo.cores[cores()]} alt=""/> 
                
                    <span className="user">Teste</span>
                </li>
                <li>
               
-                       <img className="img" style={stilo.cores[cores()]}></img>
+                       <img className="img" style={stilo.cores[cores()]} alt=""/>
                
                    <span className="user">Teste</span>
                </li>
                <li>
                    
-                       <img className="img" style={stilo.cores[cores()]}></img>
+                       <img className="img" style={stilo.cores[cores()]} alt="" />
                
                    <span className="user">Teste</span>
                </li>
                <li>
      
-                       <img className="img" style={stilo.cores[cores()]}></img>
+                       <img className="img" style={stilo.cores[cores()]} alt=""/>
               
                    <span className="user">Teste</span>
                </li>
                <li>
                    
-                       <img className="img" style={stilo.cores[cores()]}></img>
+                       <img className="img" style={stilo.cores[cores()]} alt="" />
 
                    <span className="user">Teste</span>
                </li>
                <li>
                  
-                       <img className="img" style={stilo.cores[cores()]}></img>
+                       <img className="img" style={stilo.cores[cores()]} alt=""/>
        
                    <span className="user" >Teste</span>
                </li>

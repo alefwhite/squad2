@@ -4,6 +4,8 @@ import api from '../../service/api';
 import {useHistory} from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Botao from '../../components/Botao/Botao';
+import {parseJWT}  from '../../service/parseJWT';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 export default function Login() {
@@ -31,18 +33,25 @@ export default function Login() {
     }
     console.log("TESTE");
     try {
-      const response = await api.post("/session",data)
-      const {user,token} = response.data;
+      const response = await api.post("/session", data)
+      const {user,token} = response.data
       
-      if(response.status===200){
-        localStorage.setItem("nome",user.nome);
-        localStorage.setItem("token",token);  
+      
+      if(response.status === 200){
+          localStorage.setItem("nome", user.nome_social);
+          localStorage.setItem("token", token);
+          toast.success("Login efetuado com sucesso!");          
+          
+          console.log(parseJWT());
+          console.log("Tipo de usuário: ", parseJWT().id_tipousuario);
+          setTimeout(() => {
+            history.push("/dashboard");
+          }, 4000);
 
-        history.push("/teste");
       }
     } 
     catch (error) {
-      console.log(`erro:${error}`);
+      toast.error("Erro ao efetuar login!");
     }
   
   }
@@ -53,38 +62,38 @@ export default function Login() {
       <form className="form" onSubmit={Logar}>
         <p style={{ color: "#7A57EA", marginBottom:'20px' }}>E-mail</p>
        
-       <p style={{marginBottom:'20px'}}>
-         <Input 
-          id="email"  
-          width="250px" 
-          name="email" 
-          autoComplete="email" 
-          variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}>
-         </Input>
-       </p>
+        <Input 
+        id="email"
+        width="250px" 
+        required={true} 
+        label="Insira seu email" 
+        name="email" 
+        autoComplete="email" 
+        variant="outlined" 
+        funcao={(evento)=>handlePreencher(evento,"email")}></Input>
+       
 
-        <p style={{ color: "#7A57EA", marginBottom:'20px' }}>Senha</p>
-    
-        <p style={{marginBottom:'20px' }}>
-          <Input  
-            type="password" 
-            style={{marginBottom:'20px' }} 
-            width="250px" 
-            id="email" 
-            name="senha" autoComplete="password" 
-            variant="outlined" 
-            funcao={(evento) => handlePreencher(evento, "senha")}>
-          </Input>
-        </p>
+        <p style={{ color: "#7A57EA" }}>Senha</p>
+
+        <Input 
+        required={true}
+        width="250px" 
+        type="password" 
+        id="senha" 
+        label="Insira sua senha" 
+        name="senha" 
+        autoComplete="password" 
+        variant="outlined"
+        funcao={(evento) => handlePreencher(evento, "senha")}></Input>
 
         <p style={{ textAlign: "center" }}>
         <Botao type="submit" children="ENTRAR"></Botao>
         </p>
     
-        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/login">clique aqui</a></p>
+        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/cadastrogestor">clique aqui</a></p>
         
       </form>
-      
+      <ToastContainer/>
     </div>
   )
 }

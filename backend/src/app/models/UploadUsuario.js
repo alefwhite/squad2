@@ -1,8 +1,15 @@
 import mongoose from 'mongoose';
 
 const UpoloadUsuarioSchema = new mongoose.Schema({
-    img_usuario: String,
-    user: Number
+    img_usuario: {
+        type: String,
+        required: true,
+    },
+    user: {
+        type: Number,
+        required: true,
+    },
+    gestor: Number,
 }, {
     timestamps: true,
     toJSON: {
