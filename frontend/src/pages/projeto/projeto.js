@@ -18,16 +18,29 @@ export default function Projeto(){
         
     }
     
-    const handleDeletar = (index) =>{
+    const handleDeletar = async (index) =>{
+        
         let k = [...estado];
+        
+        let data = estado[index].id_projeto
+
+        try {
+            const deletar = await api.delete(`/projeto/${data}`).then(response =>{
+                console.log(response);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
         k.splice(index,1);
+        console.log(index);
         setEstado(k);
+        
         console.log(estado);
     } 
 
     useEffect(()=>{
         listar();
- 
     },[]);
 
  
@@ -40,14 +53,14 @@ export default function Projeto(){
 
     return(
         <div className="container" style={{height:`${x}vh`,widht:'100vw'}}>
-
+           <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%"}}>Projetos</p>
             {  
-            estado.map((estado)=>{
+            estado.map((estado, ind)=>{
                 let y = format(new Date(estado.data_inicial),"dd/MM/yyyy");
                 let x = format(new Date(estado.data_final),"dd/MM/yyyy");
-           
+                
                 return <CardProjeto 
-                deletar={(index)=>handleDeletar(index)}
+                deletar={()=>handleDeletar(ind)}
                 key={estado.id}
                 nome={estado.nome} 
                 descricao={estado.descricao}
