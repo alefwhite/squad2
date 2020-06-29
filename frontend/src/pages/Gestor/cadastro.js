@@ -1,30 +1,27 @@
-import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Input from '../../components/Input/Input';
+import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
+import {useHistory} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../service/api'
-
+import { toast, ToastContainer } from 'react-toastify';
+import PrimeiraLetraMaiscula from '../../utils/primeiraLetraMaiuscula';
+import { mask, unMask } from 'remask';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         background: 'linear-gradient(180deg, #303030 0%, #000000 100%)',
-        width: '100vw',
-    },
-    paper: {
+        width: '100%',
         height: '100%',
-        paddingTop: theme.spacing(12),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-
-
+        overflow:'auto'
     },
     form: {
+        marginTop: "20px",
         display:'flex',
         flexDirection:'column',
-        width: '77vw',
-        height: '100vh',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
 
     },
     submit: {
@@ -36,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         marginTop: '80px'
     },
-
     texto: {
         fontStyle: 'normal',
         fontWeight: '500',
@@ -44,9 +40,34 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: '17px',
         paddingLeft: '20px'
     },
-    scrol:{
-        overflow:'hidden'
-    }
+    scroll:{
+        overflow:'auto'
+    },
+    input: {
+        maxWidth: "220px"
+    },
+    inputDiv: {
+        display: 'flex',
+        flexDirection:'column',
+        color: '#7A57EA',
+        margin: '10px'
+    },
+    divLabels: {
+        marginLeft: "10px",
+        marginBottom: "3px",
+        fontWeight: "bold"
+    },
+    itemColor: {
+        color: "#FE963D"
+    },
+    inboard: {
+        color: "#7A57EA",
+        fontSize: "2.5em",
+        fontWeight: "bold !important",
+        cursor: "pointer",
+        textAlign: "center",
+        padding: "10px"
+    },
 
 }));
 
@@ -57,8 +78,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Cadastrar() {
 
     const classes = useStyles();
-
-    const [nome, setNome] = useState("")
+    const history = useHistory();
+    const [cargos, setCargos] = useState([]);
+    const [novo_cargo, setNovoCargo] = useState("Informe seu cargo");
+    const [nome, setNome] = useState("");
+    const [nome_social, setNomeSocial] = useState("");
     const [email, setEmail] = useState("");
     const [cpf, setCpf] = useState("");
     const [senha, setSenha] = useState("");
@@ -66,98 +90,206 @@ export default function Cadastrar() {
 
 
     function cadastrarUsuario(evento, campo) {
+        console.log(campo)
         if (campo === 'nome') {
             setNome(evento.target.value);
-            console.log(nome);
         }
-        if (campo === 'email') {
+        else if (campo === 'social') {
+            setNomeSocial(evento.target.value);
+        }
+        else if (campo === 'email') {
             setEmail(evento.target.value);
-            console.log(email);
         }
-        if (campo === 'cpf') {
-            setCpf(evento.target.value);
-            console.log(cpf);
+        else if (campo === 'cpf') {
+            setCpf(mask(unMask(evento.target.value), ['999.999.999-99']));
         }
-        if (campo === 'senha') {
+        else if (campo === 'senha') {
             setSenha(evento.target.value);
             console.log(senha);
         }
-        if (campo === 'senha') {
+        else if (campo === 'confirmarsenha') {
             setconfirmar_senha(evento.target.value);
-            console.log(setconfirmar_senha);
         }
 
 
     }
-
+       
     async function enviarCadastro(evento) {
         evento.preventDefault()
-        const data = { nome, email, cpf, senha, confirmar_senha, id_cargo: 2 }
-        console.log(data)
-        
 
-        api.post('/gestor', data)
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error.response);
-            });
+        const data = { 
+            nome: PrimeiraLetraMaiscula(nome),
+            nome_social: PrimeiraLetraMaiscula(nome_social), 
+            email, 
+            cpf, 
+            senha,
+            confirmar_senha, 
+            id_cargo: novo_cargo 
+        }
+        if(senha.length < 6 || confirmar_senha.length < 6) {
+            console.log("entrou")
+            document.getElementById("senha").focus();
+            return toast.info("A senha deve conter no mínimo 6 caracteres")
+             
+        } 
+        else if(novo_cargo.toString() === "Informe seu cargo") {
+            console.log("elese if", novo_cargo)
+            document.getElementById("cargo").focus();
+            return toast.info("Informe seu cargo!");
+        }
+        else {
+
+            await api.post('/gestor', data)
+                .then(function (response) {
+                    if(response.status === 200) {
+                        toast.success(response.data.mensagem);
+                        setTimeout(() => {
+                            history.push('/login');
+                        }, 2000)
+                    }
+                });           
+        }
+
     }
 
+    const ListarCargos = async () => {
+        
+        await api.get("/cargos")
+        .then( response => {
+            setCargos(response.data);
+            console.log(response.data);
+        })
+    };
+
+    const AtualizaCargo = (e) => {
+        setNovoCargo(e.target.value);
+    };
+
+
+    useEffect(() => {
+        ListarCargos();
+    },[]);
+    
+
     return (
-        <div className={classes.container}>
-            <CssBaseline/>
-            <div className={classes.paper}>
-                <form className={classes.form} noValidate onSubmit={enviarCadastro}>
-                    <Input
+        <div className={classes.container}> 
+            <h1 className={classes.inboard}>In<span className={classes.itemColor}>Board</span></h1>          
+            <form className={classes.form} noValidate onSubmit={enviarCadastro}>
+                <div className={clsx(classes.inputDiv)}>
+                    <label className={clsx(classes.divLabels)} htmlFor="nome">Nome completo</label>
+                    <input
+                        className={clsx("inputs")}
+                        required={true}
+                        value={nome}
                         type="text"
                         id="nome"
-                        label="Insira o nome"
-                        variant="outlined"
-                        funcao={evento => cadastrarUsuario(evento, 'nome')} >
-                    </Input>
-                    <Input
+                        name="nome"
+                        placeholder="Ex: João da Silva"
+                        onChange={evento => cadastrarUsuario(evento, evento.target.name)} 
+                    >
+                    </input>
+                </div>
+                <div className={clsx(classes.inputDiv)}>
+                    <label htmlFor="nome" className={clsx(classes.divLabels)}>Nome social</label>
+                    <input
+                        value={nome_social}
+                        className={clsx("inputs")}
+                        required={true}
+                        placeholder="Ex: Joãozinho"
+                        type="text"
+                        name="social"
+                        id="social"
+                        onChange={evento => cadastrarUsuario(evento, evento.target.name)} 
+                    >
+                    </input>
+                </div>
+                <div className={clsx(classes.inputDiv)}>
+                    <label htmlFor="email" className={clsx(classes.divLabels)}>E-mail</label>
+                    <input
+                        value={email}
+                        className={clsx("inputs")}
+                        required={true}
+                        placeholder="exemplo@exemplo.com"
                         type="email"
+                        name="email"
                         id="email"
-                        label="E-mail"
-                        variant="outlined"
-                        funcao={evento => cadastrarUsuario(evento, 'email')} >
-                    </Input>
-                    <Input
+                        onChange={evento => cadastrarUsuario(evento, 'email')} 
+                    >
+                    </input>
+                </div>
+                <div className={clsx(classes.inputDiv)}>
+                    <label htmlFor="cpf" className={clsx(classes.divLabels)}>CPF</label>
+                    <input
+                        value={cpf}
+                        maxLength="14"
+                        required={true}
+                        className={clsx("inputs")}
+                        placeholder="123.123.123-12"
+                        name="cpf"
                         type="text"
                         id="cpf"
-                        label="CPF"
-                        variant="outlined"
-                        funcao={evento => cadastrarUsuario(evento, 'cpf')} >
-                    </Input>
-                    <Input
+                        onChange={evento => cadastrarUsuario(evento, evento.target.name)} 
+                    >
+                    </input>
+                </div>
+                <div className={clsx(classes.inputDiv)}>
+                    <label htmlFor="senha" className={clsx(classes.divLabels)}>Senha</label>
+                    <input
+                        value={senha}
+                        className={clsx("inputs")}
+                        placeholder="Senha com mínimo de 6 caracteres"
+                        required={true}
                         type="password"
                         id="senha"
-                        label="Digite sua senha"
-                        variant="outlined"
-                        funcao={evento => cadastrarUsuario(evento, 'senha')} >
-                    </Input>
-                    <Input
-                        type="password"
-                        id="confirmasenha"
-                        label="Confirmar senha"
-                        variant="outlined"
-                        funcao={evento => cadastrarUsuario(evento, 'confirmar_senha')} >
-                    </Input>
-
-                    <Button
-                        size="medium"
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
+                        name="senha"                           
+                        onChange={evento => cadastrarUsuario(evento, evento.target.name)} 
                     >
-                        Cadastrar
-                    </Button>
-
-                </form>
-            </div>
-        </div >
+                    </input>
+                </div>
+                <div className={clsx(classes.inputDiv)}>
+                    <label htmlFor="confirmarsenha" className={clsx(classes.divLabels)}>Confirmar Senha</label>
+                    <input
+                        value={confirmar_senha}
+                        className={clsx("inputs")}
+                        placeholder="Senha com mínimo de 6 caracteres"
+                        required={true}
+                        type="password"
+                        id="confirmarsenha"
+                        name="confirmarsenha"
+                        onChange={evento => cadastrarUsuario(evento, evento.target.name)} 
+                    >
+                    </input>
+                </div>
+                <div className={clsx(classes.inputDiv)}>
+                    <label htmlFor="cargo" className={clsx(classes.divLabels)}>Cargo</label>
+                    <select
+                        className={clsx("inputs")}
+                        required={true}            
+                        onChange={AtualizaCargo}
+                        value={novo_cargo}
+                        name="cargo"
+                        id="cargo"
+                        style={{cursor: "pointer", padding: "15px"}}
+                    >
+                        <option disabled value="Informe seu cargo">
+                            Informe seu cargo
+                        </option>
+                        {
+                            cargos.map((cargo) => {
+                                return <option key={cargo.id_cargo} value={cargo.id_cargo}>{cargo.nome}</option>
+                            })
+                        }
+                    </select>
+                </div>                    
+                <button
+                    style={{color: "white", hover: "black"}}
+                    type="submit"
+                    className={clsx("btn")}
+                >
+                    Cadastrar
+                </button>                   
+            </form>
+            <ToastContainer/>
+        </div>
     );
 }

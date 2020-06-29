@@ -151,6 +151,7 @@ const SideBar = ({ userPermissionsData }) => {
     };
 
     const defineContent = (content) => {
+        
         switch (content) {
             case 'content':
                 return <Content4 />;
@@ -169,10 +170,18 @@ const SideBar = ({ userPermissionsData }) => {
     };
 
     const ImgProfile = async () => {
-        await api.get("/uploadusuario")
+        const token = localStorage.getItem("token");
+       
+        let config = {
+            headers: {Authorization: "bearer " + token}
+        }
+
+        await api.get("/uploadusuario", config)
         .then((response) => {
-            console.log(response.data.imgurl)
-            setProfile(response.data.imgurl);
+            console.log("Profile: ", response.data)
+            if(response.data.imgurl) {
+                setProfile(response.data.imgurl);
+            }
         });   
     };
     useEffect(() => {
@@ -257,15 +266,15 @@ const SideBar = ({ userPermissionsData }) => {
                         <p className="name">{localStorage.getItem("nome")}</p>
                     </div>
                 </div>
-                <Divider />
-                <List className={classes.itemColor}>
-                    {userPermissionsData.map((item) => (
-                        <ListItem button key={item.route}  onClick={() => setContent(item.contentName)} className={classes.outlinedPrimary}>
-                            <span  >{defineIcons(item.icon)}</span>
-                            <ListItemText  primary={item.name} style={{ marginLeft: '35px',fontWeight: "900" }} />
-                        </ListItem>
-                    ))}
-                </List>
+                <Divider />            
+                    <List className={classes.itemColor}>
+                            {userPermissionsData.map((item) => (
+                                    <ListItem button key={item.route}  onClick={() => setContent(item.contentName)} className={classes.outlinedPrimary}>
+                                        <span>{defineIcons(item.icon)}</span>
+                                        <ListItemText  primary={item.name} style={{ marginLeft: '35px',fontWeight: "900" }} />
+                                    </ListItem>                                
+                            ))}
+                    </List>               
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.toolbar} />

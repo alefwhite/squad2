@@ -276,7 +276,7 @@ const Squad = () => {
                     ]}
                     localization={{
                         body: {
-                          emptyDataSourceMessage: 'Nenhum registro para exibir',
+                          emptyDataSourceMessage: 'Nenhuma squad cadastrada',
                           addTooltip: "Inserir nova squad",
                           editRow: {
                                 saveTooltip: "Inserir",
