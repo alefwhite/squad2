@@ -43,7 +43,7 @@ class SquadController {
             .then((retorno) => {
 
                 if(retorno) {
-                    return res.status(201).json({ mensagem:`A Squad ${nome}, foi cadastrada com sucesso`});
+                    return res.status(201).json({ mensagem:`A Squad ${nome}, foi editada com sucesso`});
                 }
 
                 return res.status(400).json({ mensagem: "Não foi possível cadastrar squad!" });
