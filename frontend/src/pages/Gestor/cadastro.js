@@ -174,7 +174,7 @@ export default function Cadastrar() {
     return (
         <div className={classes.container}> 
             <h1 className={classes.inboard}>In<span className={classes.itemColor}>Board</span></h1>          
-            <form className={classes.form} noValidate onSubmit={enviarCadastro}>
+            <form className={classes.form}  onSubmit={enviarCadastro}>
                 <div className={clsx(classes.inputDiv)}>
                     <label className={clsx(classes.divLabels)} htmlFor="nome">Nome completo</label>
                     <input

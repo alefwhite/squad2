@@ -24,14 +24,15 @@ export default function Login() {
     }
   }
 
-  async function Logar(e){
+  async function Logar(e) {
     e.preventDefault();
-    var data = {
+
+    let data = {
       senha,
       email
     }
     
-    try {
+    
       const response = await api.post("/session", data)
       const {user,token} = response.data
       
@@ -43,16 +44,12 @@ export default function Login() {
           
           console.log(parseJWT());
           console.log("Tipo de usuário: ", parseJWT().id_tipousuario);
+          await api.post("/timesheet");
           setTimeout(() => {
             history.push("/dashboard");
           }, 4000);
 
       }
-    } 
-    catch (error) {
-      toast.error("Erro ao efetuar login!");
-    }
-  
   }
 
   return (
