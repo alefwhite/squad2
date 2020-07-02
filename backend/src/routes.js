@@ -21,6 +21,7 @@ import CargoController from './app/controllers/CargoController';
 
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
+import UsuariosPertecenteAoGestor from './app/controllers/UsuariosPertecenteAoGestor';
 
 
 const routes = new Router();
@@ -95,6 +96,8 @@ routes.post('/uploadusuario', upload.single("img_usuario"), UploadUsuarioControl
 */
 routes.use(AuthTipoDeUsuario.store);
 
+// UsuariosPertencenteAoGestor
+routes.use('/meusfuncionarios', UsuariosPertecenteAoGestor.index);
 
 // Gestor
 routes.get('/gestor', GestorController.index);
