@@ -18,7 +18,6 @@ export default function Routes() {
                 <Route path="/teste" component={TesteImagem} />
                 <Route path="/login" component={Login} />
                 <Route path="/dashboard" component={Main} />
-                <Route path="/cadastrosquad" component={Main} />
             </Switch>
         </BrowserRouter>
     )

@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 const MinhasInformacoes = () => {
     const classes = useStyles();
 
-    const [estado, setEstado] = useState({estado: ''});
+    const [estadoFunc, setEstado] = useState({estado: ''});
     const [modificado, setModificado] = useState(false);
 
     const [senha_antiga, setSenhaAntiga] = useState('');    
@@ -133,18 +133,19 @@ const MinhasInformacoes = () => {
     };
 
     const AtualizadoEstado = (e) => {
-        setEstado({...estado, [e.target.name]: e.target.value})
+        setEstado({...estadoFunc, [e.target.name]: e.target.value})
         setModificado(true);
         console.log(modificado);
-        console.log(estado)
+        console.log(estadoFunc.nome)
     };
 
-    const ListarInformacoes = async () => {
+    const ListarInformacoesFunc = async () => {
 
-       await api.get(`/gestor`)
+       await api.get(`/funcionario`)
         .then( response => {
             setEstado(response.data);
-            console.log(response.data)
+            console.log("res, ", response.data)
+            
         });
         
     };
@@ -164,23 +165,23 @@ const MinhasInformacoes = () => {
         
         if(modificado) {
             let data = {
-                nome: estado.nome,
-                nome_social: estado.nome_social, 
-                email: estado.email, 
-                cpf: estado.cpf, 
+                nome: estadoFunc.nome,
+                nome_social: estadoFunc.nome_social, 
+                email: estadoFunc.email, 
+                cpf: estadoFunc.cpf, 
                 senha_antiga,
                 nova_senha, 
                 confirmar_senha, 
                 novo_cargo
             };
     
-            await api.put(`/gestor}`, data)
+            await api.put(`/funcionario}`, data)
             .then( response => {
 
                 if(response.status === 200) {
                     console.log(response.data);
                     toast.success(response.data.mensagem);
-                    ListarInformacoes();
+                    ListarInformacoesFunc();
                 }
                 
             });        
@@ -192,8 +193,8 @@ const MinhasInformacoes = () => {
 
     useEffect(() => {
         document.title = "Minhas Informações";
-        console.log("Minhas info")
-        ListarInformacoes();
+        console.log("Minhas info Func")
+        ListarInformacoesFunc();
         ListarCargos();
     },[]);
     
@@ -208,21 +209,21 @@ const MinhasInformacoes = () => {
                     <Grid container spacing={1}>
                         <Grid container item xs={12} spacing={3} justify="space-around" alignItems="center" className={classes.GridBottom}>
                             <Grid item md="auto">
-                                <Input type="text" name="nome"  value={estado.nome || ''} label="Nome completo" funcao={AtualizadoEstado}/>
+                                <Input type="text" name="nome"  value={estadoFunc.nome || ''} label="Nome completo" funcao={AtualizadoEstado}/>
                             </Grid>
                             <Grid item md="auto">
-                                <Input type="text" name="nome_social"  value={estado.nome_social || ''} label="Nome social" funcao={AtualizadoEstado}/>
+                                <Input type="text" name="nome_social"  value={estadoFunc.nome_social || ''} label="Nome social" funcao={AtualizadoEstado}/>
                             </Grid>
                             <Grid item md="auto">
-                                <Input type="text" name="email"  value={estado.email || ''} label="E-mail" funcao={AtualizadoEstado}/>
+                                <Input type="text" name="email"  value={estadoFunc.email || ''} label="E-mail" funcao={AtualizadoEstado}/>
                             </Grid>
                             <Grid item md="auto">
-                                <Input type="text" name="cpf"  value={estado.cpf || ''} label="Cpf" funcao={AtualizadoEstado}/>
+                                <Input type="text" name="cpf"  value={estadoFunc.cpf || ''} label="Cpf" funcao={AtualizadoEstado}/>
                             </Grid>
                         </Grid>
                         <Grid container item xs={12} spacing={3} justify="space-around" alignItems="center" className={classes.GridBottom}>
                                 <Grid item md="auto">
-                                    <Input type="text" leitura={true} name="cargo_atual"  value={estado.cargo || ''} label="Cargo atual" />
+                                    <Input type="text" leitura={true} name="cargo_atual"  value={estadoFunc.cargo || ''} label="Cargo atual" />
                                 </Grid>                        
                                 <Grid item md="auto">
                                     <FormControl  className={clsx(classes.formControl, classes.campos)}>

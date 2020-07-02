@@ -43,29 +43,33 @@ export default function Login() {
   }
 
   async function Logar(e) {
-    e.preventDefault();
+      e.preventDefault();
 
-    let data = {
-      senha,
-      email
-    }
+      let data = {
+        senha,
+        email
+      }
     
     
-      const response = await api.post("/session", data)
-      const {user,token} = response.data
-      
-      
+      const response = await api.post("/session", data);      
+            
       if(response.status === 200){
+          const {user,token} = response.data;
+
           localStorage.setItem("nome", user.nome_social);
           localStorage.setItem("token", token);
+          
           toast.success("Login efetuado com sucesso!");          
           
           console.log(parseJWT());
           console.log("Tipo de usuário: ", parseJWT().id_tipousuario);
+          
+          // Quando o usuário loga na aplicação ele inicia a entrada do timesheet
           await api.post("/timesheet");
+          
           setTimeout(() => {
             history.push("/dashboard");
-          }, 4000);
+          }, 1200);
 
       }
   }
