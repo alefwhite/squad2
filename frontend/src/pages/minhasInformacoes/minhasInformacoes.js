@@ -258,7 +258,7 @@ const MinhasInformacoes = () => {
                         </Grid>            
                         <Grid container item xs={12} spacing={3} justify="space-around" alignItems="center" className={classes.GridBottom}>                                     
                                 <Grid item md="auto">
-                                    <button className="botao" type="submit">Alterar</button>
+                                    <button className="btn_sim" type="submit">Alterar</button>
                                 </Grid>                       
                         </Grid>            
                     </Grid>
