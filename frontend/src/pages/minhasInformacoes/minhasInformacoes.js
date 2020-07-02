@@ -191,6 +191,7 @@ const MinhasInformacoes = () => {
     };
 
     useEffect(() => {
+        document.title = "Minhas Informações";
         ListarInformacoes();
         ListarCargos();
     },[]);

@@ -167,6 +167,8 @@ export default function Cadastrar() {
 
 
     useEffect(() => {
+        document.title = "Cadastro de Gestores";
+
         ListarCargos();
     },[]);
     

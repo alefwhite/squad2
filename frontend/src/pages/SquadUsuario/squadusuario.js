@@ -323,6 +323,8 @@ const SquadUsuario = () => {
     );
 
     useEffect(() => {
+        document.title = "Squad/Usuário";
+
         ListarSquadUsuarios();
         ListarSquads();
         ListarUsuarios();

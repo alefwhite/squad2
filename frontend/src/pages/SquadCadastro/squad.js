@@ -226,6 +226,8 @@ const Squad = () => {
     );
 
     useEffect(() => {
+        document.title = "Squads";
+
         ListarSquads();
 
         setTimeout(() => {

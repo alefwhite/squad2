@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './login.css';
 import api from '../../service/api';
 import {useHistory} from 'react-router-dom';
@@ -51,6 +51,11 @@ export default function Login() {
 
       }
   }
+
+  useEffect(() => {
+    document.title = "Login";
+    
+  }, []);
 
   return (
 
