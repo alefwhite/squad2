@@ -37,7 +37,7 @@ routes.post('/gestor', GestorController.store);
 
 
 // Rota Funcionario - Apenas usuários que recebem o link de cadastro gerado pelo gestor
-routes.post('/funcionario', FuncionarioController.store);
+routes.post('/convite', FuncionarioController.store);
 
 
 /*      
