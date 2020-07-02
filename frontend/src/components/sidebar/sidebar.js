@@ -186,7 +186,7 @@ const SideBar = ({ userPermissionsData }) => {
     };
     useEffect(() => {
         if (!content) {
-            setContent('Projeto')
+            setContent('Projeto');
         }
 
         ImgProfile();

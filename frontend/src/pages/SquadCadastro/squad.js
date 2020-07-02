@@ -144,11 +144,14 @@ const Squad = () => {
     ]
 
     const ListarSquads = async () => {
-        await api.get("/squad")
+        const token = localStorage.getItem("token");
+            let config = {
+                headers: {Authorization: "bearer " + token}
+            }
+        await api.get("/squad",config)
         .then((response) => {
             setState({ data: response.data });
-        })
-    };
+        })};
 
     const InserirSquad = async (novaSquad) => {
        
@@ -230,7 +233,7 @@ const Squad = () => {
 
     useEffect(() => {
         ListarSquads();
-    },[]);
+    },state);
 
     return (
         <>              

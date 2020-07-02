@@ -14,9 +14,9 @@ function CardProjeto(props){
         console.log('teste2')
     }
     return(
-       
+        <div style={{minWidth:'250px'}}>
             <Card style={{borderRadius:'20px',marginTop:'20px'}}>
-                <CardContent className="card">
+                <CardContent style={{minWidth:'250px'}} className="card">
                     <div>
                         <p className="envolve">
 
@@ -34,7 +34,7 @@ function CardProjeto(props){
                     </div>
                 </CardContent>
             </Card>
-   
+        </div>
     )
 }
 

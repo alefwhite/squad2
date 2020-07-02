@@ -60,35 +60,35 @@ export default function Login() {
 
     <div className="container">
       <form className="form" onSubmit={Logar}>
-        <p style={{ color: "#7A57EA", marginBottom:'20px' }}>E-mail</p>
+        <p style={{ color: "#7A57EA"}}>E-mail</p>
        
-        <Input 
-        id="email"
-        width="250px" 
-        required={true} 
-        label="Insira seu email" 
-        name="email" 
-        autoComplete="email" 
-        variant="outlined" 
-        funcao={(evento)=>handlePreencher(evento,"email")}></Input>
-       
+       <h1 style={{marginBottom:'20px', marginTop:'20px'}}>
+          <Input 
+          id="email"
+          width="250px" 
+          required={true} 
+          name="email" 
+          autoComplete="email" 
+          variant="outlined" 
+          funcao={(evento)=>handlePreencher(evento,"email")}></Input>
+        </h1>
 
-        <p style={{ color: "#7A57EA" }}>Senha</p>
+        <p style={{ color: "#7A57EA"}}>Senha</p>
 
-        <Input 
-        required={true}
-        width="250px" 
-        type="password" 
-        id="senha" 
-        label="Insira sua senha" 
-        name="senha" 
-        autoComplete="password" 
-        variant="outlined"
-        funcao={(evento) => handlePreencher(evento, "senha")}></Input>
-
-        <p style={{ textAlign: "center" }}>
+        <h1 style={{marginBottom:'20px', marginTop:'20px'}}>
+          <Input 
+          required={true}
+          width="250px" 
+          type="password" 
+          id="senha"
+          name="senha" 
+          autoComplete="password" 
+          variant="outlined"
+          funcao={(evento) => handlePreencher(evento, "senha")}></Input>
+        </h1>
+        <h1 style={{ textAlign: "center", marginBottom:'20px' }}>
         <Botao type="submit" children="ENTRAR"></Botao>
-        </p>
+        </h1>
     
         <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/cadastrogestor">clique aqui</a></p>
         
