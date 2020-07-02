@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
             color: "#FE963D",
             backgroundColor: 'white',
             borderRadius: '22px',
-            width: '77vw'
+            width: '77vw',
+            maxWidth: "420px",
           },
       
         },

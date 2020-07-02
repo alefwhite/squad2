@@ -5,9 +5,27 @@ import {useHistory} from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import {parseJWT}  from '../../service/parseJWT';
 import { toast, ToastContainer } from 'react-toastify';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  itemColor: {
+      color: "#FE963D"
+  },
+  inboard: {
+      color: "#7A57EA",
+      fontSize: "2.5em",
+      fontWeight: "bold !important",
+      cursor: "pointer",
+      textAlign: "center",
+      padding: "10px"
+  },
+
+}));
 
 
 export default function Login() {
+  const classes = useStyles();
+
   const [email,setEmail] = useState("");
   const [senha,setSenha] = useState("");
   const history = useHistory();
@@ -54,30 +72,36 @@ export default function Login() {
 
   useEffect(() => {
     document.title = "Login";
-    
+
   }, []);
 
   return (
+    <>
+      <div className="container">
 
-    <div className="container">
-      <form className="form" onSubmit={Logar}>
-        <p style={{ color: "#7A57EA" }}>E-mail</p>
-       
-        <Input id="email" required={true} label="Insira seu email" name="email" autoComplete="email" variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
-       
+        <form className="form" onSubmit={Logar}>
+          <div style={{textAlign: "center", fontSize: "2em", marginBottom: "50px"}}>
+            <h1 className={classes.inboard}>In<span className={classes.itemColor}>Board</span></h1>          
+          </div>
 
-        <p style={{ color: "#7A57EA" }}>Senha</p>
-
-        <Input required={true} type="password" id="senha" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
-
-        <p style={{ textAlign: "center" }}>
-        <button className="botao" type="submit">Entrar</button>
-        </p>
-    
-        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/cadastrogestor">clique aqui</a></p>
+          <p style={{ color: "#7A57EA", marginBottom: "10px", alignSelf: "flex-start", marginLeft: "8px" }}>E-mail</p>
         
-      </form>
-      <ToastContainer/>
-    </div>
+          <Input id="email" required={true} label="Insira seu email" name="email" autoComplete="email" variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
+        
+
+          <p style={{ color: "#7A57EA", marginTop: "20px", marginBottom: "10px", alignSelf: "flex-start", marginLeft: "8px" }}>Senha</p>
+
+          <Input required={true} type="password" id="senha" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
+
+          <p style={{ textAlign: "center", marginTop: "25px", marginBottom: "20px" }}>
+            <button className="botao" type="submit">Entrar</button>
+          </p>
+      
+          <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/gestor">clique aqui</a></p>
+          
+        </form>
+        <ToastContainer/>
+      </div>
+    </> 
   )
 }

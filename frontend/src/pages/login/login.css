@@ -11,6 +11,13 @@
     color:red;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .botao{
     font-size:24px;
     background-color: #FE963D;
@@ -18,4 +25,7 @@
     border:1px solid #FE963D;
     border-radius:5px;
     align-self:center;
+    padding: 10px;
+    width: 180px;
 }
+

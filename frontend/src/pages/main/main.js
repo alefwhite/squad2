@@ -1,8 +1,11 @@
 import React from 'react'
 import SideBar from '../../components/Sidebar/sidebar';
-
+import { parseJWT } from '../../service/parseJWT';
 
 // @ Get this values from server
+
+console.log(typeof parseJWT().id_tipousuario);
+
 const userPermissionsData = [
   {
     contentName: 'SquadUsuario',
