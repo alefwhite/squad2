@@ -5,7 +5,6 @@ import { promisify } from 'util';
 class Authentication {
     async store(req, res, next) {
         const authHeader = req.headers.authorization;
-        console.log("Token, ", authHeader)
 
         if(!authHeader) {
             return res.status(401).json({ error: 'Token não fornecido!' });

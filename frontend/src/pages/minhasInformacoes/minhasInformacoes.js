@@ -141,7 +141,7 @@ const MinhasInformacoes = () => {
 
     const ListarInformacoes = async () => {
 
-       await api.get(`/gestor`)
+       await api.get('/gestor')
         .then( response => {
             setEstado(response.data);
             console.log(response.data)
@@ -174,7 +174,7 @@ const MinhasInformacoes = () => {
                 novo_cargo
             };
     
-            await api.put(`/gestor}`, data)
+            await api.put('/gestor', data)
             .then( response => {
 
                 if(response.status === 200) {

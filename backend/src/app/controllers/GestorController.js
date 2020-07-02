@@ -10,7 +10,7 @@ import verificaSenha from '../../utils/verificaSenha';
 class GestorController {
     async index(req, res) {
         const id_usuario = req.idUsuario;
-
+        console.log("ge", id_usuario);
         try {
 
            await db("usuario as U")

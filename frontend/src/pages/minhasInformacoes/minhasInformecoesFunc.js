@@ -8,7 +8,6 @@ import Input from '../../components/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { parseJWT } from '../../service/parseJWT';
 import { toast } from 'react-toastify';
 import api from '../../service/api';
 
@@ -141,7 +140,7 @@ const MinhasInformacoes = () => {
 
     const ListarInformacoesFunc = async () => {
 
-       await api.get(`/funcionario`)
+       await api.get('/funcionario')
         .then( response => {
             setEstado(response.data);
             console.log("res, ", response.data)
@@ -175,7 +174,7 @@ const MinhasInformacoes = () => {
                 novo_cargo
             };
     
-            await api.put(`/funcionario}`, data)
+            await api.put('/funcionario', data)
             .then( response => {
 
                 if(response.status === 200) {
