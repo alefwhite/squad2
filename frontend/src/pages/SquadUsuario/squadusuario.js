@@ -7,10 +7,14 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
 import Modal from '@material-ui/core/Modal';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { toast } from 'react-toastify';
-import Input from '../../components/Input/Input';
-import PrimeiraLetraMaiuscula from '../../utils/primeiraLetraMaiuscula';
 import api from '../../service/api';
 
 const tableIcons = {
@@ -117,23 +121,43 @@ function getModalStyle() {
 }  
 
 
-const Squad = () => {
+const SquadUsuario = () => {
     const classes = useStyles();
     const [modalStyle] = useState(getModalStyle);
     const [modalBody, setModalBody] = useState(true)
     const [open, setOpen] = useState(false);
-    const [squad, setSquad] = useState('');
-    const [id_squad, setIdSquad] = useState(null);
+
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [funcionarioId, setFuncionarioId] = useState('Selecione o usuário');
+    const [squads, setSquads] = useState([]);
+    const [squadId, setSquadId] = useState('Selecione a squad');
+    const [id_squadusuario, setIdSquadUsuario] = useState(null);
+
+    const [loader, setLoader] = useState("block");
+
     const [state, setState] = useState({        
         data: [
           
         ],
     });
-    const [loader, setLoader] = useState("block");
 
+    const [openDialog, setOpenDialog] = useState(false);
 
-    const handleOpen = (id) => {
-        setIdSquad(id);
+    const handleClickOpen = () => {
+        setOpenDialog(true);
+    };
+    
+    const handleClickClose = () => {
+        setOpenDialog(false);
+    };
+
+    const handleOpen = (id, data) => {
+        if(data) {
+            setSquadId(data.squad);
+            setFuncionarioId(data.usuario);
+        }
+
+        setIdSquadUsuario(id);
         setOpen(true);
     };
     
@@ -142,44 +166,77 @@ const Squad = () => {
     };
 
     const columns = [
-        { title: 'Nome', field: 'nome' },
+        { title: 'Squads', field: 'squad' },
+        { title: 'Usuários', field: 'nome' },
     ]
 
     const ListarSquads = async () => {
         await api.get("/squad")
         .then((response) => {
+            setSquads(response.data);
+        })
+    };
+
+    const ListarUsuarios = async () => {
+        await api.get("/meusfuncionarios")
+        .then((response) => {
+            setFuncionarios(response.data);
+        })
+    };
+
+    const ListarSquadUsuarios = async () => {
+        await api.get("/squadusuario")
+        .then((response) => {
             setState({ data: response.data });
         })
     };
 
-    const InserirSquad = async (novaSquad) => {
-       
+
+    const AtualizaSquad = (e) => {
+        console.log("Squad: ", e.target.value)
+        setSquadId(e.target.value);
+    }
+
+    const AtualizaFuncionario = (e) => {
+        console.log("Func: ", e.target.value)
+        setFuncionarioId(e.target.value);
+    }
+
+    const InserirSquadUsuario = async () => {
+        
+        if(squadId === "Selecione a squad" || funcionarioId === "Selecione o usuário") {
+            return toast.info("Squad e usuário são obrigatórios!");
+        }
+
         let data = {
-            nome: PrimeiraLetraMaiuscula(novaSquad)
+           id_squad: squadId,
+           id_usuario: funcionarioId
         };
 
-        await api.post("/squad", data)
+        await api.post("/squadusuario", data)
         .then((response) => {
-            if(response.status === 201) {
+            if(response.status === 200) {
                 toast.success(response.data.mensagem);
-                ListarSquads();
+                ListarSquadUsuarios();
+                handleClickClose();
             }
         })
     }
 
-    const EditarSquad = async (e, id) => {
+    const EditarSquadUsuario = async (e) => {
         e.preventDefault();
 
         let data = {
-            nome: squad
+            id_squad: squadId,
+            id_usuario: funcionarioId
         };
 
 
-        await api.put(`/squad/${id_squad}`, data)
+        await api.put(`/squadusuario/${id_squadusuario}`, data)
         .then((response) => {
             if(response.status === 200) {
                 toast.success(response.data.mensagem);
-                ListarSquads();
+                
                 handleClose();
             }
         })
@@ -189,8 +246,48 @@ const Squad = () => {
         <div style={modalStyle} className={classes.paper}>
           <h2 style={{color: "#7A57EA", marginBottom: "11px"}} id="simple-modal-title">Editar nome da Squad</h2>
           <div id="simple-modal-description">
-              <form className={clsx(classes.formEdit)} onSubmit={EditarSquad}>
-                    <Input style={{width: "100%"}} type="text" name="squad"  value={squad || ''} label="Nome da squad" funcao={e => setSquad(e.target.value)}/>
+              <form className={clsx(classes.formEdit)} onSubmit={EditarSquadUsuario}>
+                    <div style={{marginTop: "25px"}}>
+                        <select                                        
+                            className={clsx("inputs")}
+                            required={true}            
+                            onChange={AtualizaSquad}
+                            value={squadId}
+                            name="squad"
+                            id="squad"
+                            style={{cursor: "pointer", padding: "14px", background: "#303030", maxWidth: "320px"}}
+                        >
+                        <option disabled value="Selecione a squad">
+                            Selecione a squad
+                        </option>
+                            {
+                                squads.map((squad) => {
+                                    return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
+                                })
+                            }
+                        </select>
+
+                    </div>
+                    <div style={{marginTop: "15px", marginBottom: "15px"}}>
+                        <select
+                            className={clsx("inputs")}
+                            required={true}            
+                            onChange={AtualizaFuncionario}
+                            value={funcionarioId}
+                            name="funcionario"
+                            id="funcionario"
+                            style={{cursor: "pointer", padding: "15px", background: "#303030", maxWidth: "320px"}}
+                        >
+                        <option disabled value="Selecione o usuário">
+                            Selecione o funcionário
+                        </option>
+                            {
+                                funcionarios.map((func) => {
+                                    return <option key={func.id_usuario} value={func.id_usuario}>{func.nome}</option>
+                                })
+                            }
+                        </select>
+                    </div>      
                     <div style={{display: "flex", justifyContent: "space-between"}}> 
                         <button style={{marginTop: "30px"}} className="btn_sim" type="submit">Editar</button>
                         <button style={{marginTop: "30px"}} className="btn_nao" onClick={() => handleClose()}>Fechar</button>
@@ -200,14 +297,14 @@ const Squad = () => {
         </div>
     );
 
-    const ExcluirSquad = async (e) => {
+    const ExcluirSquadUsuario = async (e) => {
         e.preventDefault();
 
-        await api.delete(`/squad/${id_squad}`)
+        await api.delete(`/squadusuario/${id_squadusuario}`)
         .then((response) => {
             if(response.status === 200) {
                 toast.success(response.data.mensagem);
-                ListarSquads();
+                
                 handleClose();
             }
         })
@@ -217,7 +314,7 @@ const Squad = () => {
         <div style={modalStyle} className={classes.paper}>
           <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
           <div id="simple-modal-description">
-              <form className={clsx(classes.formDel)} onSubmit={ExcluirSquad}>
+              <form className={clsx(classes.formDel)} onSubmit={ExcluirSquadUsuario}>
                     <button style={{marginTop: "35px"}} className="btn_sim" type="submit">Sim</button>
                     <button style={{marginTop: "35px"}} className="btn_nao" onClick={() => handleClose()}>Não</button>
               </form>
@@ -226,10 +323,12 @@ const Squad = () => {
     );
 
     useEffect(() => {
-        document.title = "Squads";
+        document.title = "Squad/Usuário";
 
+        ListarSquadUsuarios();
         ListarSquads();
-
+        ListarUsuarios();
+        
         setTimeout(() => {
             setLoader("none");
         }, 1500);
@@ -239,9 +338,73 @@ const Squad = () => {
     return (
         <>              
             <Container maxWidth="lg" style={{background: "#303030"}} className={classes.root}> 
-                <h1 className={classes.titlePage}>Squads</h1>
+                <h1 className={classes.titlePage}>Squad/Usuário</h1>
                 <div style={{textAlign: "center", display: loader}}>
-                    <CircularProgress size="100px" style={{color: "#FE963D", marginBottom: "15px"}} />
+                    <CircularProgress size="100px" style={{color: "#FE963D"}} />
+                </div>
+                <div style={{textAlign: "center"}}>                    
+                    <div>
+                        <button className="btn" style={{color: "white"}} onClick={handleClickOpen}>
+                           Cadastrar
+                        </button>
+                        <Dialog open={openDialog} onClose={handleClickClose} aria-labelledby="form-dialog-title" >
+                            <DialogTitle style={{textAlign: "center", color: "#7A57EA", fontSize: "2.0em !important", fontWeight: "bold !important"}} id="form-dialog-title">Inserir usuários em squads</DialogTitle>
+                            <DialogContent style={{textAlign: "center"}}>
+                                <DialogContentText style={{color: "#FE963D", fontWeight: "bold !important"}}>
+                                    Selecione a squad, depois o usuário que você deseja incluir na squad.
+                                </DialogContentText>
+                                <div style={{marginTop: "25px"}}>
+                                    <select                                        
+                                        className={clsx("inputs")}
+                                        required={true}            
+                                        onChange={AtualizaSquad}
+                                        value={squadId}
+                                        name="squad"
+                                        id="squad"
+                                        style={{cursor: "pointer", padding: "14px", background: "#303030"}}
+                                    >
+                                    <option disabled value="Selecione a squad">
+                                        Selecione a squad
+                                    </option>
+                                        {
+                                            squads.map((squad) => {
+                                                return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
+                                            })
+                                        }
+                                    </select>
+
+                                </div>
+                                <div style={{marginTop: "15px", marginBottom: "15px"}}>
+                                    <select
+                                        className={clsx("inputs")}
+                                        required={true}            
+                                        onChange={AtualizaFuncionario}
+                                        value={funcionarioId}
+                                        name="funcionario"
+                                        id="funcionario"
+                                        style={{cursor: "pointer", padding: "15px", background: "#303030"}}
+                                    >
+                                    <option disabled value="Selecione o usuário">
+                                        Selecione o funcionário
+                                    </option>
+                                        {
+                                            funcionarios.map((func) => {
+                                                return <option key={func.id_usuario} value={func.id_usuario}>{func.nome}</option>
+                                            })
+                                        }
+                                    </select>
+                                </div>                                
+                            </DialogContent>
+                            <DialogActions style={{display: "flex", justifyContent: "space-around", marginBottom: "15px"}}>
+                                <button className="btn_sim" onClick={InserirSquadUsuario} >
+                                    Inserir
+                                </button>
+                                <button className="btn_nao" onClick={handleClickClose}>
+                                    Cancelar
+                                </button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
                 </div>               
                <MaterialTable
                     className={classes.iconColor}
@@ -268,8 +431,7 @@ const Squad = () => {
                             tooltip: 'Editar',
                             onClick: (event, rowData) => {
                                 setModalBody(true);
-                                setSquad(rowData.nome);
-                                handleOpen(rowData.id_squad);
+                                handleOpen(rowData.id_squadusuario, {squad: rowData.id_squad, usuario:rowData.id_usuario});
                             }
                         },
                         {
@@ -277,7 +439,7 @@ const Squad = () => {
                             tooltip: 'Deletar',
                             onClick: (event, rowData) => {
                                 setModalBody(false);
-                                handleOpen(rowData.id_squad);
+                                handleOpen(rowData.id_squadusuario);
                             }    
                         }
                     ]}
@@ -342,18 +504,10 @@ const Squad = () => {
                         pageSizeOptions: [5,10],
                         toolbar: true,
                         exportButton: true,
-                        exportFileName: "squads",
+                        exportFileName: "squadusuario",
 
                     }}
-                    editable={{
-                        onRowAdd: novoNome =>
-                          new Promise((resolve, reject) => {                            
-                            setTimeout(() => {
-                               InserirSquad(novoNome.nome);
-                                resolve();
-                            }, 500);
-                          }),
-                    }}
+                   
                 />
                 <div>
                     <Modal
@@ -372,4 +526,4 @@ const Squad = () => {
     )
 }
 
-export default Squad;
+export default SquadUsuario;

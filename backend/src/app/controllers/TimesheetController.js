@@ -45,7 +45,7 @@ class TimesheetController {
 
            
             if(validaTimesheet) {
-                return res.status(400).json({ mensagem: "O apontamento da entrada já foi realizado!"});
+                return res.status(200).json({ mensagem: "O apontamento da entrada já foi realizado!"});
             }    
 
             await db("timesheet").insert({

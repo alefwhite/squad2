@@ -21,6 +21,7 @@ import CargoController from './app/controllers/CargoController';
 
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
+import UsuariosPertecenteAoGestor from './app/controllers/UsuariosPertecenteAoGestor';
 
 
 const routes = new Router();
@@ -37,7 +38,7 @@ routes.post('/gestor', GestorController.store);
 
 
 // Rota Funcionario - Apenas usuários que recebem o link de cadastro gerado pelo gestor
-routes.post('/funcionario', FuncionarioController.store);
+routes.post('/convite', FuncionarioController.store);
 
 
 /*      
@@ -95,6 +96,8 @@ routes.post('/uploadusuario', upload.single("img_usuario"), UploadUsuarioControl
 */
 routes.use(AuthTipoDeUsuario.store);
 
+// UsuariosPertecenteAoGestor
+routes.use('/meusfuncionarios', UsuariosPertecenteAoGestor.index);
 
 // Gestor
 routes.get('/gestor', GestorController.index);
