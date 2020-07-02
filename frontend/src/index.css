@@ -46,6 +46,28 @@ body{
    
 }
 
+.btn_sim {
+    font-size:1.5em;
+    background-color: #FE963D;
+    color:white;
+    border:1px solid #FE963D;
+    border-radius:5px;
+    align-self:center;
+    padding: 5px 15px 5px 15px;  
+    cursor: pointer;  
+}
+
+.btn_nao {
+    font-size:1.5em;
+    background-color: #7A57EA;
+    color:white;
+    border:1px solid #7A57EA;
+    border-radius:5px;
+    align-self:center;
+    padding: 5px 15px 5px 15px;    
+    cursor: pointer;  
+}
+
 .btn:hover {
     background-color: #7A57EA;
 }

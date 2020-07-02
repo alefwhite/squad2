@@ -190,8 +190,8 @@ const Squad = () => {
               <form className={clsx(classes.formEdit)} onSubmit={EditarSquad}>
                     <Input style={{width: "100%"}} type="text" name="squad"  value={squad || ''} label="Nome da squad" funcao={e => setSquad(e.target.value)}/>
                     <div style={{display: "flex", justifyContent: "space-between"}}> 
-                        <button style={{marginTop: "30px"}} className="botao" type="submit">Editar</button>
-                        <button style={{marginTop: "30px"}} className="botao" onClick={() => handleClose()}>Fechar</button>
+                        <button style={{marginTop: "30px"}} className="btn_sim" type="submit">Editar</button>
+                        <button style={{marginTop: "30px"}} className="btn_nao" onClick={() => handleClose()}>Fechar</button>
                     </div>
               </form>
           </div>
@@ -221,8 +221,8 @@ const Squad = () => {
           <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
           <div id="simple-modal-description">
               <form className={clsx(classes.formDel)} onSubmit={ExcluirSquad}>
-                    <button style={{marginTop: "30px"}} className="botao" type="submit">Sim</button>
-                    <button style={{marginTop: "30px"}} className="botao" onClick={() => handleClose()}>Não</button>
+                    <button style={{marginTop: "35px"}} className="btn_sim" type="submit">Sim</button>
+                    <button style={{marginTop: "35px"}} className="btn_nao" onClick={() => handleClose()}>Não</button>
               </form>
           </div>
         </div>
