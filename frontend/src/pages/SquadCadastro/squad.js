@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable from 'material-table';
 import Modal from '@material-ui/core/Modal';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { toast } from 'react-toastify';
 import Input from '../../components/Input/Input';
 import PrimeiraLetraMaiuscula from '../../utils/primeiraLetraMaiuscula';
@@ -129,6 +129,8 @@ const Squad = () => {
           
         ],
     });
+    const [loader, setLoader] = useState("block");
+
 
     const handleOpen = (id) => {
         setIdSquad(id);
@@ -198,15 +200,10 @@ const Squad = () => {
         </div>
     );
 
-    const ExcluirSquad = async (e, id) => {
+    const ExcluirSquad = async (e) => {
         e.preventDefault();
 
-        let data = {
-            nome: squad
-        };
-
-
-        await api.delete(`/squad/${id_squad}`, data)
+        await api.delete(`/squad/${id_squad}`)
         .then((response) => {
             if(response.status === 200) {
                 toast.success(response.data.mensagem);
@@ -230,12 +227,20 @@ const Squad = () => {
 
     useEffect(() => {
         ListarSquads();
+
+        setTimeout(() => {
+            setLoader("none");
+        }, 1500);
+
     },[]);
 
     return (
         <>              
             <Container maxWidth="lg" style={{background: "#303030"}} className={classes.root}> 
-                <h1 className={classes.titlePage}>Squads</h1>               
+                <h1 className={classes.titlePage}>Squads</h1>
+                <div style={{textAlign: "center", display: loader}}>
+                    <CircularProgress size="100px" style={{color: "#FE963D", marginBottom: "15px"}} />
+                </div>               
                <MaterialTable
                     className={classes.iconColor}
                     style={{    
