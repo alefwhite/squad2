@@ -5,9 +5,9 @@ import SideBar from '../../components/Sidebar/sidebar';
 // @ Get this values from server
 const userPermissionsData = [
   {
-    contentName: 'content',
+    contentName: 'Projeto',
     icon: 'AccountTreeIcon',
-    name: 'Sessao 1',
+    name: 'Projeto',
     route: '/rota-1'
   },
   {

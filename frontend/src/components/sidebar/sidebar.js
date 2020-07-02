@@ -21,7 +21,7 @@ import defineIcons from '../../utils/defineIcon'
 import api from '../../service/api';
 
 // Pages
-import Content4 from '../../pages/contents/content4/content4'
+import Projeto from '../../pages/projeto/projeto';
 import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
 import Squad from '../../pages/SquadCadastro/squad';
 
@@ -153,8 +153,8 @@ const SideBar = ({ userPermissionsData }) => {
     const defineContent = (content) => {
         
         switch (content) {
-            case 'content':
-                return <Content4 />;
+            case 'Projeto':
+                return <Projeto />;
             case 'MinhasInformacoes':
                 return <MinhasInformacoes />;            
             case 'Squad':
@@ -186,7 +186,7 @@ const SideBar = ({ userPermissionsData }) => {
     };
     useEffect(() => {
         if (!content) {
-            setContent('content')
+            setContent('Projeto')
         }
 
         ImgProfile();
