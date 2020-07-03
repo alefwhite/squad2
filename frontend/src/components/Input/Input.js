@@ -41,7 +41,7 @@ function Input(props){
             color: "#FE963D",
             backgroundColor: 'white',
             borderRadius: '22px',
-            width: props.width,
+            width: props.width? props.width:'77vw',
             maxWidth: "420px",
             
           },

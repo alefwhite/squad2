@@ -96,7 +96,7 @@ routes.post('/uploadusuario', upload.single("img_usuario"), UploadUsuarioControl
 */
 routes.use(AuthTipoDeUsuario.store);
 
-// UsuariosPertencenteAoGestor
+// UsuariosPertecenteAoGestor
 routes.use('/meusfuncionarios', UsuariosPertecenteAoGestor.index);
 
 // Gestor

@@ -90,7 +90,7 @@ export default function Cadastrar() {
 
 
     function cadastrarUsuario(evento, campo) {
-        console.log(campo)
+        
         if (campo === 'nome') {
             setNome(evento.target.value);
         }
@@ -117,6 +117,13 @@ export default function Cadastrar() {
     async function enviarCadastro(evento) {
         evento.preventDefault()
 
+        let codigo = new URLSearchParams(document.location.search.substring(1))
+        codigo = codigo.get("codigo");
+
+        if(!codigo) {
+            return toast.warning("Para se cadastrar como um funcionário, o seu gestor deve encaminhar o link de cadastro para você!");
+        }
+
         const data = { 
             nome: PrimeiraLetraMaiscula(nome),
             nome_social: PrimeiraLetraMaiscula(nome_social), 
@@ -139,7 +146,7 @@ export default function Cadastrar() {
         }
         else {
 
-            await api.post('/gestor', data)
+            await api.post(`/convite?codigo=${codigo}`, data)
                 .then(function (response) {
                     if(response.status === 200) {
                         toast.success(response.data.mensagem);
@@ -167,7 +174,7 @@ export default function Cadastrar() {
 
 
     useEffect(() => {
-        document.title = "Cadastro de Gestores";
+        document.title = "Cadastro de funcionários";
 
         ListarCargos();
     },[]);

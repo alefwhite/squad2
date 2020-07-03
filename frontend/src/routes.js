@@ -8,6 +8,7 @@ import Projeto from './pages/projeto/projeto';
 
 import Main from './pages/main/main';
 import GestorCadastro from './pages/Gestor/cadastro';
+import FuncionarioCadastro from './pages/Funcionario/cadastrofunc';
 
 export default function Routes() {
     return (
@@ -18,11 +19,11 @@ export default function Routes() {
                 <Route path="/login" component={Login}/>
                 <Route path="/projeto" component={Projeto}/>
                 <Route exact path="/" component={Inicio} />
-                <Route exact path="/cad" component={GestorCadastro} />
+                <Route exact path="/gestor" component={GestorCadastro} />
+                <Route exact path="/convite" component={FuncionarioCadastro} />
                 <Route path="/teste" component={TesteImagem} />
                 <Route path="/login" component={Login} />
                 <Route path="/dashboard" component={Main} />
-                <Route path="/cadastrosquad" component={Main} />
             </Switch>
         </BrowserRouter>
     )

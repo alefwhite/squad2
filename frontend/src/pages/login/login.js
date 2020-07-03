@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './login.css';
 import api from '../../service/api';
 import {useHistory, Link} from 'react-router-dom';
@@ -6,7 +6,7 @@ import Input from '../../components/Input/Input';
 import Botao from '../../components/Botao/Botao';
 import {parseJWT}  from '../../service/parseJWT';
 import { toast, ToastContainer } from 'react-toastify';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   itemColor: {
@@ -18,14 +18,15 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: "bold !important",
       cursor: "pointer",
       textAlign: "center",
-      padding: "10px",
-    
+      padding: "10px"
   },
 
 }));
 
 
 export default function Login() {
+  const classes = useStyles();
+
   const [email,setEmail] = useState("");
   const [senha,setSenha] = useState("");
   const history = useHistory();
@@ -43,6 +44,7 @@ export default function Login() {
     }
   }
 
+<<<<<<< HEAD
   async function Logar(e){
     e.preventDefault();
     var data = {
@@ -55,27 +57,44 @@ export default function Login() {
       const {user,token} = response.data
       
       
+=======
+  async function Logar(e) {
+      e.preventDefault();
+
+      let data = {
+        senha,
+        email
+      }
+    
+    
+      const response = await api.post("/session", data);      
+            
+>>>>>>> feature/alef/feature
       if(response.status === 200){
+          const {user,token} = response.data;
+
           localStorage.setItem("nome", user.nome_social);
           localStorage.setItem("token", token);
+          
           toast.success("Login efetuado com sucesso!");          
           
           console.log(parseJWT());
           console.log("Tipo de usuário: ", parseJWT().id_tipousuario);
+          
+          // Quando o usuário loga na aplicação ele inicia a entrada do timesheet
+          await api.post("/timesheet");
+          
           setTimeout(() => {
             history.push("/dashboard");
-          }, 4000);
+          }, 1200);
 
       }
-    } 
-    catch (error) {
-      toast.error("Erro ao efetuar login!");
-    }
-  
   }
 
-  return (
+  useEffect(() => {
+    document.title = "Login";
 
+<<<<<<< HEAD
     <div className="container">
       
 
@@ -116,9 +135,37 @@ export default function Login() {
         </h1>
     
         <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <Link to="/cad">clique aqui</Link></p>
+=======
+  }, []);
+
+  return (
+    <>
+      <div className="container">
+
+        <form className="form" onSubmit={Logar}>
+          <div style={{textAlign: "center", fontSize: "2em", marginBottom: "50px"}}>
+            <h1 className={classes.inboard}>In<span className={classes.itemColor}>Board</span></h1>          
+          </div>
+
+          <p style={{ color: "#7A57EA", marginBottom: "10px", alignSelf: "flex-start", marginLeft: "8px" }}>E-mail</p>
         
-      </form>
-      <ToastContainer/>
-    </div>
+          <Input id="email" required={true} label="Insira seu email" name="email" autoComplete="email" variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
+>>>>>>> feature/alef/feature
+        
+
+          <p style={{ color: "#7A57EA", marginTop: "20px", marginBottom: "10px", alignSelf: "flex-start", marginLeft: "8px" }}>Senha</p>
+
+          <Input required={true} type="password" id="senha" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
+
+          <p style={{ textAlign: "center", marginTop: "25px", marginBottom: "20px" }}>
+            <button className="botao" type="submit">Entrar</button>
+          </p>
+      
+          <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/gestor">clique aqui</a></p>
+          
+        </form>
+        <ToastContainer/>
+      </div>
+    </> 
   )
 }

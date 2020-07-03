@@ -9,7 +9,7 @@ class FuncionarioController {
 
     async index(req, res) {
         const id_usuario = req.idUsuario;
-
+        
         try {
 
            await db("usuario as U")

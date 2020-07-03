@@ -17,12 +17,16 @@ import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import defineIcons from '../../utils/defineIcon'
+import { parseJWT } from '../../service/parseJWT';
 
 import api from '../../service/api';
 
 // Pages
 import Projeto from '../../pages/projeto/projeto';
+import SquadUsuario from '../../pages/SquadUsuario/squadusuario';
 import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
+import MinhasInformacoesFunc from '../../pages/minhasInformacoes/minhasInformecoesFunc';
+
 import Squad from '../../pages/SquadCadastro/squad';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -155,8 +159,12 @@ const SideBar = ({ userPermissionsData }) => {
         switch (content) {
             case 'Projeto':
                 return <Projeto />;
+            case 'SquadUsuario':
+                return <SquadUsuario />;
             case 'MinhasInformacoes':
                 return <MinhasInformacoes />;            
+            case 'MinhasInformacoesFunc':
+                return <MinhasInformacoesFunc />;            
             case 'Squad':
                 return <Squad />;    
             default:
@@ -165,6 +173,7 @@ const SideBar = ({ userPermissionsData }) => {
     }
 
     const Deslogar = () => {
+        console.log("Tipo: ", parseJWT().id_tipousuario);
         localStorage.clear();
         history.push("/login");
     };
@@ -173,7 +182,7 @@ const SideBar = ({ userPermissionsData }) => {
         const token = localStorage.getItem("token");
        
         let config = {
-            headers: {Authorization: "bearer " + token}
+            headers: {Authorization: "Bearer " + token}
         }
 
         await api.get("/uploadusuario", config)
@@ -185,13 +194,13 @@ const SideBar = ({ userPermissionsData }) => {
         });   
     };
     useEffect(() => {
+        ImgProfile();
+
         if (!content) {
             setContent('Projeto');
         }
 
-        ImgProfile();
-
-    }, [content])
+    }, [content]);
 
     return (
         <div className={classes.root}>
@@ -271,7 +280,7 @@ const SideBar = ({ userPermissionsData }) => {
                             {userPermissionsData.map((item) => (
                                     <ListItem button key={item.route}  onClick={() => setContent(item.contentName)} className={classes.outlinedPrimary}>
                                         <span>{defineIcons(item.icon)}</span>
-                                        <ListItemText  primary={item.name} style={{ marginLeft: '35px',fontWeight: "900" }} />
+                                        <ListItemText  primary={item.name} style={{ marginLeft: '31px',fontWeight: "900" }} />
                                     </ListItem>                                
                             ))}
                     </List>               
