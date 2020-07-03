@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './login.css';
 import api from '../../service/api';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import Input from '../../components/Input/Input';
 import Botao from '../../components/Botao/Botao';
 import {parseJWT}  from '../../service/parseJWT';
@@ -115,7 +115,7 @@ export default function Login() {
         <Botao type="submit" width="20vw" children="ENTRAR"></Botao>
         </h1>
     
-        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/cadastrogestor">clique aqui</a></p>
+        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <Link to="/cad">clique aqui</Link></p>
         
       </form>
       <ToastContainer/>
