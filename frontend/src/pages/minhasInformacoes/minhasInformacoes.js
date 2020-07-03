@@ -110,41 +110,40 @@ const MinhasInformacoes = () => {
     const AtualizaCargo = (e) => {
         setNovoCargo(e.target.value);
         setModificado(true);
-        console.log(novo_cargo)
     };
 
     const AtualizaNovaSenha = (e) => {
         setNovaSenha(e.target.value);
         setModificado(true);
-        console.log(nova_senha)
     };
 
     const AtualizaConfirmarSenha = (e) => {
         setConfirmarSenha(e.target.value);
         setModificado(true);
-        console.log(confirmar_senha)
     };
 
     const AtualizaSenhaAntiga = (e) => {
         setSenhaAntiga(e.target.value);
         setModificado(true);
-        console.log(senha_antiga)
     };
 
     const AtualizadoEstado = (e) => {
         setEstado({...estado, [e.target.name]: e.target.value})
-        setModificado(true);
-        console.log(modificado);
-        console.log(estado)
+        setModificado(true);        
     };
 
     const ListarInformacoes = async () => {
+        const token = localStorage.getItem("token");
+        
+        let config = {
+            headers: {Authorization: "bearer " + token}
+        } 
 
-       await api.get('/gestor')
-        .then( response => {
-            setEstado(response.data);
-            console.log(response.data)
-        });
+        await api.get('/gestor', config)
+            .then( response => {
+                setEstado(response.data);
+                console.log(response.data)
+            });
         
     };
 

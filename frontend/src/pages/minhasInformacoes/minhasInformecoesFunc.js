@@ -110,41 +110,38 @@ const MinhasInformacoes = () => {
     const AtualizaCargo = (e) => {
         setNovoCargo(e.target.value);
         setModificado(true);
-        console.log(novo_cargo)
     };
 
     const AtualizaNovaSenha = (e) => {
         setNovaSenha(e.target.value);
         setModificado(true);
-        console.log(nova_senha)
     };
 
     const AtualizaConfirmarSenha = (e) => {
         setConfirmarSenha(e.target.value);
         setModificado(true);
-        console.log(confirmar_senha)
     };
 
     const AtualizaSenhaAntiga = (e) => {
         setSenhaAntiga(e.target.value);
         setModificado(true);
-        console.log(senha_antiga)
     };
 
     const AtualizadoEstado = (e) => {
         setEstado({...estadoFunc, [e.target.name]: e.target.value})
         setModificado(true);
-        console.log(modificado);
-        console.log(estadoFunc.nome)
     };
 
     const ListarInformacoesFunc = async () => {
+        const token = localStorage.getItem("token");
+        
+        let config = {
+            headers: {Authorization: "Bearer " + token}
+        } 
 
-       await api.get('/funcionario')
+       await api.get('/funcionario', config)
         .then( response => {
             setEstado(response.data);
-            console.log("res, ", response.data)
-            
         });
         
     };
@@ -154,7 +151,6 @@ const MinhasInformacoes = () => {
         await api.get("/cargos")
         .then( response => {
             setCargos(response.data);
-            console.log(response.data);
         })
     };
 
@@ -192,7 +188,6 @@ const MinhasInformacoes = () => {
 
     useEffect(() => {
         document.title = "Minhas Informações";
-        console.log("Minhas info Func")
         ListarInformacoesFunc();
         ListarCargos();
     },[]);
