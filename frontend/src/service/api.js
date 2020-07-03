@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+const token = localStorage.getItem("token");
+
 const api = axios.create({
     baseURL:"http://localhost:3333",
     headers: {
         "Content-Type":"application/json",
         "Acess-Control-Allow-Origin":"*",
-        "Authorization": "Bearer " + localStorage.getItem("token")
+        "Authorization": "Bearer " + token
     }
 });
 

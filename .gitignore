@@ -30,10 +30,9 @@ package-lock.json
 backend/.env
 backend/node_modules
 backend/package-lock.json
-banco/
 uploads/
 .env.example
-squad2/banco/
+
 
 frontend/node_modules
 frontend/package-lock.json
