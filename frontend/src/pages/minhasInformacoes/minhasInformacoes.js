@@ -237,7 +237,7 @@ const MinhasInformacoes = () => {
                                             >
                                                 <option aria-label="None" value="" />
                                                 {
-                                                    cargos.map((cargo) => {
+                                                   cargos && cargos.map((cargo) => {
                                                         return <option key={cargo.id_cargo} value={cargo.id_cargo}>{cargo.nome}</option>
                                                     })
                                                 }

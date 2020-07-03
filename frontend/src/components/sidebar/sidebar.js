@@ -157,7 +157,7 @@ const SideBar = ({ userPermissionsData }) => {
     const defineContent = (content) => {
         
         switch (content) {
-            case 'Projeto':
+            case 'Projetos':
                 return <Projeto />;
             case 'SquadUsuario':
                 return <SquadUsuario />;

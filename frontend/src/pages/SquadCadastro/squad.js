@@ -232,13 +232,14 @@ const Squad = () => {
         document.title = "Squads";
 
         ListarSquads();
-    },state);
-
         setTimeout(() => {
             setLoader("none");
         }, 1500);
 
-    },[]);
+    },state);
+
+        
+
 
     return (
         <>              

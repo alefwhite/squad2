@@ -11,7 +11,6 @@ function Input(props){
        
         '& label.Mui-focused': {
           color: '#FE963D',
-          fontWeight:'bold',
           fontSize:'25px'
       
         }, 
@@ -21,8 +20,6 @@ function Input(props){
 
         '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
           color: '#FE963D',
-          fontWeight:'bold',
-      
         },  
          
         '& .MuiOutlinedInput-root': {

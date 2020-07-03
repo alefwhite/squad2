@@ -25,8 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Login() {
-  const classes = useStyles();
-
   const [email,setEmail] = useState("");
   const [senha,setSenha] = useState("");
   const history = useHistory();
@@ -44,20 +42,6 @@ export default function Login() {
     }
   }
 
-<<<<<<< HEAD
-  async function Logar(e){
-    e.preventDefault();
-    var data = {
-      senha,
-      email
-    }
-    console.log("TESTE");
-    try {
-      const response = await api.post("/session", data)
-      const {user,token} = response.data
-      
-      
-=======
   async function Logar(e) {
       e.preventDefault();
 
@@ -69,7 +53,6 @@ export default function Login() {
     
       const response = await api.post("/session", data);      
             
->>>>>>> feature/alef/feature
       if(response.status === 200){
           const {user,token} = response.data;
 
@@ -94,48 +77,6 @@ export default function Login() {
   useEffect(() => {
     document.title = "Login";
 
-<<<<<<< HEAD
-    <div className="container">
-      
-
-      <form className="form" onSubmit={Logar}>
-
-      <div style={{textAlign: "center", fontSize: "2em", marginBottom: "50px"}}>
-        <h1 className={classes.inboard}>In<span className={classes.itemColor}>Board</span></h1>          
-      </div>
-      
-        <p style={{ color: "#7A57EA"}}>E-mail</p>
-       
-       <h1 style={{marginBottom:'50px', marginTop:'20px'}}>
-          <Input 
-          id="email"
-          width='77vw' 
-          required={true} 
-          name="email" 
-          autoComplete="email" 
-          variant="outlined" 
-          funcao={(evento)=>handlePreencher(evento,"email")}></Input>
-        </h1>
-
-        <p style={{ color: "#7A57EA"}}>Senha</p>
-
-        <h1 style={{marginBottom:'50px', marginTop:'20px'}}>
-          <Input 
-          required={true}
-          width='77vw'
-          type="password" 
-          id="senha"
-          name="senha" 
-          autoComplete="password" 
-          variant="outlined"
-          funcao={(evento) => handlePreencher(evento, "senha")}></Input>
-        </h1>
-        <h1 style={{ textAlign: "center", marginBottom:'20px' }}>
-        <Botao type="submit" width="20vw" children="ENTRAR"></Botao>
-        </h1>
-    
-        <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <Link to="/cad">clique aqui</Link></p>
-=======
   }, []);
 
   return (
@@ -150,7 +91,6 @@ export default function Login() {
           <p style={{ color: "#7A57EA", marginBottom: "10px", alignSelf: "flex-start", marginLeft: "8px" }}>E-mail</p>
         
           <Input id="email" required={true} label="Insira seu email" name="email" autoComplete="email" variant="outlined" funcao={(evento)=>handlePreencher(evento,"email")}></Input>
->>>>>>> feature/alef/feature
         
 
           <p style={{ color: "#7A57EA", marginTop: "20px", marginBottom: "10px", alignSelf: "flex-start", marginLeft: "8px" }}>Senha</p>

@@ -45,7 +45,13 @@ const Main = () => {
               icon: 'CreateIcon',
               name: 'Cadastrar Squad',
               route: '/rota-3'
-            },    
+            },   
+            {
+              contentName: 'Projetos',
+              icon: 'AccountTreeIcon',
+              name: 'Projetos',
+              route: '/rota-3'
+            } 
           ]);
     }
   
