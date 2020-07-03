@@ -123,9 +123,12 @@ export default function Projeto(){
         return(
             <div className="container" style={{height:`${tm()}px`}}>
 
-           <p style={{color:'#FE963D',marginRight:'18vw',cursor:'pointer',fontWeight:'bold',marginTop:'50px',display:'flex',justifyContent:'center'}} onClick={handleOpen}>
-               <AssignmentRoundedIcon/>Novo projeto
-               </p>
+           
+             <p style={{color:'#FE963D',marginRight:'18vw',cursor:'pointer',fontWeight:'bold',marginTop:'50px',display:'flex',justifyContent:'center'}} onClick={handleOpen}>
+               <AssignmentRoundedIcon/>
+               Novo projeto 
+            </p>
+             
            <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%"}}>Projetos</p>
             {
                estado && estado.map((estado, ind)=>{
