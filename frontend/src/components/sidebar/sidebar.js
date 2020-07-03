@@ -179,7 +179,7 @@ const SideBar = ({ userPermissionsData }) => {
         const token = localStorage.getItem("token");
        
         let config = {
-            headers: {Authorization: "bearer " + token}
+            headers: {Authorization: "Bearer " + token}
         }
 
         await api.get("/uploadusuario", config)
