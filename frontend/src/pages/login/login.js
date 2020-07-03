@@ -6,12 +6,30 @@ import Input from '../../components/Input/Input';
 import Botao from '../../components/Botao/Botao';
 import {parseJWT}  from '../../service/parseJWT';
 import { toast, ToastContainer } from 'react-toastify';
+import {makeStyles} from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  itemColor: {
+      color: "#FE963D"
+  },
+  inboard: {
+      color: "#7A57EA",
+      fontSize: "2.5em",
+      fontWeight: "bold !important",
+      cursor: "pointer",
+      textAlign: "center",
+      padding: "10px",
+    
+  },
+
+}));
 
 
 export default function Login() {
   const [email,setEmail] = useState("");
   const [senha,setSenha] = useState("");
   const history = useHistory();
+  const classes = useStyles();
 
   function handlePreencher(evento,espaco) {
     if(espaco==="email"){
@@ -59,13 +77,20 @@ export default function Login() {
   return (
 
     <div className="container">
+      
+
       <form className="form" onSubmit={Logar}>
+
+      <div style={{textAlign: "center", fontSize: "2em", marginBottom: "50px"}}>
+        <h1 className={classes.inboard}>In<span className={classes.itemColor}>Board</span></h1>          
+      </div>
+      
         <p style={{ color: "#7A57EA"}}>E-mail</p>
        
-       <h1 style={{marginBottom:'20px', marginTop:'20px'}}>
+       <h1 style={{marginBottom:'50px', marginTop:'20px'}}>
           <Input 
           id="email"
-          width="250px" 
+          width='77vw' 
           required={true} 
           name="email" 
           autoComplete="email" 
@@ -75,10 +100,10 @@ export default function Login() {
 
         <p style={{ color: "#7A57EA"}}>Senha</p>
 
-        <h1 style={{marginBottom:'20px', marginTop:'20px'}}>
+        <h1 style={{marginBottom:'50px', marginTop:'20px'}}>
           <Input 
           required={true}
-          width="250px" 
+          width='77vw'
           type="password" 
           id="senha"
           name="senha" 
@@ -87,7 +112,7 @@ export default function Login() {
           funcao={(evento) => handlePreencher(evento, "senha")}></Input>
         </h1>
         <h1 style={{ textAlign: "center", marginBottom:'20px' }}>
-        <Botao type="submit" children="ENTRAR"></Botao>
+        <Botao type="submit" width="20vw" children="ENTRAR"></Botao>
         </h1>
     
         <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/cadastrogestor">clique aqui</a></p>

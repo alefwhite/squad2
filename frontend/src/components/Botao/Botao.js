@@ -10,7 +10,8 @@ function Botao(props){
            '&.MuiButton-contained':{
                color:'#fff',
                backgroundColor:'#FE963D',
-               width: props.width
+               width: props.width,
+               maxWidth: "420px"
            },
            '&.MuiButton-contained:hover':{
                 backgroundColor:'#E38834'

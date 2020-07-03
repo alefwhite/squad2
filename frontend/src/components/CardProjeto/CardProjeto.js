@@ -7,12 +7,6 @@ import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 
 function CardProjeto(props){
 
-    function editar(){
-        console.log('teste');
-    }
-    function deletar(){
-        console.log('teste2')
-    }
     return(
         <div style={{minWidth:'250px'}}>
             <Card style={{borderRadius:'20px',marginTop:'20px'}}>
@@ -23,7 +17,7 @@ function CardProjeto(props){
                             <p className="texto">{props.nome}</p>
 
                             <p style={{color:'#FE963D'}}>
-                                <CreateRoundedIcon style={{cursor:'pointer'}} onClick={editar}/>
+                                <CreateRoundedIcon style={{cursor:'pointer'}}/>
                                 <DeleteRoundedIcon style={{marginLeft:"20px", cursor:'pointer'}} onClick={props.deletar}/>
                             </p>
                         </p>

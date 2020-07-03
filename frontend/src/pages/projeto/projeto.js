@@ -12,13 +12,29 @@ const useStyles = makeStyles((theme)=>({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      }
+      },
+      formDel: {
+        display: "flex",
+        padding: "16px",
+        marginTop: "5px",
+        justifyContent: "space-between"
+    },
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: "#303030",
+        boxShadow: "-1px 4px 16px 2px rgba(0,0,0,0.48)",
+        padding: theme.spacing(2, 4, 3),
+        outline: 0,
+        borderRadius: "3px"
+    }
 }))
 
 export default function Projeto(){
     const [estado,setEstado] = useState([]);
     const [open, setOpen] = useState(false);
-    const [refresh,setRefresh] = useState(false);
+    const [open2, setOpen2] = useState(false);
+    const [idprojeto, setIdprojeto] = useState(false);
 
     const classes = useStyles();
 
@@ -45,21 +61,23 @@ export default function Projeto(){
     },estado);
 
 
-    const handleDeletar = async (index) =>{
+    const handleDeletar = async () =>{
         
+        let index = idprojeto;
         let k = [...estado];
-        
+        console.log(index)
         let data = estado[index].id_projeto
 
         try {
             const deletar = await api.delete(`/projeto/${data}`).then(response =>{
-                console.log(response);
+                console.log(`sucesso:${response}`);
             })
         } catch (error) {
             console.log(error);
         }
         k.splice(index,1);
         setEstado(k);
+        handleClose2();
     } 
 
    const tm =() => {
@@ -81,7 +99,27 @@ export default function Projeto(){
         setOpen(false);
       };
 
-  
+      const handleOpen2 = (index) => {
+        setOpen2(true);
+        setIdprojeto(index);
+      };
+    
+      const handleClose2 = () => {
+        setOpen2(false);
+      };
+
+      const modal =(
+        <div  className={classes.paper}>
+        <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
+        <div id="simple-modal-description">
+            <div className={classes.formDel} onSubmit={handleDeletar}>
+                  <button style={{marginTop: "30px"}} className="botao" onClick={()=>handleDeletar()}>Sim</button>
+                  <button style={{marginTop: "30px"}} className="botao" onClick={() => handleClose2()}>Não</button>
+            </div>
+        </div>
+      </div>
+      )
+      
         return(
             <div className="container" style={{height:`${tm()}px`}}>
 
@@ -93,17 +131,15 @@ export default function Projeto(){
                estado && estado.map((estado, ind)=>{
                         let y = format(new Date(estado.data_inicial),"dd/MM/yyyy");
                         let x = format(new Date(estado.data_final),"dd/MM/yyyy");
-                        
+                   
                         return <CardProjeto 
-                        deletar={()=>handleDeletar(ind)}
+                        deletar={()=>handleOpen2(ind)}
                         key={estado.id}
                         nome={estado.nome} 
                         descricao={estado.descricao}
                         inicial={x}
                         final={y}
                         ></CardProjeto>
-                
-              
             })
             }
      <Modal
@@ -114,6 +150,16 @@ export default function Projeto(){
         className={classes.modal}
       >
         <NovoProjeto/>
+      </Modal>
+
+      <Modal
+        open={open2}
+        onClose={handleClose2}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        className={classes.modal}
+      >
+        {modal}
       </Modal>
         </div>    
     )
