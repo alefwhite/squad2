@@ -13,7 +13,7 @@ const api = axios.create({
 });
 
 api.interceptors.response.use((response) => {
-    console.log("Response: , ", response);
+    console.log("Response Interceptor:  ", response);
     
     return response;
 }, error => {
