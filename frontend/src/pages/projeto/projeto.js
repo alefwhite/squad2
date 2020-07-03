@@ -40,41 +40,33 @@ export default function Projeto(){
 
     
 
-    const listar = async () =>{
-        try {
-            const token = localStorage.getItem("token");
-            let config = {
-                headers: {Authorization: "bearer " + token}
-            }
-            const projeto = await api.get('/projeto',config).then(response =>{    
+    const listar = async () =>{                 
+          await api.get('/projeto')
+            .then(response =>{    
                 setEstado(response.data);
                 console.log(response.data);
 
-            })
-        } catch (error) {
-            console.log(`erro:${error}`)
-        }
+            });
+        
     }
     
     useEffect(()=>{
         listar();
-    },estado);
+    },[]);
 
 
     const handleDeletar = async () =>{
         
         let index = idprojeto;
         let k = [...estado];
-        console.log(index)
         let data = estado[index].id_projeto
 
-        try {
-            const deletar = await api.delete(`/projeto/${data}`).then(response =>{
+  
+        await api.delete(`/projeto/${data}`)
+          .then(response =>{
                 console.log(`sucesso:${response}`);
-            })
-        } catch (error) {
-            console.log(error);
-        }
+            });
+       
         k.splice(index,1);
         setEstado(k);
         handleClose2();

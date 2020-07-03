@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './login.css';
 import api from '../../service/api';
-import {useHistory, Link} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Input from '../../components/Input/Input';
-import Botao from '../../components/Botao/Botao';
-import {parseJWT}  from '../../service/parseJWT';
+import { parseJWT }  from '../../service/parseJWT';
 import { toast, ToastContainer } from 'react-toastify';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -31,12 +30,12 @@ export default function Login() {
   const classes = useStyles();
 
   function handlePreencher(evento,espaco) {
-    if(espaco==="email"){
+    if(espaco === "email") {
       setEmail(evento.target.value);
       console.log(email);
     }
-    if(espaco==="senha"){
-      
+    
+    if(espaco === "senha") {      
       setSenha(evento.target.value);
       console.log(senha);
     }

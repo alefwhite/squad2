@@ -132,14 +132,9 @@ const MinhasInformacoes = () => {
         setModificado(true);        
     };
 
-    const ListarInformacoes = async () => {
-        const token = localStorage.getItem("token");
-        
-        let config = {
-            headers: {Authorization: "bearer " + token}
-        } 
+    const ListarInformacoes = async () => {       
 
-        await api.get('/gestor', config)
+        await api.get('/gestor')
             .then( response => {
                 setEstado(response.data);
                 console.log(response.data)

@@ -261,7 +261,7 @@ const SquadUsuario = () => {
                             Selecione a squad
                         </option>
                             {
-                                squads.map((squad) => {
+                                squads && squads.map((squad) => {
                                     return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
                                 })
                             }
@@ -282,7 +282,7 @@ const SquadUsuario = () => {
                             Selecione o funcionário
                         </option>
                             {
-                                funcionarios.map((func) => {
+                                funcionarios && funcionarios.map((func) => {
                                     return <option key={func.id_usuario} value={func.id_usuario}>{func.nome}</option>
                                 })
                             }
@@ -367,7 +367,7 @@ const SquadUsuario = () => {
                                         Selecione a squad
                                     </option>
                                         {
-                                            squads.map((squad) => {
+                                            squads && squads.map((squad) => {
                                                 return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
                                             })
                                         }
@@ -388,7 +388,7 @@ const SquadUsuario = () => {
                                         Selecione o funcionário
                                     </option>
                                         {
-                                            funcionarios.map((func) => {
+                                            funcionarios && funcionarios.map((func) => {
                                                 return <option key={func.id_usuario} value={func.id_usuario}>{func.nome}</option>
                                             })
                                         }

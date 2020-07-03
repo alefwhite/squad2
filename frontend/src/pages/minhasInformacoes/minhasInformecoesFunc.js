@@ -132,14 +132,9 @@ const MinhasInformacoes = () => {
         setModificado(true);
     };
 
-    const ListarInformacoesFunc = async () => {
-        const token = localStorage.getItem("token");
-        
-        let config = {
-            headers: {Authorization: "Bearer " + token}
-        } 
+    const ListarInformacoesFunc = async () => {       
 
-       await api.get('/funcionario', config)
+       await api.get('/funcionario')
         .then( response => {
             setEstado(response.data);
         });

@@ -179,13 +179,8 @@ const SideBar = ({ userPermissionsData }) => {
     };
 
     const ImgProfile = async () => {
-        const token = localStorage.getItem("token");
        
-        let config = {
-            headers: {Authorization: "Bearer " + token}
-        }
-
-        await api.get("/uploadusuario", config)
+        await api.get("/uploadusuario")
         .then((response) => {
             console.log("Profile: ", response.data)
             if(response.data.imgurl) {

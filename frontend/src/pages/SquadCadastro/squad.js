@@ -145,16 +145,13 @@ const Squad = () => {
         { title: 'Nome', field: 'nome' },
     ]
 
-    const ListarSquads = async () => {
-        const token = localStorage.getItem("token");
-            let config = {
-                headers: {Authorization: "bearer " + token}
-            }
-        await api.get("/squad",config)
+    const ListarSquads = async () => {        
+        await api.get("/squad")
         .then((response) => {
             setState({ data: response.data });
-        })};
-
+        })
+    };
+    
     const InserirSquad = async (novaSquad) => {
        
         let data = {
@@ -236,7 +233,7 @@ const Squad = () => {
             setLoader("none");
         }, 1500);
 
-    },state);
+    }, []);
 
         
 
