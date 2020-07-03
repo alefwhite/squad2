@@ -8,18 +8,14 @@ const useStyles = makeStyles((theme) => ({
     campos: {
        
         '& label.Mui-focused': {
-          color: '#FE963D',
-          fontWeight:'bold',
-      
+          color: '#FE963D',      
         }, 
         '& .MuiFormLabel-root':{
           color:'#FE963D'
         },
 
         '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
-          color: '#FE963D',
-          fontWeight:'bold',
-      
+          color: '#FE963D',      
         },  
          
         '& .MuiOutlinedInput-root': {
