@@ -1,0 +1,21 @@
+.card{
+    width:25vw;
+    background-color: #4A4848;
+    border-radius:20px;
+
+}
+
+.texto{
+    color: #FE963D;
+    font-weight: bolder;
+    font-size:30px;
+    margin-right: 10px;
+}
+
+
+.envolve{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    flex-wrap: wrap-reverse;
+}

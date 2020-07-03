@@ -1,0 +1,8 @@
+.x{
+    display:flex;
+    width:100vw;
+    height:100vh;
+    background:linear-gradient(180deg, #303030 0%, #000000 100%);
+    align-items: center;
+    justify-content: center;
+}

@@ -1,5 +1,7 @@
 .container{
     display:flex;
+    flex-direction: column;
+    overflow-y: scroll;
     width:100vw;
     height:100vh;
     background:linear-gradient(180deg, #303030 0%, #000000 100%);
@@ -7,19 +9,12 @@
     justify-content: center;
 }
 
-.campo{
-    color:red;
-}
 
-.form{
-    
-}
 .botao{
     font-size:24px;
-    background-color: orange;
+    background-color: #FE963D;
     color:white;
-    border:1px solid orange;
+    border:1px solid #FE963D;
     border-radius:5px;
     align-self:center;
-    margin-top:25px;
 }

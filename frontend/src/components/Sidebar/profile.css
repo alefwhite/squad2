@@ -1,0 +1,45 @@
+/* Profile */
+.profile_info {
+    padding: 5px 10px 10px 10px;
+    text-align: center;
+  }
+  
+.profile_info .profile_img {
+    width: 150px;
+    margin: 0 auto 5px;
+}
+
+.profile_info .profile_img img {
+    width: 150px;
+    display: block;
+    border-radius: 50%;
+    height: 140px;
+    object-fit: cover;
+    border: 2px solid #FE963D;
+}
+
+.profile_info .profile_data .name {
+    margin-top: 6px;
+    font-size: 24px;
+    color: #7A57EA;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: 'Trade Winds';
+}
+
+
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+    width: 12px;
+    cursor: pointer;
+
+}
+  
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #7A57EA; 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+ 
