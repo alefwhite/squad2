@@ -4,6 +4,7 @@ import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import CreateIcon from '@material-ui/icons/Create';
 import EmailIcon from '@material-ui/icons/Email';
 
+
 export default function defineIcon(iconName) {
     switch (iconName) {
         case 'AccountTreeIcon':

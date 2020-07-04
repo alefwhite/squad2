@@ -43,7 +43,6 @@ class UsuarioTarefaController {
                 id_tarefa
             }).first();
 
-            console.log(existeTarefa)
             if(existeUsuarioTarefa) {
                 return res.status(400).json(
                     { mensagem: 

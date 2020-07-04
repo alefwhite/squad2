@@ -9,6 +9,7 @@ import Projeto from './pages/Projeto/projeto';
 import Main from './pages/Main/main';
 import GestorCadastro from './pages/Gestor/cadastro';
 import FuncionarioCadastro from './pages/Funcionario/cadastrofunc';
+// import Notificacao from './components/Notificacao/notificacao';
 
 export default function Routes() {
     return (

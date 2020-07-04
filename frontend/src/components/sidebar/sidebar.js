@@ -16,9 +16,12 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AddToHomeScreenIcon from '@material-ui/icons/AddToHomeScreen';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import defineIcons from '../../utils/defineIcon'
-import { parseJWT } from '../../service/parseJWT';
+import defineIcons from '../../utils/defineIcon';
+import { Alert, AlertTitle  } from '@material-ui/lab';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
 
+import { parseJWT } from '../../service/parseJWT';
 import api from '../../service/api';
 
 // Pages
@@ -44,6 +47,13 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',        
+    },
+    rootNotificacao: {
+        width: '100%',
+      '& > * + *': {
+        marginTop: theme.spacing(2),
+      },
+      position: 'absolute'
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -131,7 +141,25 @@ const useStyles = makeStyles((theme) => ({
     },
     margin_right: {
         marginRight: "12px"
-    }
+    },
+    position: {
+        position: "fixed",
+        top: 0,
+        right: 0
+    },
+    positionClosed: {
+        position: "fixed",
+        top: 64,
+        right: 0,
+        color: "#FFF"
+    },
+    marginsAlert: {
+        marginBottom: "10px",
+        marginTop: "10px",
+    },
+    DivConteudo: {
+        cursor: "pointer",
+    } 
 }));
 
 const SideBar = ({ userPermissionsData }) => {
@@ -140,9 +168,13 @@ const SideBar = ({ userPermissionsData }) => {
     const history = useHistory();
 
     const [open, setOpen] = useState(false);
+    const [openNotification, setOpenNotification] = useState(false);
     const [content, setContent] = useState('')
     const [profileImg, setProfileImg] = useState('none')
     const [profile, setProfile] = useState('');
+    const [N, setN] = useState('');
+    const [notificacoes, setNotificacoes] = useState([]);
+    const [totalNotificacoes, setTotalNotificacoes] = useState(0);
 
     const handleDrawerOpen = () => {
         setProfileImg('block');
@@ -188,8 +220,32 @@ const SideBar = ({ userPermissionsData }) => {
             }
         });   
     };
+      
+
+    const ListarNotificacoes = async () => {
+        await api.get("/notificacao")
+            .then((response) => {
+                if(response.status === 200) {
+                    setNotificacoes(response.data);
+                    setTotalNotificacoes(response.data.length);
+                    console.log("Notificacoes: ", response.data)
+                }
+            });
+    }
+    
+    const MarcarNotificacao = async (id) => {
+        console.log(id)
+        setNotificacoes(notificacoes.filter((notificacao) => {
+            setTotalNotificacoes(totalNotificacoes - 1);
+            return notificacao._id !== id;
+        }));
+
+        await api.put(`/notificacao/${id}`);           
+    }
+
     useEffect(() => {
         ImgProfile();
+        ListarNotificacoes();
 
         if (!content) {
             setContent('Projeto');
@@ -224,8 +280,8 @@ const SideBar = ({ userPermissionsData }) => {
                     <div className={classes.grow} />
 
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 17 new notifications" color="inherit" className={clsx(classes.outlinedPrimary, classes.margin_right)}>
-                            <Badge badgeContent={17} color="secondary">
+                        <IconButton aria-label="show 17 new notifications" color="inherit" onClick={() => setOpenNotification(true)} className={clsx(classes.outlinedPrimary, classes.margin_right)}>
+                            <Badge badgeContent={totalNotificacoes} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
@@ -281,9 +337,45 @@ const SideBar = ({ userPermissionsData }) => {
                     </List>               
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.toolbar} />
+                <div className={classes.toolbar}/>
                 <ToastContainer/>
                 {defineContent(content)}
+                <div className={classes.rootNotificacao}>         
+                    <Collapse in={openNotification} style={{maxWidth: "400px"}} className={classes.positionClosed}>
+                        {
+                            notificacoes && notificacoes.map((n) => {
+                                console.log("Teste")
+
+                                return (
+                                    <Alert
+                                        className={classes.marginsAlert}
+                                        key={n._id}
+                                        severity="info"                                       
+                                        variant="outlined"
+                                        color="warning"
+                                        action={
+                                        <IconButton
+                                            aria-label="close"
+                                            size="small"
+                                            onClick={() => {
+                                                setOpenNotification(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit"   style={{color: "#FFF"}}/>
+                                        </IconButton>
+                                        }
+                                    >  
+                                        <AlertTitle onClick={(e) => MarcarNotificacao(n._id)} className={classes.DivConteudo}>Marcar como lida</AlertTitle>
+                                        <div style={{color: "white"}}>
+                                           {n.conteudo}
+                                        </div>
+
+                                    </Alert>
+                                )
+                            })
+                        }
+                    </Collapse>
+                </div>
             </main>
         </div>
     );

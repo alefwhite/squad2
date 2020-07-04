@@ -50,7 +50,7 @@ const Main = () => {
               contentName: 'Projetos',
               icon: 'AccountTreeIcon',
               name: 'Projetos',
-              route: '/rota-3'
+              route: '/rota-4'
             } 
           ]);
     }
