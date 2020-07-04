@@ -21,7 +21,7 @@ import CargoController from './app/controllers/Cargo/CargoController';
 
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
-import UsuariosPertecenteAoGestor from './app/controllers/UsuariosPertecenteAoGestor';
+import UsuariosPertecenteAoGestor from './app/controllers/Gestor/UsuariosPertecenteAoGestor';
 
 
 const routes = new Router();

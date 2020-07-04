@@ -51,6 +51,8 @@ function NovoProjeto({handleClose, setOpen}){
                 setFim(evento);
                 break;
             }
+            default: 
+                return 
         }
         
     }
@@ -72,12 +74,14 @@ function NovoProjeto({handleClose, setOpen}){
         }
         console.log(data)
        
-            const response = await api.post("/projeto",data);
+        const response = await api.post("/projeto",data);
 
-            if(response.status===200){
-                console.log(response);
-            } 
-      {handleClose();}
+        if(response.status===200){
+            console.log(response);
+        } 
+
+      handleClose();
+      
     }
     return(
         <div className="container3">

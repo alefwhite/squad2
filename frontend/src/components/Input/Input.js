@@ -47,16 +47,11 @@ function Input(props){
         '& .MuiInputBase-root':{
           '& .MuiInputBase-input': {
             color: "#FE963D",
-            
+            borderColor:'#7A57EA',
             borderBottom: '2px solid #7A57EA',
             width: '190px'
-          },
-          
-          
-          '& .MuiInputBase-input':{
-            borderColor:'#7A57EA',
-            color:'#FE963D'
-          }
+          },          
+         
         }
         ,
           
