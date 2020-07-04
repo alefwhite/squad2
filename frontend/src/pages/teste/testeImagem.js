@@ -1,5 +1,5 @@
 import React from 'react';
-import UploadImagem from '../../components/uploadImagem/UploadImagem';
+import UploadImagem from '../../components/UploadImagem/UploadImagem';
 import Membro from '../../components/Membro/Membro';
 import NovoProjeto from '../../components/NovoProjeto/NovoProjeto';
 

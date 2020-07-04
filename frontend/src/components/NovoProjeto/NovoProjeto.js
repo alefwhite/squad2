@@ -6,6 +6,7 @@ import InputData from '../InputData/InputData';
 
 import api from '../../service/api';
 
+
 const estilo = {
     input:[
         {marginRight:'55%',marginTop:'0px'},
@@ -24,7 +25,7 @@ const estilo = {
     
 }
 
-function NovoProjeto(){
+function NovoProjeto({handleClose, setOpen}){
     const [nome,setNome]= useState('');
     const [descricao,setDescricao] = useState('');
     const [inicio,setInicio] = useState(new Date());
@@ -70,19 +71,14 @@ function NovoProjeto(){
             data_final
         }
         console.log(data)
-        try {
+       
             const response = await api.post("/projeto",data);
 
             if(response.status===200){
                 console.log(response);
-            }
-
-        } catch (error) {
-            console.log(`erro:${error}`);
-        }
-      
+            } 
+      {handleClose();}
     }
-
     return(
         <div className="container3">
             <form className='forms' onSubmit={enviar}>
@@ -99,6 +95,7 @@ function NovoProjeto(){
                 </div>
                 <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
                 
+               
                 
             </form>
         </div>

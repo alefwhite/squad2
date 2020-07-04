@@ -80,7 +80,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="container">
+      <div className="container6">
 
         <form className="form" onSubmit={Logar}>
           <div style={{textAlign: "center", fontSize: "2em", marginBottom: "50px"}}>

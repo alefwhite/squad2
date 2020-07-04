@@ -22,10 +22,10 @@ import { parseJWT } from '../../service/parseJWT';
 import api from '../../service/api';
 
 // Pages
-import Projeto from '../../pages/projeto/projeto';
+import Projeto from '../../pages/Projeto/projeto';
 import SquadUsuario from '../../pages/SquadUsuario/squadusuario';
-import MinhasInformacoes from '../../pages/minhasInformacoes/minhasInformacoes';
-import MinhasInformacoesFunc from '../../pages/minhasInformacoes/minhasInformecoesFunc';
+import MinhasInformacoes from '../../pages/MinhasInformacoes/minhasInformacoes';
+import MinhasInformacoesFunc from '../../pages/MinhasInformacoes/minhasInformecoesFunc';
 
 import Squad from '../../pages/SquadCadastro/squad';
 
