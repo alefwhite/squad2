@@ -1,39 +1,39 @@
-import db from '../../database/connection';
-import NotificacaoSquadTarefa from '../models/NotificacaoSquadTarefa';
-import formatarDataBr from '../../utils/formatarDataBr';
+import db from '../../../database/connection';
+import NotificacaoUsuarioTarefa from '../../models/NotificacaoUsuarioTarefa';
+import formatarDataBr from '../../../utils/formatarDataBr';
 
-class NotificacaoSquadTarefaController {
+class NotificacaoUsuarioTarefaController {
     async index(req, res) {
-        const notificacoes_squad = new Array();
-        const id_usuario = req.idUsuario;
+        const notificacoes_usuario = new Array();
+        const id_usuario = 6; // req.idUsuario;
 
         try {
             
-            const squadsUsuario = await db("squad_usuario").where({ id_usuario });
-    
-            if(!squadsUsuario) {
-                return res.status(400).json({ mensagem: "Usuário não pertence a nenhuma squad!" });
+            const usuarioTarefa = await db("usuario_tarefa").where({ id_usuario });
+            console.log(usuarioTarefa)
+            if(!usuarioTarefa) {
+                return res.status(400).json({ mensagem: "Usuário não tem nenhuma tarefa!" });
             }   
     
-            for(let id of squadsUsuario ) {
-                const notificacoes = await NotificacaoSquadTarefa.find({
-                    squad: id.id_squad,
+            for(let id of usuarioTarefa ) {
+                const notificacoes = await NotificacaoUsuarioTarefa.find({
+                    user: id.id_usuario,
                     lido: false
                 })
                 .sort({ createdAt: 'desc' })
                 .limit(10);
     
                 for(let notificacao of notificacoes) {
-                    notificacoes_squad.unshift(notificacao);
+                    notificacoes_usuario.unshift(notificacao);
                 }
                 
             }
     
-            const notificacoesSquadOrdenada = notificacoes_squad.sort((a,b) => {
+            const notificacoesUsuarioOrdenada = notificacoes_usuario.sort((a,b) => {
                 return b.createdAt - a.createdAt;
             })    
     
-            return res.json(notificacoesSquadOrdenada);
+            return res.json(notificacoesUsuarioOrdenada);
             
         } catch (error) {
             return res.status(500).json({ error: "Erro interno no servidor!" });
@@ -43,7 +43,7 @@ class NotificacaoSquadTarefaController {
     async store(req, res) {
         const { id_squad } = req.body
 
-        const notificacao = await NotificacaoSquadTarefa.create({
+        const notificacao = await NotificacaoUsuarioTarefa.create({
             conteudo: `Você tem uma nova tarefa - ${formatarDataBr(new Intl.DateTimeFormat('pt-BR').format(new Date))}`,
             squad: id_squad,
             id_criador: req.idUsuario
@@ -54,7 +54,7 @@ class NotificacaoSquadTarefaController {
     }
 
     async update(req, res) {
-        const notificacao = await NotificacaoSquadTarefa.findByIdAndUpdate(req.params.id, 
+        const notificacao = await NotificacaoUsuarioTarefa.findByIdAndUpdate(req.params.id, 
             { lido: true},
             { new: true}
         );
@@ -73,4 +73,4 @@ class NotificacaoSquadTarefaController {
     }
 }
 
-export default new NotificacaoSquadTarefaController();
+export default new NotificacaoUsuarioTarefaController();

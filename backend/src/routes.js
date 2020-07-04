@@ -2,22 +2,22 @@ import { Router } from 'express';
 import multer from 'multer';
 import uploadConfig from './config/upload';
 
-import GestorController from './app/controllers/GestorController';
+import GestorController from './app/controllers/Gestor/GestorController';
 import SessionController from './app/controllers/SessionController';
-import FuncionarioController from './app/controllers/FuncionarioController';
-import ConviteUsuarioController from './app/controllers/ConviteUsuarioController';
-import UploadUsuarioController from './app/controllers/UploadUsuarioController';
-import ProjetoController from './app/controllers/ProjetoController';
-import SquadUsuarioController from './app/controllers/SquadUsuarioController';
-import NotificacaoController from './app/controllers/NotificacaoController';
-import TarefaController from './app/controllers/TarefaController';
-import UsuarioTarefaController from './app/controllers/UsuarioTarefaController';
-import NotificacaoSquadTarefaController from './app/controllers/NotificacaoSquadTarefaController';
-import NotificacaoUsuarioTarefaController from './app/controllers/NotificacaoUsuarioTarefaController';
-import SquadTarefaController from './app/controllers/SquadTarefaController';
-import SquadController from './app/controllers/SquadController';
-import TimesheetController from './app/controllers/TimesheetController';
-import CargoController from './app/controllers/CargoController';
+import FuncionarioController from './app/controllers/Usuario/FuncionarioController';
+import GestorConviteController from './app/controllers/Gestor/GestorConviteController';
+import UploadUsuarioController from './app/controllers/UploadImagem/UploadUsuarioController';
+import ProjetoController from './app/controllers/Projeto/ProjetoController';
+import SquadUsuarioController from './app/controllers/Squad/SquadUsuarioController';
+import NotificacaoController from './app/controllers/Notificacao/NotificacaoController';
+import TarefaController from './app/controllers/Tarefa/TarefaController';
+import UsuarioTarefaController from './app/controllers/Usuario/UsuarioTarefaController';
+import NotificacaoSquadTarefaController from './app/controllers/Notificacao/NotificacaoSquadTarefaController';
+import NotificacaoUsuarioTarefaController from './app/controllers/Notificacao/NotificacaoUsuarioTarefaController';
+import SquadTarefaController from './app/controllers/Squad/SquadTarefaController';
+import SquadController from './app/controllers/Squad/SquadController';
+import TimesheetController from './app/controllers/Timesheet/TimesheetController';
+import CargoController from './app/controllers/Cargo/CargoController';
 
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
@@ -105,7 +105,7 @@ routes.put('/gestor', GestorController.update);
 
 
 // Rota Convite - Gera o link de cadastro para funcionarios
-routes.get('/convite', ConviteUsuarioController.show);
+routes.get('/convite', GestorConviteController.show);
 
 
 // Rota Projeto

@@ -1,9 +1,9 @@
-import sendConfig from '../../config/sendgrid';
-import emailService from '../../lib/emailService';
-import db from '../../database/connection';
+import sendConfig from '../../../config/sendgrid';
+import emailService from '../../../lib/emailService';
+import db from '../../../database/connection';
 import bcrypt from 'bcryptjs';
-import validaCpf from '../../utils/validaCpf';
-import verificaSenha from '../../utils/verificaSenha';
+import validaCpf from '../../../utils/validaCpf';
+import verificaSenha from '../../../utils/verificaSenha';
 
 class FuncionarioController {
 

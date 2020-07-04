@@ -1,19 +1,19 @@
-import sendConfig from '../../config/sendgrid';
-import emailService from '../../lib/emailService';
-import db from '../../database/connection';
+import sendConfig from '../../../config/sendgrid';
+import emailService from '../../../lib/emailService';
+import db from '../../../database/connection';
 
-class ConviteUsuarioController {
+class GestorConviteController {
     async index(req, res){
         const id_usuario = req.idUsuario;
         const { nome, email, cpf, id_cargo} = req.body;
 
         try {
-        const listaUsuario = await db("usuario").where({
-            nome,
-            email,
-            cpf,
-            id_cargo,
-            id_usuario : id_usuario
+            const listaUsuario = await db("usuario").where({
+                nome,
+                email,
+                cpf,
+                id_cargo,
+                id_usuario : id_usuario
         });
 
         return res.json(listaUsuario);
@@ -57,4 +57,4 @@ class ConviteUsuarioController {
     
 }
 
-export default new ConviteUsuarioController();
+export default new GestorConviteController();

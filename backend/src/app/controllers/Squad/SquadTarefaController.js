@@ -1,6 +1,6 @@
-import db from '../../database/connection';
-import formatarDataBr from '../../utils/formatarDataBr';
-import NotificacaoSquadTarefa from '../models/NotificacaoSquadTarefa';
+import db from '../../../database/connection';
+import formatarDataBr from '../../../utils/formatarDataBr';
+import NotificacaoSquadTarefa from '../../models/NotificacaoSquadTarefa';
 
 class SquadTarefaController {
     async index(req, res) {

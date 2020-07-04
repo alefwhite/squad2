@@ -1,5 +1,5 @@
-import UploadUsuario from '../models/UploadUsuario';
-import db from '../../database/connection';
+import UploadUsuario from '../../models/UploadUsuario';
+import db from '../../../database/connection';
 
 class UploadUsuarioController {
     async show(req, res) {

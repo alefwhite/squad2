@@ -1,4 +1,4 @@
-import db from '../../database/connection';
+import db from '../../../database/connection';
 
 class ProjetoController {
     async store(req, res) {

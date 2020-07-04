@@ -1,11 +1,11 @@
-import sendConfig from '../../config/sendgrid';
-import authConfig from '../../config/auth';
-import emailService from '../../lib/emailService';
-import db from '../../database/connection';
+import sendConfig from '../../../config/sendgrid';
+import authConfig from '../../../config/auth';
+import emailService from '../../../lib/emailService';
+import db from '../../../database/connection';
 import bcrypt from 'bcryptjs';
 import md5 from 'md5';
-import validaCpf from '../../utils/validaCpf';
-import verificaSenha from '../../utils/verificaSenha';
+import validaCpf from '../../../utils/validaCpf';
+import verificaSenha from '../../../utils/verificaSenha';
 
 class GestorController {
     async index(req, res) {

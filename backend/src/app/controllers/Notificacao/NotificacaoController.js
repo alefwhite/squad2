@@ -1,5 +1,5 @@
-import Notificacao from '../models/Notificacao';
-import formatarDataBr from '../../utils/formatarDataBr';
+import Notificacao from '../../models/Notificacao';
+import formatarDataBr from '../../../utils/formatarDataBr';
 
 class NotificacaoController {
     async index(req, res) {

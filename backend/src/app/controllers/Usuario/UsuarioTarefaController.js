@@ -1,6 +1,6 @@
-import db from '../../database/connection';
-import NotificacaoUsuarioTarefa from '../models/NotificacaoUsuarioTarefa';
-import formatarDataBr from '../../utils/formatarDataBr';
+import db from '../../../database/connection';
+import NotificacaoUsuarioTarefa from '../../models/NotificacaoUsuarioTarefa';
+import formatarDataBr from '../../../utils/formatarDataBr';
 
 class UsuarioTarefaController {
 /*****************************************************************************************
