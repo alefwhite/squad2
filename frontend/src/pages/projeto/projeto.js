@@ -94,11 +94,59 @@ export default function Projeto(){
         handleClose2();
         listar();
     } 
+
+    async function handleEditar(x){
+      x.preventDefault();
+      console.log(inicio);
+      
+   
+      let data_inicial =  inicio;
+      let data_final =  fim;
+ 
+      
+      let data = {
+          nome,
+          descricao,
+          data_inicial,
+          data_final
+      }
+      const index = estado[idprojeto].id_projeto;
+     
+      const response = await api.put(`projeto/${index}`,data);
+
+      if(response.status===200){
+          console.log(response);
+      } 
+
+    handleClose3();
+    listar();
     
-    const handleEditar = () =>{
-
+  }
+  function handlePreencher(evento,espaco){
+    switch(espaco){
+        case "nome":{
+            setNome(evento.target.value);
+            break;
+        }
+        case "descricao":{
+            setDescricao(evento.target.value);
+            break;
+        }
+        case "inicio":{
+            setInicio(evento);
+           
+            break;
+        }
+        case "fim":{
+            setFim(evento);
+            break;
+        }
+        default: 
+            return 
     }
-
+    
+}
+    
     const handleOpen = () => {
         setOpen(true);
       };
@@ -128,57 +176,7 @@ export default function Projeto(){
       const handleClose3 = () => {
         setOpen3(false);
       };
-      function handlePreencher(evento,espaco){
-        switch(espaco){
-            case "nome":{
-                setNome(evento.target.value);
-                break;
-            }
-            case "descricao":{
-                setDescricao(evento.target.value);
-                break;
-            }
-            case "inicio":{
-                setInicio(evento);
-               
-                break;
-            }
-            case "fim":{
-                setFim(evento);
-                break;
-            }
-            default: 
-                return 
-        }
-        
-    }
-    async function enviar(x){
-      x.preventDefault();
-      console.log(inicio);
-      
-   
-      let data_inicial =  inicio;
-      let data_final =  fim;
- 
-      
-      let data = {
-          nome,
-          descricao,
-          data_inicial,
-          data_final
-      }
-      const index = estado[idprojeto].id_projeto;
-     
-      const response = await api.put(`projeto/${index}`,data);
-
-      if(response.status===200){
-          console.log(response);
-      } 
-
-    handleClose3();
-    listar();
     
-  }
       const modal =(
         <div  className={classes.paper}>
         <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
@@ -193,7 +191,7 @@ export default function Projeto(){
 
      const modalEditar=(
         <div className="container3">
-            <form className='forms' onSubmit={enviar} >
+            <form className='forms' onSubmit={handleEditar} >
                 <div>
                 <p style={estilo.p}>Nome do projeto</p>
                 </div>
