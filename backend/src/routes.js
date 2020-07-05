@@ -49,6 +49,10 @@ routes.post('/convite', FuncionarioController.store);
 routes.use(Authentication.store);
 
 
+// Listagem de tarefas do usuário
+routes.get('/usuariotarefa', UsuarioTarefaController.index);
+
+
 // Rota Notificacao
 routes.get('/notificacao', NotificacaoController.index);
 routes.put('/notificacao/:id', NotificacaoController.update);
@@ -133,7 +137,6 @@ routes.delete('/tarefa/:id', TarefaController.delete);
 routes.post('/usuariotarefa', UsuarioTarefaController.store);
 routes.put('/usuariotarefa/:id', UsuarioTarefaController.update);
 routes.delete('/usuariotarefa/:id', UsuarioTarefaController.delete);
-routes.get('/usuariotarefa', UsuarioTarefaController.index);
 
 
 // Rota Squad Tarefa

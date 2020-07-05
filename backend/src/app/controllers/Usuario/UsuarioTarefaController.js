@@ -235,7 +235,9 @@ class UsuarioTarefaController {
         const { nome, entregue = 0} = req.body;
 
         try{
-           await db("usuario_tarefa").select(
+           await db("usuario_tarefa")
+            .select(
+                "usuario_tarefa.id_usuariotarefa",
                 "tarefa.nome",
                 "tarefa.descricao",
                 "tarefa.prazo",
@@ -243,11 +245,12 @@ class UsuarioTarefaController {
                 {"nome_projeto":"projeto.nome"},
                 "tarefa.entregue",
                 {"funcionario":"usuario.nome"}
-                )
+            )
             .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
-            .join("projeto","tarefa.id_criador","=","projeto.id_criador")
+            .join("projeto","tarefa.id_projeto","=","projeto.id_projeto")
             .join("usuario","usuario_tarefa.id_usuario", "=", "usuario.id_usuario")
             .where("usuario_tarefa.id_usuario", idUsuario)
+            .orWhere("tarefa.id_criador", idUsuario)
             .andWhere("tarefa.entregue", entregue)
             //.andWhere("tarefa.nome","like",`%${nome}%`);
             .then((usuarioTarefa) => {
