@@ -6,9 +6,11 @@ import EmojiPeopleRoundedIcon from '@material-ui/icons/EmojiPeopleRounded';
 import {Card} from '@material-ui/core/';
 import {format} from 'date-fns';
 import CardContent from '@material-ui/core/CardContent';
-import api from '../../service/api'
+import api from '../../service/api';
 import Botao from '../../components/Botao/Botao';
-import {parseJWT} from '../../service/parseJWT'
+import {parseJWT} from '../../service/parseJWT';
+import './ponto.css';
+
 
 export default function Ponto(){
     const [ponto,setPonto] = useState([]);
@@ -64,10 +66,27 @@ export default function Ponto(){
                     return <Card style={{borderRadius:'20px',marginTop:'20px' }} key={ponto.id_timesheet}>
                         <CardContent style={{minWidth:'250px'}} className="card">
                             <div>
-                              <p style={{color:'#FE963D', marginBottom:'20px'}}><WorkRoundedIcon/>{ponto.entrada}</p>
-                              <p style={{color:'#FE963D', marginBottom:'20px'}}><LocalDiningRoundedIcon/>{ponto.almoco_ida}</p>
-                              <p style={{color:'#FE963D', marginBottom:'20px'}}><TransferWithinAStationRoundedIcon/>{ponto.almoco_volta}</p>
-                              <p style={{color:'#FE963D'}}><EmojiPeopleRoundedIcon/>{ponto.saida}</p>
+                                <div style={{display:'flex',alignItems:'center'}}>
+                                    <spam style={{marginBottom:'20px',color:'#FE963D'}}><WorkRoundedIcon/></spam>
+                                    <p style={{color:'#FE963D', marginBottom:'20px',justifySelf:'center'}}>
+                                        {ponto.entrada}
+                                    </p>
+                              </div>
+
+                              <div style={{display:'flex',alignItems:'center'}}>
+                                <spam style={{marginBottom:'20px',color:'#FE963D'}}><LocalDiningRoundedIcon/></spam>
+                                <p style={{color:'#FE963D', marginBottom:'20px'}}>{ponto.almoco_ida}</p>
+                              </div>
+                              
+                              <div style={{display:'flex',alignItems:'center'}}>
+                                <spam style={{marginBottom:'20px',color:'#FE963D'}}><TransferWithinAStationRoundedIcon/></spam>
+                                <p style={{color:'#FE963D', marginBottom:'20px'}}>{ponto.almoco_volta}</p>
+                              </div>
+                              
+                              <div style={{display:'flex',alignItems:'center'}}>
+                                <spam style={{marginBottom:'20px',color:'#FE963D'}}><EmojiPeopleRoundedIcon/></spam>
+                                <p style={{color:'#FE963D', marginBottom:'20px'}}>{ponto.saida}</p>
+                              </div>
                               <h1 style={{textAlign:'right'}}><Botao children="Ponto" funcao={batePonto}/></h1>
                             </div>
                         </CardContent>
@@ -83,9 +102,13 @@ export default function Ponto(){
                 {
                     tarefalist && tarefalist.map((tarefalist)=>{
                         let k = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
-                       return <p style={{display:'flex',justifyContent:'space-between'}} key={tarefalist.id_tarefa}>
-                           <spam style={{color:'#FE963D', marginBottom:'20px'}}>{tarefalist.nome}</spam>
-                           <spam style={{color:'#7A57EA'}}>{k}</spam>
+                       return  <p className="tarefa" key={tarefalist.id_tarefa}>
+                           <spam style={{color:'#FE963D', marginBottom:'20px', }}>{tarefalist.nome}</spam>
+                            
+                           <spam style={{color:'#7A57EA', textAlign:'center'}}>{k}</spam>
+                           
+                           <spam style={{color:'#FE963D',textAlign:'right'}}>{tarefalist.funcionario}</spam>
+                           
                        </p>
                     })
                 }
