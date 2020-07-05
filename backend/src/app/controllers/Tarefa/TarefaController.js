@@ -132,8 +132,11 @@ class TarefaController{
                     "tarefa.id_criador",
                     "tarefa.id_projeto",
                     //{"nome_projeto":"projeto.nome"}
+                    {"funcionario":"usuario.nome"}
                 )
                 .where("tarefa.entregue", entregue)
+                .join("usuario_tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
+                .join("usuario","usuario.id_usuario","=","usuario_tarefa.id_usuario")
                 //.andWhere("tarefa.nome","like",`%${nome}%`)
                 .andWhere("tarefa.id_criador",id_criador)
                 .then((tarefa) => {

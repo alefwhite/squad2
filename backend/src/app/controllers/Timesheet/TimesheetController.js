@@ -156,7 +156,7 @@ class TimesheetController {
                 validaTimesheet.almoco_ida && validaTimesheet.entrada
                 ){                 
                
-                const saida = "15:01:00"//IntlFormatTime(new Date());
+                const saida = IntlFormatTime(new Date());
                 
                 let hora_extra = 0;
                 let hora_negativa = 0;

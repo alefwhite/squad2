@@ -8,9 +8,11 @@ import {format} from 'date-fns';
 import CardContent from '@material-ui/core/CardContent';
 import api from '../../service/api'
 import Botao from '../../components/Botao/Botao';
+import {parseJWT} from '../../service/parseJWT'
 
 export default function Ponto(){
     const [ponto,setPonto] = useState([]);
+    const [tarefalist,setTarefalist] = useState([]);
     
     const pontos = async () =>{
        await api.get('/timesheet')
@@ -22,9 +24,18 @@ export default function Ponto(){
     }
 
     const tarefas = async () =>{
+        console.log(parseJWT().id_tipousuario);
+        parseJWT().id_tipousuario === 2 ?
+        
         await api.get("/tarefa")
-        .then(response=>{
-            console.log(response);
+        .then(response => {
+            setTarefalist(response.data);
+            console.log(response.data);
+        })
+        :
+        await api.get("/usuariotarefa")
+        .then(response => {
+            setTarefalist(response.data);
         })
     }
     useEffect(()=>{
@@ -64,8 +75,23 @@ export default function Ponto(){
                 }
             })
         }
-
+    
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
+        <Card style={{borderRadius:'20px',marginTop:'20px' }} >
+            <CardContent style={{minWidth:'250px'}} className="card">
+
+                {
+                    tarefalist && tarefalist.map((tarefalist)=>{
+                        let k = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
+                       return <p style={{display:'flex',justifyContent:'space-between'}} key={tarefalist.id_tarefa}>
+                           <spam style={{color:'#FE963D', marginBottom:'20px'}}>{tarefalist.nome}</spam>
+                           <spam style={{color:'#7A57EA'}}>{k}</spam>
+                       </p>
+                    })
+                }
+
+            </CardContent>
+        </Card>
         </div>
        
     )
