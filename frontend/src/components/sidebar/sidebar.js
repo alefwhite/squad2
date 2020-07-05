@@ -172,7 +172,6 @@ const SideBar = ({ userPermissionsData }) => {
     const [content, setContent] = useState('')
     const [profileImg, setProfileImg] = useState('none')
     const [profile, setProfile] = useState('');
-    const [N, setN] = useState('');
     const [notificacoes, setNotificacoes] = useState([]);
     const [totalNotificacoes, setTotalNotificacoes] = useState(0);
 
@@ -248,7 +247,7 @@ const SideBar = ({ userPermissionsData }) => {
         ListarNotificacoes();
 
         if (!content) {
-            setContent('Projeto');
+            setContent('Projetos');
         }
 
     }, [content]);

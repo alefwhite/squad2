@@ -215,11 +215,11 @@ export default function Projeto(){
             <div className="container">
 
             <div style={{alignSelf:'center',justifyContent:'center'}}>
-             <p style={{color:'#FE963D',marginRight:'18vw',cursor:'pointer',fontWeight:'bold', marginTop:'20px'}} onClick={handleOpen}>
-               <AssignmentRoundedIcon/>
-               Novo projeto 
-            </p>
-           <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%"}}>Projetos</p>
+              <p style={{color:'#FE963D',marginRight:'18vw',cursor:'pointer',fontWeight:'bold', marginTop:'20px'}} onClick={handleOpen}>
+                <AssignmentRoundedIcon/>
+                Novo projeto 
+              </p>
+              <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%"}}>Projetos</p>
            </div>
             {
                estado && estado.map((estado, ind)=>{
@@ -229,13 +229,13 @@ export default function Projeto(){
                         return <CardProjeto 
                         editar={()=>handleOpen3(ind)}
                         deletar={()=>handleOpen2(ind)}
-                        key={estado.id}
+                        key={estado.id_projeto}
                         nome={estado.nome} 
                         descricao={estado.descricao}
                         inicial={x}
                         final={y}
                         ></CardProjeto>
-            })
+                })
             }
      <Modal
         open={open}

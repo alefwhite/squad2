@@ -34,7 +34,7 @@ class ProjetoController {
             .then(() => {
                 return res.json({ mensagem: "Projeto cadastrado com sucesso!"});
             })
-            .catch(() => {
+            .catch((error) => {
                 console.error("Error: ", error);
 
                 return res.status(400).json({ mensagem: "Erro no cadastro do projeto!" });
