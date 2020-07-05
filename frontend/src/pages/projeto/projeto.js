@@ -232,8 +232,8 @@ export default function Projeto(){
                         key={estado.id_projeto}
                         nome={estado.nome} 
                         descricao={estado.descricao}
-                        inicial={x}
-                        final={y}
+                        inicial={y}
+                        final={x}
                         ></CardProjeto>
                 })
             }
