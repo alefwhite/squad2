@@ -49,7 +49,7 @@ function Input(props){
             color: "#FE963D",
             borderColor:'#7A57EA',
             borderBottom: '2px solid #7A57EA',
-            width: props.width? props.width:'77vw'
+            width: props.width? props.width:null
           },          
          
         }

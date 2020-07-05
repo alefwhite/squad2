@@ -6,6 +6,9 @@ import Modal from '@material-ui/core/Modal';
 import {makeStyles} from '@material-ui/core/styles';
 import NovoProjeto from '../../components/NovoProjeto/NovoProjeto';
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
+import Input from '../../components/Input/Input.js';
+import Botao from '../../components/Botao/Botao.js';
+import InputData from '../../components/InputData/InputData.js';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -30,11 +33,34 @@ const useStyles = makeStyles((theme)=>({
     }
 }))
 
+const estilo = {
+  input:[
+      {marginRight:'55%',marginTop:'0px'},
+  
+  ],
+  p:{
+      color:'#FE963D',
+      marginLeft:'2%',
+      fontSize:'25px'
+  },
+
+  espacoCampo:{
+      marginLeft:'2%',
+      marginBottom:'5%'
+  }
+  
+}
+
 export default function Projeto(){
     const [estado,setEstado] = useState([]);
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
+    const [open3, setOpen3] = useState(false);
     const [idprojeto, setIdprojeto] = useState(false);
+    const [nome,setNome]= useState('');
+    const [descricao,setDescricao] = useState('');
+    const [inicio,setInicio] = useState(new Date());
+    const [fim,setFim] = useState(new Date());
 
     const classes = useStyles();
 
@@ -68,6 +94,10 @@ export default function Projeto(){
         handleClose2();
         listar();
     } 
+    
+    const handleEditar = () =>{
+
+    }
 
     const handleOpen = () => {
         setOpen(true);
@@ -86,7 +116,69 @@ export default function Projeto(){
       const handleClose2 = () => {
         setOpen2(false);
       };
+      
+      const handleOpen3 = (index) => {
+        setOpen3(true);
+        setIdprojeto(index);
+        setNome(estado[index].nome);
+        setDescricao(estado[index].descricao);
+        setInicio(estado[index].data_inicial);
+        setFim(estado[index].data_final);
+      }
+      const handleClose3 = () => {
+        setOpen3(false);
+      };
+      function handlePreencher(evento,espaco){
+        switch(espaco){
+            case "nome":{
+                setNome(evento.target.value);
+                break;
+            }
+            case "descricao":{
+                setDescricao(evento.target.value);
+                break;
+            }
+            case "inicio":{
+                setInicio(evento);
+               
+                break;
+            }
+            case "fim":{
+                setFim(evento);
+                break;
+            }
+            default: 
+                return 
+        }
+        
+    }
+    async function enviar(x){
+      x.preventDefault();
+      console.log(inicio);
+      
+   
+      let data_inicial =  inicio;
+      let data_final =  fim;
+ 
+      
+      let data = {
+          nome,
+          descricao,
+          data_inicial,
+          data_final
+      }
+      const index = estado[idprojeto].id_projeto;
+     
+      const response = await api.put(`projeto/${index}`,data);
 
+      if(response.status===200){
+          console.log(response);
+      } 
+
+    handleClose3();
+    listar();
+    
+  }
       const modal =(
         <div  className={classes.paper}>
         <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
@@ -97,6 +189,26 @@ export default function Projeto(){
             </div>
         </div>
       </div>
+      )
+
+     const modalEditar=(
+        <div className="container3">
+            <form className='forms' onSubmit={enviar} >
+                <div>
+                <p style={estilo.p}>Nome do projeto</p>
+                </div>
+                <h1 style={estilo.espacoCampo}><Input width="45vw" variant="standard" value={nome} funcao={(evento)=>handlePreencher(evento,"nome")}/></h1 >
+
+                <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} value={inicio} label="Início" funcao={(evento)=>handlePreencher(evento,"inicio")}/>
+                <InputData  width='30vw' value={fim}  style={estilo.input[1]} label="Fim" funcao={(evento)=>handlePreencher(evento,"fim")}/></h1 >
+                <div>
+                <p style={estilo.p}>Descrição do projeto</p>
+                <h1  style={estilo.espacoCampo}><Input  multiline="false" width="35vw" value={descricao} funcao={(evento)=>handlePreencher(evento,"descricao")}/></h1 >
+                </div>
+                <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
+           
+            </form>
+        </div>
       )
       
         return(
@@ -115,6 +227,7 @@ export default function Projeto(){
                         let x = format(new Date(estado.data_final),"dd/MM/yyyy");
                    
                         return <CardProjeto 
+                        editar={()=>handleOpen3(ind)}
                         deletar={()=>handleOpen2(ind)}
                         key={estado.id}
                         nome={estado.nome} 
@@ -142,6 +255,16 @@ export default function Projeto(){
         className={classes.modal}
       >
         {modal}
+      </Modal>
+
+      <Modal
+        open={open3}
+        onClose={handleClose3}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        className={classes.modal}
+      >
+        {modalEditar}
       </Modal>
         </div>    
     )

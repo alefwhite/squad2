@@ -58,13 +58,15 @@ function InputData(props){
     const classes = useStyles();
     return(
         <>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}><KeyboardDatePicker 
-        style={props.style} 
-        label={props.label}  
-        format="dd/MM/yyyy" 
-        className={classes.campos}
-        onChange={props.funcao}
-        value={props.value}/></MuiPickersUtilsProvider>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker 
+            style={props.style} 
+            label={props.label}  
+            format="dd/MM/yyyy" 
+            className={classes.campos}
+            onChange={props.funcao}
+            value={props.value}/>
+        </MuiPickersUtilsProvider>
         </>
     )
 }
