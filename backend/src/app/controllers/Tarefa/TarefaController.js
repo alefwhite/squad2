@@ -132,7 +132,7 @@ class TarefaController{
                     "tarefa.id_criador",
                     "tarefa.id_projeto",
                     //{"nome_projeto":"projeto.nome"}
-                    {"funcionario":"usuario.nome"}
+                    {"funcionario":"usuario.nome_social"}
                 )
                 .where("tarefa.entregue", entregue)
                 .join("usuario_tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
