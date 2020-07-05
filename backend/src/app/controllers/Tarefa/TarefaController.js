@@ -121,7 +121,7 @@ class TarefaController{
         try {
 
            await db("tarefa")
-                .join("projeto","projeto.id_projeto","=","tarefa.id_projeto")
+                //.join("projeto","projeto.id_projeto","=","tarefa.id_projeto")
                 .select(
                     "tarefa.id_tarefa",
                     "tarefa.nome",
@@ -131,12 +131,13 @@ class TarefaController{
                     "tarefa.entregue",
                     "tarefa.id_criador",
                     "tarefa.id_projeto",
-                    {"nome_projeto":"projeto.nome"}
+                    //{"nome_projeto":"projeto.nome"}
                 )
                 .where("tarefa.entregue", entregue)
                 //.andWhere("tarefa.nome","like",`%${nome}%`)
                 .andWhere("tarefa.id_criador",id_criador)
                 .then((tarefa) => {
+                    console.log(tarefa);
                     return res.json(tarefa);
                 })
                 .catch((error) => {

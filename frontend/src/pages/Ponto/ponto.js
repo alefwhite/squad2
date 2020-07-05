@@ -20,9 +20,16 @@ export default function Ponto(){
             let x = format(new Date(),"yyyy-MM-dd");
         })
     }
+
+    const tarefas = async () =>{
+        await api.get("/tarefa")
+        .then(response=>{
+            console.log(response);
+        })
+    }
     useEffect(()=>{
         pontos();
-        
+        tarefas();
     },[]);
 
     const batePonto = async () =>{

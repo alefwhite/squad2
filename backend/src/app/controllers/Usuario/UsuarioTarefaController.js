@@ -241,10 +241,12 @@ class UsuarioTarefaController {
                 "tarefa.prazo",
                 "tarefa.hora_estimada",
                 {"nome_projeto":"projeto.nome"},
-                "tarefa.entregue"
+                "tarefa.entregue",
+                {"funcionario":"usuario.nome"}
                 )
             .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
             .join("projeto","tarefa.id_criador","=","projeto.id_criador")
+            .join("usuario","usuario_tarefa.id_usuario", "=", "usuario.id_usuario")
             .where("usuario_tarefa.id_usuario", idUsuario)
             .andWhere("tarefa.entregue", entregue)
             //.andWhere("tarefa.nome","like",`%${nome}%`);
