@@ -9,12 +9,26 @@ import CardContent from '@material-ui/core/CardContent';
 import api from '../../service/api';
 import Botao from '../../components/Botao/Botao';
 import {parseJWT} from '../../service/parseJWT';
+import {makeStyles} from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
 import './ponto.css';
 
+
+const useStyles = makeStyles((theme)=>({
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }
+}))
 
 export default function Ponto(){
     const [ponto,setPonto] = useState([]);
     const [tarefalist,setTarefalist] = useState([]);
+    const [open, setOpen] = useState(false);
+   
+    const [desc,setDesc] = useState("");
+    const classes = useStyles();
     
     const pontos = async () =>{
        await api.get('/timesheet')
@@ -40,6 +54,7 @@ export default function Ponto(){
             setTarefalist(response.data);
         })
     }
+    
     useEffect(()=>{
         pontos();
         tarefas();
@@ -53,7 +68,24 @@ export default function Ponto(){
         })
         
     }
-
+    const handleOpen = (index) => {
+        setOpen(true);
+        console.log(index);
+        setDesc(tarefalist[index].descricao)
+        console.log(tarefalist[index].descricao);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
+    const detalhes =(
+      
+      <Card style={{borderRadius:'20px',marginTop:'20px' }} >
+            <CardContent style={{minWidth:'250px'}} className="card">
+                <p>{desc}</p>
+            </CardContent>
+        </Card>
+    )
     return(
         <div className="container">
             <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Horários</p>
@@ -100,10 +132,10 @@ export default function Ponto(){
             <CardContent style={{minWidth:'250px'}} className="card">
 
                 {
-                    tarefalist && tarefalist.map((tarefalist)=>{
+                    tarefalist && tarefalist.map((tarefalist,ind)=>{
                         let k = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
-                       return  <p className="tarefa" key={tarefalist.id_tarefa}>
-                           <spam style={{color:'#FE963D', marginBottom:'20px', }}>{tarefalist.nome}</spam>
+                       return  <p className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} onClick={()=>handleOpen(ind)}>
+                           <spam style={{color:'#FE963D', marginBottom:'20px', }} >{tarefalist.nome}</spam>
                             
                            <spam style={{color:'#7A57EA', textAlign:'center'}}>{k}</spam>
                            
@@ -115,6 +147,15 @@ export default function Ponto(){
 
             </CardContent>
         </Card>
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        className={classes.modal}
+      >
+        {detalhes}
+      </Modal>
         </div>
        
     )
