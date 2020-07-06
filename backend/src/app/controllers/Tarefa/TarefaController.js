@@ -132,11 +132,11 @@ class TarefaController{
                     "tarefa.id_criador",
                     "tarefa.id_projeto",
                     //{"nome_projeto":"projeto.nome"}
-                    {"funcionario":"usuario.nome_social"}
+                    //{"funcionario":"usuario.nome_social"}
                 )
                 .where("tarefa.entregue", entregue)
-                .join("usuario_tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
-                .join("usuario","usuario.id_usuario","=","usuario_tarefa.id_usuario")
+                //.join("usuario_tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
+               // .join("usuario","usuario.id_usuario","=","usuario_tarefa.id_usuario")
                 //.andWhere("tarefa.nome","like",`%${nome}%`)
                 .andWhere("tarefa.id_criador",id_criador)
                 .orderBy("tarefa.id_tarefa", "desc")
