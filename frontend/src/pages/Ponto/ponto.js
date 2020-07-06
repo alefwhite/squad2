@@ -96,29 +96,29 @@ export default function Ponto(){
                 let y = format(new Date(ponto.data_ponto),"yyyy-dd-MM");
                 console.log(`ponto:${y}   x = ${x}`);
                 if(y === x) {         
-                    return <Card style={{borderRadius:'20px',marginTop:'20px', minHeight:'250px' }} key={ponto.id_timesheet}>
-                        <CardContent style={{minWidth:'250px',minHeight:'250px'}} className="card">
+                    return <Card style={{borderRadius:'20px',marginTop:'20px', minHeight:'300px' }} key={ponto.id_timesheet}>
+                        <CardContent style={{minWidth:'250px',minHeight:'300px'}} className="card">
                             <div>
                                 <div style={{display:'flex',alignItems:'center'}}>
-                                    <spam style={{marginBottom:'20px',color:'#FE963D'}}><WorkRoundedIcon/></spam>
-                                    <p style={{color:'#FE963D', marginBottom:'20px',justifySelf:'center'}}>
+                                    <span style={{marginBottom:'20px',color:'#FE963D'}}><WorkRoundedIcon style={{fontSize:'30px'}}/></span>
+                                    <p style={{color:'#FE963D', marginBottom:'20px',justifySelf:'center',fontSize:'20px'}}>
                                         {ponto.entrada}
                                     </p>
                               </div>
 
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <spam style={{marginBottom:'20px',color:'#FE963D'}}><LocalDiningRoundedIcon/></spam>
-                                <p style={{color:'#FE963D', marginBottom:'20px'}}>{ponto.almoco_ida}</p>
+                                <span style={{marginBottom:'20px',color:'#FE963D'}}><LocalDiningRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.almoco_ida}</p>
                               </div>
                               
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <spam style={{marginBottom:'20px',color:'#FE963D'}}><TransferWithinAStationRoundedIcon/></spam>
-                                <p style={{color:'#FE963D', marginBottom:'20px'}}>{ponto.almoco_volta}</p>
+                                <span style={{marginBottom:'20px',color:'#FE963D'}}><TransferWithinAStationRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.almoco_volta}</p>
                               </div>
                               
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <spam style={{marginBottom:'20px',color:'#FE963D'}}><EmojiPeopleRoundedIcon/></spam>
-                                <p style={{color:'#FE963D', marginBottom:'20px'}}>{ponto.saida}</p>
+                                <span style={{marginBottom:'20px',color:'#FE963D'}}><EmojiPeopleRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.saida}</p>
                               </div>
                               <h1 style={{textAlign:'right'}}><Botao children="Ponto" funcao={batePonto}/></h1>
                             </div>
@@ -133,8 +133,8 @@ export default function Ponto(){
         }
     
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
-        <Card style={{borderRadius:'20px',marginTop:'20px',minHeight:'250px' }} >
-            <CardContent style={{minWidth:'300px',maxWidth:'600px',minHeight:'100%'}} className="card">
+        <div style={{borderRadius:'20px',marginTop:'20px',minHeight:'150px' }} >
+            <div style={{minWidth:'300px',maxWidth:'600px',minHeight:'100%'}} className="card">
                 <p className="tarefa"> 
                 
                 </p>
@@ -142,20 +142,19 @@ export default function Ponto(){
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
                         let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
                        return  <div className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
-                           <spam style={{maxWidth:'20px', margin:'0'}}><input type="checkbox" style={{maxWidth:'20px', margin:'0'}}/></spam>
                            
-                           <spam style={{color:'#FE963D', marginBottom:'20px', }} onClick={()=>handleOpen(ind)}>{tarefalist.nome}</spam>
+                           <span style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.nome}</span>
                             
-                           <spam style={{color:'#7A57EA', textAlign:'center'}} onClick={()=>handleOpen(ind)} >{data}</spam>
+                           <span style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</span>
                            
-                           <spam style={{color:'#FE963D', textAlign:'center' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</spam>
+                           <span style={{color:'#FE963D', textAlign:'center',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</span>
                            
                        </div>
                     })
                 }
 
-            </CardContent>
-        </Card>
+            </div>
+        </div>
         <Modal
         open={open}
         onClose={handleClose}

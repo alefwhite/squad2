@@ -5,7 +5,8 @@ import Inicio from './pages/Teste/inicio.js'
 import TesteImagem from './pages/Teste/inicio';
 import Login from './pages/Login/login';
 import Projeto from './pages/Projeto/projeto';
-import Ponto from './pages/Ponto/ponto'
+import Ponto from './pages/Ponto/ponto';
+import Tarefa from './pages/Tarefa/tarefa';
 
 import Main from './pages/Main/main';
 import GestorCadastro from './pages/Gestor/cadastro';
@@ -26,6 +27,7 @@ export default function Routes() {
                 <Route path="/login" component={Login} />
                 <Route path="/ponto" component={Ponto}/> 
                 <Route path="/dashboard" component={Main} />
+                <Route path="/tarefa" component={Tarefa}/>
             </Switch>
         </BrowserRouter>
     )

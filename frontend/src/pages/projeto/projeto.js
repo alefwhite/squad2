@@ -216,10 +216,14 @@ export default function Projeto(){
 
             <div style={{alignSelf:'center',justifyContent:'center'}}>
               <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Projetos</p>
-              <p style={{color:'#FE963D',marginRight:'18vw',cursor:'pointer',fontWeight:'bold', marginTop:'10px'}} onClick={handleOpen}>
-                <AssignmentRoundedIcon/>
+
+              <div style={{display:'flex', alignItems:'center'}}>
+              <span style={{color:'#FE963D',cursor:'pointer',fontWeight:'bold', marginTop:'10px'}}><AssignmentRoundedIcon style={{fontSize:'25px'}}/></span>
+              <p style={{color:'#FE963D',marginRight:'18vw',cursor:'pointer',fontWeight:'bold', marginTop:'10px', fontSize:'20px'}} onClick={handleOpen}>
                 Novo projeto 
               </p>
+              </div>
+
            </div>
             {
                estado && estado.map((estado, ind)=>{

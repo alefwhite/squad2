@@ -29,6 +29,7 @@ import Projeto from '../../pages/Projeto/projeto';
 import SquadUsuario from '../../pages/SquadUsuario/squadusuario';
 import MinhasInformacoes from '../../pages/MinhasInformacoes/minhasInformacoes';
 import MinhasInformacoesFunc from '../../pages/MinhasInformacoes/minhasInformecoesFunc';
+import Ponto from '../../pages/Ponto/ponto';
 
 import Squad from '../../pages/SquadCadastro/squad';
 
@@ -197,7 +198,9 @@ const SideBar = ({ userPermissionsData }) => {
             case 'MinhasInformacoesFunc':
                 return <MinhasInformacoesFunc />;            
             case 'Squad':
-                return <Squad />;    
+                return <Squad />;  
+            case 'Ponto':
+                return <Ponto />;   
             default:
                 return;
         }
@@ -247,7 +250,7 @@ const SideBar = ({ userPermissionsData }) => {
         ListarNotificacoes();
 
         if (!content) {
-            setContent('Projetos');
+            setContent('Ponto');
         }
 
     }, [content]);

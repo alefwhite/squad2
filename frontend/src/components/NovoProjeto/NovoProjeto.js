@@ -78,10 +78,11 @@ function NovoProjeto({handleClose, setOpen}){
         if(response.status===200){
             console.log(response);
         } 
-
-      handleClose();
+        
+        handleClose();
       
     }
+
     return(
         <div className="container3">
             <form className='forms' onSubmit={enviar}>
@@ -98,9 +99,6 @@ function NovoProjeto({handleClose, setOpen}){
                 <h1  style={estilo.espacoCampo}><Input funcao={(evento)=>handlePreencher(evento,"descricao")} multiline="false" width="35vw"/></h1 >
                 </div>
                 <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
-                
-               
-                
             </form>
         </div>
     )

@@ -52,6 +52,13 @@ const Main = () => {
               name: 'Projetos',
               route: '/rota-4'
             } 
+            ,   
+            {
+              contentName: 'Ponto',
+              icon: 'Clock',
+              name: 'Ponto',
+              route: '/rota-4'
+            } 
           ]);
     }
   
