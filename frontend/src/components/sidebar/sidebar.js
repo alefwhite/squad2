@@ -279,7 +279,7 @@ const SideBar = ({ userPermissionsData }) => {
                     <div className={classes.grow} />
 
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 17 new notifications" color="inherit" onClick={() => setOpenNotification(true)} className={clsx(classes.outlinedPrimary, classes.margin_right)}>
+                        <IconButton aria-label="show 17 new notifications" color="inherit" onClick={() => {openNotification === false ? setOpenNotification(true) : setOpenNotification(false)}} className={clsx(classes.outlinedPrimary, classes.margin_right)}>
                             <Badge badgeContent={totalNotificacoes} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
