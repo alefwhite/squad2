@@ -58,6 +58,7 @@ class ProjetoController {
                 .where({
                     id_criador: userId
                 })
+                .orderBy("projeto.id_projeto", "desc")
                 .then((projetos) => {
 
                     if(projetos) {
