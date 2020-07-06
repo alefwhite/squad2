@@ -1,0 +1,89 @@
+.cardConvidar {
+    width: 100%;
+    max-width: 800px;
+    min-width: 400px;
+    background: #303030;
+    border-radius:20px;
+    margin: auto;
+    box-shadow: 2px 2px 33px 0px rgba(0,0,0,0.32);
+}   
+
+.cardConteudo {
+    width: 100%;
+    max-width: 700px;
+    padding: 30px;
+}
+
+.titleConvidar {
+    color: #FE963D;
+    padding: 8px;
+}
+
+.titleLink {
+    color: #FE963D;
+    padding: 10px 10px 10px 14px;
+}
+
+.inputDiv {
+    width: 100%;
+    display: flex;
+    color: #7A57EA;
+    margin-top: 30px;
+    margin-left: 5px;
+    align-items: center;
+}
+
+.inputDivCont {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.divLabels {
+    margin-left: 10px;
+    margin-bottom: 3px;
+    font-weight: bold;
+    color: #7A57EA;
+    font-size: 1.5em;
+}
+
+.inputsConvidar {
+    background: #FDFCFC;
+    border: 2px solid #7A57EA;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    width: 77vw;
+    max-width: 360px;
+    min-height: 36px;
+    height: 50px;
+    color: #FE963D;
+    padding: 18px;
+    font-weight: bold;
+    font-size: 16px;
+    outline: none;
+    margin-left: 5px;
+}
+
+.btnConvidar {
+    margin-top: auto;
+    margin-left: 10px;
+    align-self: center;
+    width: 25%;
+    min-width: 100px;
+    max-width: 150px;
+    height: 50px;
+    color: "white" !important;
+    cursor: pointer;
+    background: #FE963D;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-size: 1.2em;
+    border: none;
+    outline: none;
+   
+}
+
+.btnConvidar:hover {
+    background-color: #7A57EA;
+}

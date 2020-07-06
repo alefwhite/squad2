@@ -284,7 +284,7 @@ export default function Cadastrar() {
                     </select>
                 </div>                    
                 <button
-                    style={{color: "white", hover: "black"}}
+                    style={{color: "white"}}
                     type="submit"
                     className={clsx("btn")}
                 >
