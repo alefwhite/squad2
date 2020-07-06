@@ -139,6 +139,7 @@ class TarefaController{
                 .join("usuario","usuario.id_usuario","=","usuario_tarefa.id_usuario")
                 //.andWhere("tarefa.nome","like",`%${nome}%`)
                 .andWhere("tarefa.id_criador",id_criador)
+                .orderBy("tarefa.id_tarefa", "desc")
                 .then((tarefa) => {
                     console.log(tarefa);
                     return res.json(tarefa);
