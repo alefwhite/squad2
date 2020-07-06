@@ -222,15 +222,20 @@ const MinhasInformacoes = () => {
                                             <InputLabel htmlFor="outlined-age-native-simple">Alterar Cargo</InputLabel>
                                             <Select            
                                                 native
-                                                
-                                                value="teste"
+                                                onChange={AtualizaCargo}
+                                                value={novo_cargo}
                                                 label="cargo"
                                                 inputProps={{
                                                     name: 'cargo',
                                                     id: 'outlined-age-native-simple',
                                                 }}
                                             >
-                                
+                                                <option aria-label="None" value="" />
+                                                {
+                                                   cargos && cargos.map((cargo) => {
+                                                        return <option key={cargo.id_cargo} value={cargo.id_cargo}>{cargo.nome}</option>
+                                                    })
+                                                }
                                             </Select>
                                     </FormControl>
                                 </Grid> 

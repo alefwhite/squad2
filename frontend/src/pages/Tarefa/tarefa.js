@@ -169,13 +169,13 @@ export default function Tarefa(){
             <h1 style={estilo.espacoCampo}><InputData  width='30vw'   style={estilo.input[1]} label="Fim" funcao={(evento)=>handlePreencher(evento,"fim")}/></h1>
             <div>
             <FormControl className={classes.formControl}>
-        <InputLabel variant="outlined" htmlFor="age-native-simple">Age</InputLabel>
+        <InputLabel  htmlFor="age-native-simple">Age</InputLabel>
         <Select
           native
          
           inputProps={{
             name: 'age',
-            id: 'age-native-simple',
+            id: 'outlined-age-native-simple',
           }}
         >
           <option aria-label="None" value="" />
