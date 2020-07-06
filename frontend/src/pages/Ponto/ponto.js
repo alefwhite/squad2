@@ -12,6 +12,7 @@ import {parseJWT} from '../../service/parseJWT';
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './ponto.css';
+import { ToastContainer } from 'react-toastify';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -35,7 +36,7 @@ export default function Ponto(){
         .then(response => {
             console.log(response.data);
             setPonto(response.data);
-            let x = format(new Date(),"yyyy-MM-dd");
+            //let x = format(new Date(),"yyyy-MM-dd");
         })
     }
 
@@ -90,11 +91,11 @@ export default function Ponto(){
         <div className="container">
             <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Horários</p>
              {
-            ponto && ponto.map((ponto)=>{
+            ponto && ponto.map((ponto) => {
                 let x = format(new Date(),"yyyy-dd-MM");
                 let y = format(new Date(ponto.data_ponto),"yyyy-dd-MM");
                 console.log(`ponto:${y}   x = ${x}`);
-                if(y === x){         
+                if(y === x) {         
                     return <Card style={{borderRadius:'20px',marginTop:'20px' }} key={ponto.id_timesheet}>
                         <CardContent style={{minWidth:'250px'}} className="card">
                             <div>
@@ -124,6 +125,10 @@ export default function Ponto(){
                         </CardContent>
                     </Card>
                 }
+                else {
+                    return <> </>
+                }    
+                
             })
         }
     
@@ -156,7 +161,7 @@ export default function Ponto(){
       >
         {detalhes}
       </Modal>
-        </div>
-       
+      <ToastContainer/>
+    </div>       
     )
 }
