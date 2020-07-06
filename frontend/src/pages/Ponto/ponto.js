@@ -31,7 +31,7 @@ export default function Ponto(){
     const [desc,setDesc] = useState("");
     const classes = useStyles();
     
-    const pontos = async () =>{
+    const pontos = async () => {
        await api.get('/timesheet')
         .then(response => {
             console.log(response.data);
@@ -40,7 +40,7 @@ export default function Ponto(){
         })
     }
 
-    const tarefas = async () =>{
+    const tarefas = async () => {
         console.log(parseJWT().id_tipousuario);
         parseJWT().id_tipousuario === 2 ?
         
@@ -81,7 +81,7 @@ export default function Ponto(){
       };
     const detalhes =(
       
-      <Card style={{borderRadius:'20px',marginTop:'20px' }} >
+        <Card style={{borderRadius:'20px',marginTop:'20px' }} >
             <CardContent style={{minWidth:'250px',display:'flex',justifyContent:'center',alignItems:'center'}} className="card">
                 <p style={{color:'#FE963D', marginBottom:'20px', }} >{desc}</p>
             </CardContent>
