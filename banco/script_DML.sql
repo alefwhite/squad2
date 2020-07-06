@@ -157,14 +157,13 @@ INSERT INTO cargo(nome) VALUES
 
 SELECT * FROM cargo;
 
-
 -- status_usuario
 INSERT INTO status_usuario(tipo) VALUES('ativo'),('inativo'),('ferias');
+SELECT * status_usuario
 
 -- usuario
 INSERT INTO usuario(nome, email, senha, cpf, id_tipousuario, id_cargo, id_status) 
 VALUES('administrador', 'adm@adm.com', '123', '00000000000', 1, 1, 1);
-
 SELECT * FROM usuario;
 
 
