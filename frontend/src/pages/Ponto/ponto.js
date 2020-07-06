@@ -13,7 +13,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './ponto.css';
 import { ToastContainer } from 'react-toastify';
-
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -134,21 +134,22 @@ export default function Ponto(){
     
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
         <Card style={{borderRadius:'20px',marginTop:'20px' }} >
-            <CardContent style={{minWidth:'250px'}} className="card">
+            <CardContent style={{minWidth:'300px',maxWidth:'600px'}} className="card">
                 <p className="tarefa"> 
                 
                 </p>
                 {
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
                         let k = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
-                       return  <p className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} onClick={()=>handleOpen(ind)}>
-                           <spam style={{color:'#FE963D', marginBottom:'20px', }} >{tarefalist.nome}</spam>
+                       return  <div className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
+                           <spam style={{maxWidth:'20px', margin:'0'}}><input type="checkbox" style={{maxWidth:'20px', margin:'0'}}/></spam>
+                           <spam style={{color:'#FE963D', marginBottom:'20px', }} onClick={()=>handleOpen(ind)}>{tarefalist.nome}</spam>
                             
-                           <spam style={{color:'#7A57EA', textAlign:'center'}}>{k}</spam>
+                           <spam style={{color:'#7A57EA', textAlign:'center' }}>{k}</spam>
                            
-                           <spam style={{color:'#FE963D',textAlign:'right'}}>{tarefalist.funcionario}</spam>
+                           <spam style={{color:'#FE963D', textAlign:'center'}}>{tarefalist.funcionario}</spam>
                            
-                       </p>
+                       </div>
                     })
                 }
 
