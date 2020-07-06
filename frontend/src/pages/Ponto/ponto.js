@@ -81,8 +81,8 @@ export default function Ponto(){
     const detalhes =(
       
       <Card style={{borderRadius:'20px',marginTop:'20px' }} >
-            <CardContent style={{minWidth:'250px'}} className="card">
-                <p>{desc}</p>
+            <CardContent style={{minWidth:'250px',display:'flex',justifyContent:'center',alignItems:'center'}} className="card">
+                <p style={{color:'#FE963D', marginBottom:'20px', }} >{desc}</p>
             </CardContent>
         </Card>
     )
@@ -131,9 +131,6 @@ export default function Ponto(){
         <Card style={{borderRadius:'20px',marginTop:'20px' }} >
             <CardContent style={{minWidth:'250px'}} className="card">
                 <p className="tarefa"> 
-                    <spam>t</spam>
-                    <spam>a</spam>
-                    <spam>b</spam>
                 
                 </p>
                 {
