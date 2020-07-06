@@ -110,6 +110,7 @@ routes.put('/gestor', GestorController.update);
 
 // Rota Convite - Gera o link de cadastro para funcionarios
 routes.get('/convite', GestorConviteController.show);
+routes.post('/convidar', GestorConviteController.store);
 
 
 // Rota Projeto

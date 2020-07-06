@@ -30,7 +30,7 @@ const Main = () => {
           : setUserPermissionsData([
             {
               contentName: 'SquadUsuario',
-              icon: 'AccountTreeIcon',
+              icon: 'GroupIcon',
               name: 'Squad/Usuário',
               route: '/rota-1'
             },
@@ -57,8 +57,14 @@ const Main = () => {
               contentName: 'Ponto',
               icon: 'Clock',
               name: 'Ponto',
-              route: '/rota-4'
-            } 
+              route: '/rota-5'
+            }, 
+            {
+              contentName: 'Convidar',
+              icon: 'GroupAddIcon',
+              name: 'Convidar',
+              route: '/rota-6'
+            }, 
           ]);
     }
   

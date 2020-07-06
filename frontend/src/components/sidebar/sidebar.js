@@ -30,7 +30,7 @@ import SquadUsuario from '../../pages/SquadUsuario/squadusuario';
 import MinhasInformacoes from '../../pages/MinhasInformacoes/minhasInformacoes';
 import MinhasInformacoesFunc from '../../pages/MinhasInformacoes/minhasInformecoesFunc';
 import Ponto from '../../pages/Ponto/ponto';
-
+import Convidar from '../../pages/Convidar/convidar';
 import Squad from '../../pages/SquadCadastro/squad';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -201,6 +201,8 @@ const SideBar = ({ userPermissionsData }) => {
                 return <Squad />;  
             case 'Ponto':
                 return <Ponto />;   
+            case 'Convidar':
+                return <Convidar />;   
             default:
                 return;
         }
