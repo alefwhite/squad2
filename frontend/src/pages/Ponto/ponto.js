@@ -42,14 +42,6 @@ export default function Ponto(){
 
     const tarefas = async () => {
         console.log(parseJWT().id_tipousuario);
-        parseJWT().id_tipousuario === 2 ?
-        
-        await api.get("/tarefa")
-        .then(response => {
-            setTarefalist(response.data);
-            console.log(response.data);
-        })
-        :
         await api.get("/usuariotarefa")
         .then(response => {
             setTarefalist(response.data);
