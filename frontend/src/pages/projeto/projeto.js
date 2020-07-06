@@ -197,9 +197,10 @@ export default function Projeto(){
                 <p style={estilo.p}>Nome do projeto</p>
                 </div>
                 <h1 style={estilo.espacoCampo}><Input width="45vw" variant="standard" value={nome} funcao={(evento)=>handlePreencher(evento,"nome")}/></h1 >
-
-                <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} value={inicio} label="Início" funcao={(evento)=>handlePreencher(evento,"inicio")}/>
-                <InputData  width='30vw' value={fim}  style={estilo.input[1]} label="Fim" funcao={(evento)=>handlePreencher(evento,"fim")}/></h1 >
+                <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
+                <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} value={inicio} label="Início" funcao={(evento)=>handlePreencher(evento,"inicio")}/></h1 >
+                <h1 style={estilo.espacoCampo}><InputData  width='30vw' value={fim}  style={estilo.input[1]} label="Fim" funcao={(evento)=>handlePreencher(evento,"fim")}/></h1>
+                </div>
                 <div>
                 <p style={estilo.p}>Descrição do projeto</p>
                 <h1  style={estilo.espacoCampo}><Input  multiline="false" width="35vw" value={descricao} funcao={(evento)=>handlePreencher(evento,"descricao")}/></h1 >
