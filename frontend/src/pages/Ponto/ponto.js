@@ -96,8 +96,8 @@ export default function Ponto(){
                 let y = format(new Date(ponto.data_ponto),"yyyy-dd-MM");
                 console.log(`ponto:${y}   x = ${x}`);
                 if(y === x) {         
-                    return <Card style={{borderRadius:'20px',marginTop:'20px' }} key={ponto.id_timesheet}>
-                        <CardContent style={{minWidth:'250px'}} className="card">
+                    return <Card style={{borderRadius:'20px',marginTop:'20px', minHeight:'250px' }} key={ponto.id_timesheet}>
+                        <CardContent style={{minWidth:'250px',minHeight:'250px'}} className="card">
                             <div>
                                 <div style={{display:'flex',alignItems:'center'}}>
                                     <spam style={{marginBottom:'20px',color:'#FE963D'}}><WorkRoundedIcon/></spam>
@@ -133,21 +133,22 @@ export default function Ponto(){
         }
     
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
-        <Card style={{borderRadius:'20px',marginTop:'20px' }} >
-            <CardContent style={{minWidth:'300px',maxWidth:'600px'}} className="card">
+        <Card style={{borderRadius:'20px',marginTop:'20px',minHeight:'250px' }} >
+            <CardContent style={{minWidth:'300px',maxWidth:'600px',minHeight:'100%'}} className="card">
                 <p className="tarefa"> 
                 
                 </p>
                 {
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
-                        let k = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
+                        let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
                        return  <div className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
                            <spam style={{maxWidth:'20px', margin:'0'}}><input type="checkbox" style={{maxWidth:'20px', margin:'0'}}/></spam>
+                           
                            <spam style={{color:'#FE963D', marginBottom:'20px', }} onClick={()=>handleOpen(ind)}>{tarefalist.nome}</spam>
                             
-                           <spam style={{color:'#7A57EA', textAlign:'center' }}>{k}</spam>
+                           <spam style={{color:'#7A57EA', textAlign:'center'}} onClick={()=>handleOpen(ind)} >{data}</spam>
                            
-                           <spam style={{color:'#FE963D', textAlign:'center'}}>{tarefalist.funcionario}</spam>
+                           <spam style={{color:'#FE963D', textAlign:'center' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</spam>
                            
                        </div>
                     })
