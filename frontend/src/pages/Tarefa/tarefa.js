@@ -13,6 +13,10 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -59,6 +63,12 @@ export default function Tarefa(){
         espacoCampo:{
             marginLeft:'2%',
             marginBottom:'5%'
+        },
+        p2:{
+            color:'#FE963D',
+            marginLeft:'2%',
+            fontSize:'25px',
+            textAlign:'center' 
         }
         
     }
@@ -151,12 +161,30 @@ export default function Tarefa(){
         <div className="container3">
         <form className='forms'>
             <div>
-            <p style={estilo.p}>Atribuir tarefa</p>
+            <p style={estilo.p2}>Atribuir tarefa</p>
             </div>
             
             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
             <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} label="Início" funcao={(evento)=>handlePreencher(evento,"inicio")}/></h1 >
             <h1 style={estilo.espacoCampo}><InputData  width='30vw'   style={estilo.input[1]} label="Fim" funcao={(evento)=>handlePreencher(evento,"fim")}/></h1>
+            <div>
+            <FormControl className={classes.formControl}>
+        <InputLabel variant="outlined" htmlFor="age-native-simple">Age</InputLabel>
+        <Select
+          native
+         
+          inputProps={{
+            name: 'age',
+            id: 'age-native-simple',
+          }}
+        >
+          <option aria-label="None" value="" />
+          <option value={10}>Ten</option>
+          <option value={20}>Twenty</option>
+          <option value={30}>Thirty</option>
+        </Select>
+      </FormControl>
+                </div>
             </div>
            
             <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
@@ -190,7 +218,7 @@ export default function Tarefa(){
                                     <div style={{color:'#FE963D', display:'flex', justifyItems:'center'}}>
                                         <CreateRoundedIcon style={{cursor:'pointer'}} />
                                         <DeleteRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
-                                        <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
+                                        <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={handleOpen2}/>
                                         <PeopleAltRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
                                         
                                     </div>
