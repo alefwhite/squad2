@@ -3,7 +3,7 @@ import './NovoProjeto.css';
 import Input from '../Input/Input';
 import Botao from '../Botao/Botao';
 import InputData from '../InputData/InputData';
-
+import {format} from 'date-fns'
 import api from '../../service/api';
 
 
@@ -44,7 +44,6 @@ function NovoProjeto({handleClose, setOpen}){
             }
             case "inicio":{
                 setInicio(evento);
-               
                 break;
             }
             case "fim":{
@@ -62,8 +61,8 @@ function NovoProjeto({handleClose, setOpen}){
         console.log(inicio);
         
      
-        let data_inicial =  inicio;
-        let data_final =  fim;
+        let data_inicial =  format(new Date(inicio), "yyyy-MM-dd");
+        let data_final =  format(new Date(fim), "yyyy-MM-dd");
    
         
         let data = {

@@ -82,8 +82,8 @@ export default function Ponto(){
     const detalhes =(
       
       <Card style={{borderRadius:'20px',marginTop:'20px' }} >
-            <CardContent style={{minWidth:'250px'}} className="card">
-                <p>{desc}</p>
+            <CardContent style={{minWidth:'250px',display:'flex',justifyContent:'center',alignItems:'center'}} className="card">
+                <p style={{color:'#FE963D', marginBottom:'20px', }} >{desc}</p>
             </CardContent>
         </Card>
     )
@@ -135,7 +135,9 @@ export default function Ponto(){
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
         <Card style={{borderRadius:'20px',marginTop:'20px' }} >
             <CardContent style={{minWidth:'250px'}} className="card">
-
+                <p className="tarefa"> 
+                
+                </p>
                 {
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
                         let k = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
