@@ -7,7 +7,7 @@ import Login from './pages/Login/login';
 import Projeto from './pages/Projeto/projeto';
 import Ponto from './pages/Ponto/ponto';
 import Tarefa from './pages/Tarefa/tarefa';
-import UploadImagem from './components/uploadImagem/UploadImagem';
+import UploadImagem from './components/UploadImagem/UploadImagem';
 import Main from './pages/Main/main';
 import GestorCadastro from './pages/Gestor/cadastro';
 import FuncionarioCadastro from './pages/Funcionario/cadastrofunc';
