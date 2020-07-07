@@ -92,24 +92,24 @@ export default function Ponto(){
                         <CardContent style={{minWidth:'250px',minHeight:'300px'}} className="card">
                             <div>
                                 <div style={{display:'flex',alignItems:'center'}}>
-                                    <span style={{marginBottom:'20px',color:'#FE963D'}}><WorkRoundedIcon style={{fontSize:'30px'}}/></span>
+                                    <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><WorkRoundedIcon style={{fontSize:'30px'}}/></span>
                                     <p style={{color:'#FE963D', marginBottom:'20px',justifySelf:'center',fontSize:'20px'}}>
                                         {ponto.entrada}
                                     </p>
                               </div>
 
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <span style={{marginBottom:'20px',color:'#FE963D'}}><LocalDiningRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><LocalDiningRoundedIcon style={{fontSize:'30px'}}/></span>
                                 <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.almoco_ida}</p>
                               </div>
                               
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <span style={{marginBottom:'20px',color:'#FE963D'}}><TransferWithinAStationRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><TransferWithinAStationRoundedIcon style={{fontSize:'30px'}}/></span>
                                 <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.almoco_volta}</p>
                               </div>
                               
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <span style={{marginBottom:'20px',color:'#FE963D'}}><EmojiPeopleRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><EmojiPeopleRoundedIcon style={{fontSize:'30px'}}/></span>
                                 <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.saida}</p>
                               </div>
                               <h1 style={{textAlign:'right'}}><Botao children="Ponto" funcao={batePonto}/></h1>
