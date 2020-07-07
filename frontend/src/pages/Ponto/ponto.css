@@ -1,6 +1,25 @@
-.tarefa{
+.tarefa {
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 200px 120px 200px;
+    display: grid;
+    grid-template-rows: 50px;
+    margin: 5px auto 30px;
+    
+}
 
-    margin:10px;
+.tarefa div {
+    margin: 8px 4px;
+    padding: 10px;
+    /* as proriedades a partir daqui alinham o texto no centro */
+    display: grid;
+    text-align: center;
+    justify-content: center;
+}
+
+.cardTarefa {
+    width:100%;
+    max-width: 400px;
+    background-color: #4A4848;
+    border-radius:20px;
+    padding: 10px;   
 }
