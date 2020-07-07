@@ -13,6 +13,10 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -20,7 +24,58 @@ const useStyles = makeStyles((theme)=>({
         alignItems: 'center',
         justifyContent: 'center',
       },
-  
+      campos: {
+       
+        '& label.Mui-focused': {
+            color: '#FE963D',
+            fontWeight:'bold',
+        
+        }, 
+        '& .MuiFormLabel-root':{
+            color:'#FE963D',
+        },
+
+        '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
+            color: '#FE963D',
+            fontWeight:'bold',
+        
+        },  
+            
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+            border:'2px solid #7A57EA',
+            borderRadius: '20px',
+            
+            },
+            '&:hover fieldset': {
+                borderColor: '#7A57EA',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#7A57EA',
+            },
+            '& .MuiInputBase-input': {
+                color: "#7A57EA",
+                borderRadius: '22px',
+            },
+        
+        },
+        '& .MuiInputBase-root':{
+            '& .MuiInputBase-input': {
+                color: "#FE963D",            
+                borderBottom: '2px solid #7A57EA',
+                width: '180px'
+            },
+            
+            '&:hover .MuiInputBase-input':{
+                borderColor:'#7A57EA',
+            }
+        }
+        ,
+            
+        '& .MuiInput-underline:after':{
+            borderBottom: '2px solid #7A57EA',        
+        },    
+    },
 }))
 
 
@@ -32,6 +87,7 @@ export default function Tarefa(){
     const [entrega, setEntrega] = useState(new Date());
     const [descricao, setDescricao] = useState();
     const [tarefas, setTarefas] = useState([]);
+    const [funcionario, setFuncionario] = useState([]);
 
     useEffect(()=>{
         buscarTarefa();
@@ -43,6 +99,7 @@ export default function Tarefa(){
             setTarefas(response.data);
             console.log(response.data);
         })
+  
     }
 
     const estilo = {
@@ -59,6 +116,12 @@ export default function Tarefa(){
         espacoCampo:{
             marginLeft:'2%',
             marginBottom:'5%'
+        },
+        p2:{
+            color:'#FE963D',
+            marginLeft:'2%',
+            fontSize:'25px',
+            textAlign:'center' 
         }
         
     }
@@ -140,6 +203,12 @@ export default function Tarefa(){
       )
       const handleOpen2 = () => {
         setOpen2(true);
+              
+        api.get("/meusfuncionarios")
+        .then((response)=>{
+            setFuncionario(response.data);
+            console.log(response.data);
+        })
       };
     
       const handleClose2 = () => {
@@ -151,12 +220,43 @@ export default function Tarefa(){
         <div className="container3">
         <form className='forms'>
             <div>
-            <p style={estilo.p}>Atribuir tarefa</p>
+            <p style={estilo.p2}>Atribuir tarefa</p>
             </div>
             
             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
-            <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} label="Início" funcao={(evento)=>handlePreencher(evento,"inicio")}/></h1 >
-            <h1 style={estilo.espacoCampo}><InputData  width='30vw'   style={estilo.input[1]} label="Fim" funcao={(evento)=>handlePreencher(evento,"fim")}/></h1>
+          
+         
+            <FormControl className={classes.formControl, classes.campos}>
+                <InputLabel  htmlFor="age-native-simple">Funcionario</InputLabel>
+                <Select
+                    native
+                    inputProps={{
+                    name: 'age',
+                    id: 'outlined-age-native-simple',
+                    }}
+                >
+                    <option aria-label="None" value="" />
+                  
+                    </Select>
+                    </FormControl>
+                    <FormControl className={classes.formControl, classes.campos}>
+                <InputLabel  htmlFor="age-native-simple">tarefa</InputLabel>
+                <Select
+                    native
+                    inputProps={{
+                    name: 'age',
+                    id: 'outlined-age-native-simple',
+                    }}
+                >
+                    <option aria-label="None" value="" />
+                    {
+                        tarefas && tarefas.map((tarefas) => {
+                        return <option aria-label="none" value={tarefas.id_tarefa}>{tarefas.nome}</option>
+                        })
+                    }
+                    </Select>
+                    </FormControl>
+         
             </div>
            
             <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
@@ -190,7 +290,7 @@ export default function Tarefa(){
                                     <div style={{color:'#FE963D', display:'flex', justifyItems:'center'}}>
                                         <CreateRoundedIcon style={{cursor:'pointer'}} />
                                         <DeleteRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
-                                        <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
+                                        <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={handleOpen2}/>
                                         <PeopleAltRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
                                         
                                     </div>

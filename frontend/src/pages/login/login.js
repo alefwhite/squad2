@@ -6,6 +6,7 @@ import Input from '../../components/Input/Input';
 import { parseJWT }  from '../../service/parseJWT';
 import { toast, ToastContainer } from 'react-toastify';
 import { makeStyles } from '@material-ui/core/styles';
+import Botao from '../../components/Botao/Botao';
 
 const useStyles = makeStyles((theme) => ({
   itemColor: {
@@ -96,8 +97,8 @@ export default function Login() {
 
           <Input required={true} type="password" id="senha" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
 
-          <p style={{ textAlign: "center", marginTop: "25px", marginBottom: "20px" }}>
-            <button className="btn_Login" type="submit">Entrar</button>
+          <p style={{ textAlign: "center", marginTop: "30px", marginBottom: "20px" }}>
+            <Botao width="200px" height="50px" children="Entrar" fontSize="1.5em" transform="none" type="submit" ></Botao>
           </p>
       
           <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/gestor">clique aqui</a></p>

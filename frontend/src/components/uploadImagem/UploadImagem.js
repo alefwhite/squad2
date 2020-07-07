@@ -150,7 +150,7 @@ export default function UploadImagem(props){
         const handleClose = () => {
           setOpen(false);
         }
-
+  
         return(
            
             <>  

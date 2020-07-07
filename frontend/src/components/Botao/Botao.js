@@ -8,10 +8,13 @@ function Botao(props){
     const useStyles = makeStyles((theme)=>({
         botao:{
            '&.MuiButton-contained':{
+               borderRadius:"5px",
                color:'#fff',
                backgroundColor:'#FE963D',
-               width: props.width,
-               maxWidth: "420px"
+               width:props.width,
+               height:props.height,
+               fontSize: props.fontSize ? props.fontSize:null,
+               textTransform:props.transform ? props.transform:null
            },
            '&.MuiButton-contained:hover':{
                 backgroundColor:'#E38834'
