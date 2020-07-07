@@ -7,12 +7,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import api from '../../service/api';
 import '../../index.css'
+import { toast }from 'react-toastify';
 
-export default function UploadImagem(){
+export default function UploadImagem(props){
     const [imagem, setImagem] = useState(null);
     const [img, setImg] = useState(null);
     const [cropImg,setCropImg] = useState(null);
-    const [crop, setCrop] = useState({ aspect: 1/1 , unit: '%',width: 1,height: 1, x: 2, y: 2 });
+    const [crop, setCrop] = useState({ aspect: 1/1 , unit: '%', width: 1, height: 1, x: 2, y: 2 });
     const [open,setOpen] = useState(false);
     const [fileName, setFileName] = useState('');
     const [profile, setProfile] = useState('');
@@ -34,31 +35,35 @@ export default function UploadImagem(){
     const classes = useStyles();
     
     const EnviarImagem = async () => {
-       let data =  new FormData();
+       let data = new FormData();
        console.log(profile)
        data.append("img_usuario", profile, fileName);
-       const response = await api.post('/uploadusuario', data)
+
+       const response = await api.post('/uploadusuario', data);
+
         if(response.status === 200) {
-            //toast.success("Imagem inserida com sucesso!")
-            alert("Imagem inserida!");
+            toast.success("Imagem atualizada com sucesso!")
+            props.funcao();
             setOpen(false);
         }
-       console.log(response.data)
     };
 
     function handleImagem(event){
-      const img = event.target.files
+      const img = event.target.files;
         console.log("Imagem", img)
+
       if(img && img.length > 0) {
         setFileName(img[0].name);
         const reader = new FileReader();
         
-        reader.addEventListener("load",()=>{
+        reader.addEventListener("load", () => {
             const resultado = reader.result;
             setImagem(resultado);
-        })
-           reader.readAsDataURL(img[0]);
-           setOpen(true);
+        });
+
+        reader.readAsDataURL(img[0]);
+        setOpen(true);
+
       }
       
     }
@@ -66,61 +71,67 @@ export default function UploadImagem(){
     function corte(newCrop){
         setCrop(newCrop);
         makeCrop();
-    }
+    };
+
     //teste
     function load(img){
         setImg(img);
     }
     
-    async function makeCrop(){
+    async function makeCrop() {
         if(img && crop.width && crop.height){
             let cropURL = await getCroppedImg(img,crop,"novo.jpeg");
             setCropImg(cropURL);
         }
     }
 
-    function getCroppedImg(img,crop,fileName){
-    const canvas = document.createElement("canvas");
-    const scaleX = img.naturalWidth / img.width;
-    const scaleY = img.naturalHeight / img.height;
-    canvas.width = crop.width;
-    canvas.height = crop.height;
-    const ctx = canvas.getContext("2d");
+    function getCroppedImg(img,crop,fileName) {
+        const canvas = document.createElement("canvas");
+        const scaleX = img.naturalWidth / img.width;
+        const scaleY = img.naturalHeight / img.height;
+        canvas.width = crop.width;
+        canvas.height = crop.height;
+        const ctx = canvas.getContext("2d");
 
-    ctx.drawImage(
-      img,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      crop.width,
-      crop.height
-    );
+        ctx.drawImage(
+            img,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            crop.width,
+            crop.height
+        );
 
     return new Promise((resolve, reject)=>{
-        canvas.toBlob(blob=>{
-            if(!blob){
-                console.error("canvas vazio");
-                return;
-            }
-            blob.name= fileName;
-            setProfile(blob);
-            let x;
-            window.URL.revokeObjectURL(x);
-            x = window.URL.createObjectURL(blob);
-            resolve(x);
-        }, "image/jpeg")
+        canvas.toBlob(blob => {
+                if(!blob){
+                    console.error("canvas vazio");
+                    return;
+                };
+
+                blob.name= fileName;
+                setProfile(blob);
+                let x;
+                window.URL.revokeObjectURL(x);
+                x = window.URL.createObjectURL(blob);
+                resolve(x);
+            }, "image/jpeg")
         })
     }
 
     return(
         <>
             <p></p>
-            <label className="uploadLabel">
+            {/* <label className="uploadLabel">
                 Selecione a imagem
-                <input type="file" className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
+                <input type="file" hidden className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
+            </label> */}
+            <label className="labelUpload">
+                Atualizar Foto
+                <input type="file" hidden className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
             </label>
             {
                 modal()

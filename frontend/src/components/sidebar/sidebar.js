@@ -32,6 +32,7 @@ import MinhasInformacoesFunc from '../../pages/MinhasInformacoes/minhasInformeco
 import Ponto from '../../pages/Ponto/ponto';
 import Convidar from '../../pages/Convidar/convidar';
 import Squad from '../../pages/SquadCadastro/squad';
+import UploadImagem from '../uploadImagem/UploadImagem';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
@@ -40,6 +41,7 @@ import { ToastContainer } from 'react-toastify';
 import './profile.css';
 import ProfilePadrao from './Profile_id.png';
 
+import ImageIcon from '@material-ui/icons/Image';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 
@@ -175,6 +177,7 @@ const SideBar = ({ userPermissionsData }) => {
     const [profile, setProfile] = useState('');
     const [notificacoes, setNotificacoes] = useState([]);
     const [totalNotificacoes, setTotalNotificacoes] = useState(0);
+    const [upload, setUpload] = useState(false);
 
     const handleDrawerOpen = () => {
         setProfileImg('block');
@@ -332,6 +335,11 @@ const SideBar = ({ userPermissionsData }) => {
                 </div>
                 <Divider />            
                     <List className={classes.itemColor}>
+                            <ListItem button  onClick={() => {upload ? setUpload(false) : setUpload(true)}} className={classes.outlinedPrimary}>
+                                        <span><ImageIcon/></span>
+                                        {/* <ListItemText  primary="Selecionar Imagem" style={{ marginLeft: '31px',fontWeight: "900" }} /> */}
+                                        <UploadImagem funcao={ImgProfile}/>
+                            </ListItem> 
                             {userPermissionsData.map((item) => (
                                     <ListItem button key={item.route}  onClick={() => setContent(item.contentName)} className={classes.outlinedPrimary}>
                                         <span>{defineIcons(item.icon)}</span>
@@ -380,6 +388,7 @@ const SideBar = ({ userPermissionsData }) => {
                         }
                     </Collapse>
                 </div>
+                {upload ? <UploadImagem/> : ""}
             </main>
         </div>
     );

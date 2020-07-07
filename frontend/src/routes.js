@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Inicio from './pages/Teste/inicio.js'
+// import Inicio from './pages/Teste/inicio.js'
 import TesteImagem from './pages/Teste/inicio';
 import Login from './pages/Login/login';
 import Projeto from './pages/Projeto/projeto';

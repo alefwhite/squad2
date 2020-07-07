@@ -97,7 +97,7 @@ export default function Login() {
           <Input required={true} type="password" id="senha" label="Insira sua senha" name="senha" autoComplete="password" variant="outlined"funcao={(evento) => handlePreencher(evento, "senha")}></Input>
 
           <p style={{ textAlign: "center", marginTop: "25px", marginBottom: "20px" }}>
-            <button className="botao" type="submit">Entrar</button>
+            <button className="btn_Login" type="submit">Entrar</button>
           </p>
       
           <p style={{ color: "white", textAlign: "center" }}>Ainda não possui cadastro? <a href="/gestor">clique aqui</a></p>
