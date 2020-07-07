@@ -13,10 +13,12 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { toast, ToastContainer } from 'react-toastify';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -88,6 +90,9 @@ export default function Tarefa(){
     const [descricao, setDescricao] = useState();
     const [tarefas, setTarefas] = useState([]);
     const [funcionario, setFuncionario] = useState([]);
+    const [index,setIndex] = useState();
+    const [idUsuario, setIdUsuario] = useState("Selecione o funcionario");
+    const [idTarefa, setIdTarefa] = useState();
 
     useEffect(()=>{
         buscarTarefa();
@@ -99,7 +104,12 @@ export default function Tarefa(){
             setTarefas(response.data);
             console.log(response.data);
         })
-  
+        
+        api.get("/meusfuncionarios")
+        .then((response)=>{
+            setFuncionario(response.data);
+            console.log(response.data);
+        })
     }
 
     const estilo = {
@@ -201,70 +211,103 @@ export default function Tarefa(){
         </form>
     </div>
       )
-      const handleOpen2 = () => {
+      const handleOpen2 = (ind) => {
         setOpen2(true);
-              
-        api.get("/meusfuncionarios")
-        .then((response)=>{
-            setFuncionario(response.data);
-            console.log(response.data);
-        })
+        setIndex(ind.id_tarefa);
+        setIdTarefa(ind.id_tarefa);
+        console.log(ind);
+       
       };
     
       const handleClose2 = () => {
         setOpen2(false);
-      
+        setIdUsuario("Selecione o funcionario")
       };
+      const handleFuncionario = (evento) => {
+        setIdUsuario(evento.target.value);
+        console.log(evento.target.value);
+        console.log(idTarefa);
+      }
 
+      const handleAtribuirUsuario = async () => {
+        
+        let id_tarefa = idTarefa;
+        let id_usuario = idUsuario;
+
+        let data = {
+            id_tarefa,
+            id_usuario
+        }
+
+
+        const response = await api.post('/usuariotarefa',data);
+        if(response.status === 200){
+            toast.success(response.data.mensagem);
+        }
+    
+
+        handleClose2();
+      }
       const modalAtribuir = (
-        <div className="container3">
-        <form className='forms'>
-            <div>
-            <p style={estilo.p2}>Atribuir tarefa</p>
-            </div>
-            
-            <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
-          
-         
-            <FormControl className={classes.formControl, classes.campos}>
-                <InputLabel  htmlFor="age-native-simple">Funcionario</InputLabel>
-                <Select
-                    native
-                    inputProps={{
-                    name: 'age',
-                    id: 'outlined-age-native-simple',
-                    }}
-                >
-                    <option aria-label="None" value="" />
-                  
-                    </Select>
-                    </FormControl>
-                    <FormControl className={classes.formControl, classes.campos}>
-                <InputLabel  htmlFor="age-native-simple">tarefa</InputLabel>
-                <Select
-                    native
-                    inputProps={{
-                    name: 'age',
-                    id: 'outlined-age-native-simple',
-                    }}
-                >
-                    <option aria-label="None" value="" />
-                    {
-                        tarefas && tarefas.map((tarefas) => {
-                        return <option aria-label="none" value={tarefas.id_tarefa}>{tarefas.nome}</option>
-                        })
-                    }
-                    </Select>
-                    </FormControl>
-         
-            </div>
-           
-            <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
-       
-        </form>
-    </div>
-      )
+        <Dialog open={handleOpen2}  aria-labelledby="form-dialog-title" >
+                            <DialogTitle style={{textAlign: "center", color: "#7A57EA", fontSize: "2.0em !important", fontWeight: "bold !important"}} id="form-dialog-title">Atribuir tarefas aos funcionario</DialogTitle>
+                            <DialogContent style={{textAlign: "center"}}>
+                                <DialogContentText style={{color: "#FE963D", fontWeight: "bold !important"}}>
+                                    Selecione o funcionário para cumprir a tarefa.
+                                </DialogContentText>
+                                <div style={{marginTop: "25px"}}>
+                                    <select                                        
+                                        className={"inputs"}
+                                        required={true}  
+                                        disabled={true}          
+                                        value={index}
+                                        name="squad"
+                                        id="squad"
+                                        style={{cursor: "pointer", padding: "14px", background: "#303030"}}
+                                    >
+                                    <option disabled value="Selecione a squad">
+                                        Tarefa
+                                    </option>
+                                       {
+                                           tarefas && tarefas.map((tarefa)=>{
+                                                return <option key={tarefa.id_tarefa} value={tarefa.id_tarefa}>{tarefa.nome}</option>                                         
+                                           })
+                                       }
+                                    </select>
 
+                                </div>
+                                <div style={{marginTop: "15px", marginBottom: "15px"}}>
+                                    <select
+                                        className={"inputs"}
+                                        required={true}            
+                                        onChange={handleFuncionario}
+                                        value={idUsuario}
+                                        name="funcionario"
+                                        id="funcionario"
+                                        style={{cursor: "pointer", padding: "15px", background: "#303030"}}
+                                    >
+                                    <option disabled value="Selecione o funcionario">
+                                        Selecione o funcionário
+                                    </option>
+                                      {
+                                          funcionario && funcionario.map((funcionario) => {
+                                              return <option key={funcionario.id_usuario} value={funcionario.id_usuario}>{funcionario.nome}</option>
+                                          })
+                                      }
+                                    </select>
+                                </div>                                
+                            </DialogContent>
+                            <DialogActions style={{display: "flex", justifyContent: "space-around", marginBottom: "15px"}}>
+                                <button className="btn_sim" onClick={handleAtribuirUsuario}>
+                                    Inserir
+                                </button>
+                                <button className="btn_nao" onClick={handleClose2}>
+                                    Cancelar
+                                </button>
+                            </DialogActions>
+                        </Dialog>
+      )
+   
     return(
         <div className="container">
             <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"18vw", marginTop:'20px'}}>Tarefas</p>
@@ -279,22 +322,23 @@ export default function Tarefa(){
               {
                   tarefas && tarefas.map((tarefas,ind)=>{
                     let entrega = format(new Date(tarefas.prazo),"dd/MM/yyyy")
-                    return <div style={{minWidth:'250px'}}>
+
+                    return <div key={tarefas.id_tarefa} style={{minWidth:'250px'}}>
                     <Card style={{borderRadius:'20px',marginTop:'20px'}}>
                         <CardContent style={{minWidth:'250px'}} className="card">
                             <div>
-                                <p className="envolve">
+                                <div className="envolve">
         
                                 <p className="texto">{tarefas.nome}</p>
         
                                     <div style={{color:'#FE963D', display:'flex', justifyItems:'center'}}>
                                         <CreateRoundedIcon style={{cursor:'pointer'}} />
                                         <DeleteRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
-                                        <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={handleOpen2}/>
+                                        <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen2(tarefas)}/>
                                         <PeopleAltRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
                                         
                                     </div>
-                                </p>
+                                </div>
                                 <p style={{color:'#7A57EA', fontSize:'20px', marginTop:'20px'}}>{tarefas.descricao}</p>
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
                                     entrega:{entrega}
@@ -326,6 +370,9 @@ export default function Tarefa(){
                 >
                     {modalAtribuir}
             </Modal>
+              <ToastContainer/>
         </div>
+
+    
     )
 }
