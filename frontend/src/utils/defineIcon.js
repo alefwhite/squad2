@@ -6,6 +6,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
 import GroupIcon from '@material-ui/icons/Group';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export default function defineIcon(iconName) {
     switch (iconName) {
@@ -23,6 +24,8 @@ export default function defineIcon(iconName) {
             return <EmailIcon />
         case 'Clock':
             return <AccessTimeOutlinedIcon />             
+        case 'AssignmentIcon':
+            return <AssignmentIcon />             
         default:
             return;
     }
