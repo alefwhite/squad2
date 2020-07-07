@@ -65,6 +65,12 @@ const Main = () => {
               name: 'Convidar',
               route: '/rota-6'
             }, 
+            {
+              contentName: 'SquadTarefa',
+              icon: 'AssignmentIcon',
+              name: 'Squad/Tarefa',
+              route: '/rota-7'
+            }, 
           ]);
     }
   

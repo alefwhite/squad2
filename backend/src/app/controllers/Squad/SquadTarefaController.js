@@ -4,7 +4,8 @@ import NotificacaoSquadTarefa from '../../models/NotificacaoSquadTarefa';
 
 class SquadTarefaController {
     async index(req, res) {
-        const id_usuario = req.idUsuario;        
+        const id_usuario = req.idUsuario;
+        const id_squad = req.query.id;        
                
         try {
            await db("squad_tarefa as ST")
@@ -13,7 +14,8 @@ class SquadTarefaController {
                     "S.nome as squad", 
                     "P.nome as projeto", 
                     "P.descricao as descricao_projeto", 
-                    "T.descricao as tarefa", 
+                    "T.descricao as tarefa_descricao",
+                    "T.nome as tarefa",
                     "T.prazo", 
                     "T.hora_estimada"
                 ])
@@ -24,8 +26,10 @@ class SquadTarefaController {
                 .where({
                     "S.id_criador" : id_usuario,
                     "T.id_criador" : id_usuario,
-                    "P.id_criador" : id_usuario
+                    "P.id_criador" : id_usuario,
+                    "ST.id_squad"  : id_squad 
                 })
+                //.andWhere({ "ST.id_squad": id_squad ? id_squad : "" })                
                 .orderBy("ST.id_squadtarefa", "desc")
                 .then((squad_tarefas) => {
 
@@ -49,6 +53,56 @@ class SquadTarefaController {
             return res.status(500).json({ mensagem: "Erro interno no servidor." });
         }
     }
+
+    // async index(req, res) {
+    //     const id_usuario = req.idUsuario;        
+               
+    //     try {
+    //        await db("squad_tarefa as ST")
+    //             .select([
+    //                 "ST.id_squadtarefa", 
+    //                 "S.nome as squad", 
+    //                 "P.nome as projeto", 
+    //                 "P.descricao as descricao_projeto", 
+    //                 "T.descricao as tarefa", 
+    //                 "T.prazo", 
+    //                 "T.hora_estimada"
+    //             ])
+    //             .distinct("ST.id_squadtarefa")
+    //             .innerJoin("squad as S", "S.id_squad", "=", "ST.id_squad")
+    //             .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
+    //             .innerJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
+    //             .where({
+    //                 "S.id_criador" : id_usuario,
+    //                 "T.id_criador" : id_usuario,
+    //                 "P.id_criador" : id_usuario
+    //             })
+    //             .orWhere({
+
+    //             })
+    //             .orderBy("ST.id_squadtarefa", "desc")
+    //             .then((squad_tarefas) => {
+
+    //                 if(squad_tarefas) {
+
+    //                     return res.json(squad_tarefas);
+    //                 }
+
+    //                 return res.status(400).json({ mensagem: "Não foi possível listar squad/tarefa!" });
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error);
+
+    //                 return res.status(400).json({ mensagem: "Erro listar squad tarefa." });
+    //             });
+    
+            
+    //     } catch(error) {
+    //         console.error("Error: ", error);
+
+    //         return res.status(500).json({ mensagem: "Erro interno no servidor." });
+    //     }
+    // }
     async store(req, res) {
         const id_usuario = req.idUsuario;
         const { id_squad, id_tarefa } = req.body;

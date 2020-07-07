@@ -1,0 +1,14 @@
+.contentSquads {
+    box-shadow: 2px 2px 33px 0px rgba(0,0,0,0.32);
+    padding: 20px;
+}
+
+.titleSquads {
+    color: #FE963D;
+    padding: 8px;
+}
+
+.cardSquadTarefa {
+    background-color: black;
+    box-shadow: 2px 2px 33px 0px rgba(0,0,0,0.32);
+}

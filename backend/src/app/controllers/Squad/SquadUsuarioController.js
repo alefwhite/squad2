@@ -1,13 +1,19 @@
 import db from '../../../database/connection';
 
-class SquadUsuarioontroller {
+class SquadUsuarioController {
     async index(req, res) {
         const id_usuario = req.idUsuario;              
 
         try {
 
            await db("squad_usuario")
-            .select("squad_usuario.id_squadusuario", "usuario.nome as nome", "squad.nome as squad")
+            .select([
+                "squad_usuario.id_squadusuario", 
+                "usuario.nome as nome", 
+                "squad.nome as squad",
+                "squad.id_squad",
+                "usuario.id_usuario"
+            ])
             .join("usuario", { "usuario.id_usuario" : "squad_usuario.id_usuario" })
             .join("squad", { "squad.id_squad" :  "squad_usuario.id_squad" })
             .where({                    
@@ -255,4 +261,4 @@ class SquadUsuarioontroller {
     }
 }
 
-export default new SquadUsuarioontroller();
+export default new SquadUsuarioController();

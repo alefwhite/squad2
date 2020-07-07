@@ -153,6 +153,7 @@ const SquadUsuario = () => {
 
     const handleOpen = (id, data) => {
         if(data) {
+            console.log("Data, ", data)
             setSquadId(data.squad);
             setFuncionarioId(data.usuario);
         }
@@ -236,7 +237,9 @@ const SquadUsuario = () => {
         .then((response) => {
             if(response.status === 200) {
                 toast.success(response.data.mensagem);
-                
+                ListarSquadUsuarios();
+                setSquadId("Selecione a squad");
+                setFuncionarioId("Selecione o usuário");
                 handleClose();
             }
         })
@@ -279,7 +282,7 @@ const SquadUsuario = () => {
                             style={{cursor: "pointer", padding: "15px", background: "#303030", maxWidth: "320px"}}
                         >
                         <option disabled value="Selecione o usuário">
-                            Selecione o funcionário
+                            Selecione o usuário
                         </option>
                             {
                                 funcionarios && funcionarios.map((func) => {
@@ -385,7 +388,7 @@ const SquadUsuario = () => {
                                         style={{cursor: "pointer", padding: "15px", background: "#303030"}}
                                     >
                                     <option disabled value="Selecione o usuário">
-                                        Selecione o funcionário
+                                        Selecione o usuário
                                     </option>
                                         {
                                             funcionarios && funcionarios.map((func) => {
@@ -431,6 +434,7 @@ const SquadUsuario = () => {
                             tooltip: 'Editar',
                             onClick: (event, rowData) => {
                                 setModalBody(true);
+                                console.log("Row", rowData)
                                 handleOpen(rowData.id_squadusuario, {squad: rowData.id_squad, usuario:rowData.id_usuario});
                             }
                         },
