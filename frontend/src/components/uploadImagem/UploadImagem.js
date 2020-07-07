@@ -114,7 +114,7 @@ export default function UploadImagem(){
         const handleClose = () => {
           setOpen(false);
         }
-
+  
         return(
            
             <>  
@@ -132,7 +132,7 @@ export default function UploadImagem(){
                     <img src={cropImg} className="imgCrop"></img> 
                     </Grid>
                     <Grid container direction="row" justify="center" alignItems="center">
-                    <button className="botao">Confirmar</button>
+                    <button className="botao" onClick={teste}>Confirmar</button>
                     </Grid>
                     </div>
                     
