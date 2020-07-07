@@ -13,13 +13,14 @@ import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './ponto.css';
 import { ToastContainer } from 'react-toastify';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        outline: 'none !important'
       }
 }))
 
@@ -92,24 +93,24 @@ export default function Ponto(){
                         <CardContent style={{minWidth:'250px',minHeight:'300px'}} className="card">
                             <div>
                                 <div style={{display:'flex',alignItems:'center'}}>
-                                    <span style={{marginBottom:'20px',color:'#FE963D'}}><WorkRoundedIcon style={{fontSize:'30px'}}/></span>
+                                    <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><WorkRoundedIcon style={{fontSize:'30px'}}/></span>
                                     <p style={{color:'#FE963D', marginBottom:'20px',justifySelf:'center',fontSize:'20px'}}>
                                         {ponto.entrada}
                                     </p>
                               </div>
 
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <span style={{marginBottom:'20px',color:'#FE963D'}}><LocalDiningRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><LocalDiningRoundedIcon style={{fontSize:'30px'}}/></span>
                                 <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.almoco_ida}</p>
                               </div>
                               
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <span style={{marginBottom:'20px',color:'#FE963D'}}><TransferWithinAStationRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><TransferWithinAStationRoundedIcon style={{fontSize:'30px'}}/></span>
                                 <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.almoco_volta}</p>
                               </div>
                               
                               <div style={{display:'flex',alignItems:'center'}}>
-                                <span style={{marginBottom:'20px',color:'#FE963D'}}><EmojiPeopleRoundedIcon style={{fontSize:'30px'}}/></span>
+                                <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><EmojiPeopleRoundedIcon style={{fontSize:'30px'}}/></span>
                                 <p style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px'}}>{ponto.saida}</p>
                               </div>
                               <h1 style={{textAlign:'right'}}><Botao children="Ponto" funcao={batePonto}/></h1>
@@ -126,20 +127,17 @@ export default function Ponto(){
     
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
         <div style={{borderRadius:'20px',marginTop:'20px',minHeight:'150px' }} >
-            <div style={{minWidth:'300px',maxWidth:'600px',minHeight:'100%'}} className="card">
-                <p className="tarefa"> 
-                
-                </p>
+            <div style={{minWidth:'300px',maxWidth:'600px',minHeight:'100%'}} className="cardTarefa">
                 {
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
                         let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
                        return  <div className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
                            
-                           <span style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.nome}</span>
+                           <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.nome}</div>
                             
-                           <span style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</span>
+                           <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
                            
-                           <span style={{color:'#FE963D', textAlign:'center',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</span>
+                           <div style={{color:'#FE963D', textAlign:'center',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</div>
                            
                        </div>
                     })

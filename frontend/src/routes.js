@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Inicio from './pages/Teste/inicio.js'
+// import Inicio from './pages/Teste/inicio.js'
 import TesteImagem from './pages/Teste/inicio';
 import Login from './pages/Login/login';
 import Projeto from './pages/Projeto/projeto';
 import Ponto from './pages/Ponto/ponto';
 import Tarefa from './pages/Tarefa/tarefa';
-
+import UploadImagem from './components/uploadImagem/UploadImagem';
 import Main from './pages/Main/main';
 import GestorCadastro from './pages/Gestor/cadastro';
 import FuncionarioCadastro from './pages/Funcionario/cadastrofunc';
@@ -17,7 +17,7 @@ export default function Routes() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/" component={Inicio}/>
+                <Route exact path="/" component={UploadImagem}/>
                 <Route path="/teste" component={TesteImagem}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/projeto" component={Projeto}/>

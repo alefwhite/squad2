@@ -5,7 +5,7 @@
     font-family: 'Ubuntu', sans-serif;
     box-sizing: border-box;
     text-decoration: none;
-    
+    outline: none;
 }
 
 body{
@@ -45,6 +45,21 @@ body{
     border: none;
     outline: none;
    
+}
+
+.btn_Login {
+    margin-top: 15px;
+    font-size:1.5em;
+    background-color: #FE963D;
+    color:white;
+    border:1px solid #FE963D;
+    border-radius:5px;
+    align-self:center;
+    padding: 5px 15px 5px 15px;  
+    cursor: pointer;
+    outline: none;
+    width: 200px;
+    height: 50px; 
 }
 
 .btn_sim {
