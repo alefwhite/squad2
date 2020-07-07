@@ -41,7 +41,7 @@ import { ToastContainer } from 'react-toastify';
 import './profile.css';
 import ProfilePadrao from './Profile_id.png';
 
-import ImageIcon from '@material-ui/icons/Image';
+// import ImageIcon from '@material-ui/icons/Image';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 
@@ -177,7 +177,7 @@ const SideBar = ({ userPermissionsData }) => {
     const [profile, setProfile] = useState('');
     const [notificacoes, setNotificacoes] = useState([]);
     const [totalNotificacoes, setTotalNotificacoes] = useState(0);
-    const [upload, setUpload] = useState(false);
+    // const [upload, setUpload] = useState(false);
 
     const handleDrawerOpen = () => {
         setProfileImg('block');
@@ -335,8 +335,8 @@ const SideBar = ({ userPermissionsData }) => {
                 </div>
                 <Divider />            
                     <List className={classes.itemColor}>
-                            <ListItem button  onClick={() => {upload ? setUpload(false) : setUpload(true)}} className={classes.outlinedPrimary}>
-                                        <span><ImageIcon/></span>
+                            <ListItem button className={classes.outlinedPrimary}>
+                                        {/* <span><ImageIcon/></span> */}
                                         {/* <ListItemText  primary="Selecionar Imagem" style={{ marginLeft: '31px',fontWeight: "900" }} /> */}
                                         <UploadImagem funcao={ImgProfile}/>
                             </ListItem> 
@@ -388,7 +388,6 @@ const SideBar = ({ userPermissionsData }) => {
                         }
                     </Collapse>
                 </div>
-                {upload ? <UploadImagem/> : ""}
             </main>
         </div>
     );

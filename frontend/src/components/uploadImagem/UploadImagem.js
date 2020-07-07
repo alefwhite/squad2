@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import api from '../../service/api';
 import '../../index.css'
+import ImageIcon from '@material-ui/icons/Image';
 import { toast }from 'react-toastify';
 
 export default function UploadImagem(props){
@@ -124,14 +125,19 @@ export default function UploadImagem(props){
 
     return(
         <>
-            <p></p>
             {/* <label className="uploadLabel">
                 Selecione a imagem
                 <input type="file" hidden className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
             </label> */}
-            <label className="labelUpload">
+            <span htmlfor="up" onClick={() => {
+                let up = document.querySelector("#up");
+                up.click();
+            }}>
+                <ImageIcon/>
+            </span>
+            <label className="labelUpload" htmlfor="up">
                 Atualizar Foto
-                <input type="file" hidden className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
+                <input type="file" hidden className="upload" multiple={false} id="up" onChange={(event)=>handleImagem(event)}></input>
             </label>
             {
                 modal()
@@ -159,7 +165,7 @@ export default function UploadImagem(props){
                     <div className="modal" style={{background: "#303030", boxShadow: "1px -4px 24px 3px rgba(0,0,0,0.38)", outline: "none", margin: "10px"}}>
                         <Grid container direction="row" justify="center" alignItems="center">
                         <ReactCrop src={imagem} onImageLoaded={load} className="ReactCrop--circular-crop imge" width="200px" height="200px" crop={crop} onChange={newCrop => corte(newCrop)}/>
-                        <img src={cropImg} className="imgCrop" alt="profile"/>
+                            <img src={cropImg} className="imgCrop" alt="Selecione uma imagem"/>                       
                         </Grid>
                         <Grid style={{marginTop: "20px", marginBottom: "20px"}} container direction="row" justify="space-around" alignItems="center" >
                             <button className="btn_sim" onClick={() => EnviarImagem()}>Confirmar</button>
