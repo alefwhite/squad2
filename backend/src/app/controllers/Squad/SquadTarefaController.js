@@ -12,10 +12,12 @@ class SquadTarefaController {
                 .select([
                     "ST.id_squadtarefa", 
                     "S.nome as squad", 
+                    "S.id_squad",
                     "P.nome as projeto", 
                     "P.descricao as descricao_projeto", 
+                    "T.id_tarefa",
                     "T.descricao as tarefa_descricao",
-                    "T.nome as tarefa",
+                    "T.nome as tarefa_nome",
                     "T.prazo", 
                     "T.hora_estimada"
                 ])

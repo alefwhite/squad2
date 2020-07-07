@@ -57,12 +57,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 const SquadTarefa = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [squad, setSquad] = useState([]);
   const [squadTarefa, setSquadTarefa] = useState([]);
-  const [squadId, setSquadId] = useState('');
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -82,10 +83,11 @@ const SquadTarefa = () => {
 
     if(response.status === 200) {
       setSquadTarefa(response.data)
-      console.log("Squad/Tarefa", response.data)
+      console.log("Squad/Tarefa", response.data);
     }
 
   };
+ 
 
   useEffect(() => {
     ListarSquad();
@@ -116,18 +118,21 @@ const SquadTarefa = () => {
             <Tab label="Item Five" {...a11yProps(4)} />
             <Tab label="Item Six" {...a11yProps(5)} />
             <Tab label="Item Seven" {...a11yProps(6)} /> */}
-        </Tabs>
+        </Tabs>        
         {
-            squadTarefa && squadTarefa.map((tarefas, index) => {
-                return (
-                    <TabPanel value={value} index={index} key={index}>
-                        <div className="cardSquadTarefa">                            
-                                                   
-                        </div>
-                    </TabPanel>
-                )
-            })
-            
+          squad && squad.map((s, i) => {
+              return (
+                  <TabPanel value={value} key={s.id_squad} index={i}>
+                    {
+                        squadTarefa && squadTarefa.map((t, y) => {                
+                           return <div>{t.tarefa_nome}</div>
+                        })
+                        
+                      }
+                  </TabPanel>
+
+              )
+          })
         }
         {/* <TabPanel value={value} index={0}>
             Item One
