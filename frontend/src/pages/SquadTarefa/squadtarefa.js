@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import api from '../../service/api';
+
 import './squadtarefa.css';
 
 function TabPanel(props) {
@@ -59,24 +60,35 @@ const useStyles = makeStyles((theme) => ({
 const SquadTarefa = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [squadtarefa, setSquadTarefa] = useState([]);
+  const [squad, setSquad] = useState([]);
+  const [squadTarefa, setSquadTarefa] = useState([]);
+  const [squadId, setSquadId] = useState('');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const ListarSquadTarefa = async () => {
-      const response = await api.get('/squadtarefa');
+  const ListarSquad = async () => {
+      const response = await api.get('/squad');
 
       if(response.status === 200) {
-        setSquadTarefa(response.data);
-        console.log("Squad/Tarefa", response.data)
+        setSquad(response.data);
       }
   }
 
+  const ListarSquadTarefa = async (id_squad) => {
+    console.log("Id ", id_squad)
+    const response = await api.get(`/squadtarefa?id=${id_squad}`);
+
+    if(response.status === 200) {
+      setSquadTarefa(response.data)
+      console.log("Squad/Tarefa", response.data)
+    }
+
+  };
 
   useEffect(() => {
-    ListarSquadTarefa();
+    ListarSquad();
   }, []);
 
   return (
@@ -92,9 +104,9 @@ const SquadTarefa = () => {
             className={classes.tabs}
         >   
             {
-                squadtarefa && squadtarefa.map((squadtarefa, index) => {
+                squad && squad.map((squad, index) => {
                     return (
-                        <Tab label={squadtarefa.squad} {...a11yProps(index)} />
+                        <Tab  key={index} label={squad.nome} onClick={() => ListarSquadTarefa(squad.id_squad)} {...a11yProps(index)} />
                     )
                 })
             }
@@ -106,13 +118,16 @@ const SquadTarefa = () => {
             <Tab label="Item Seven" {...a11yProps(6)} /> */}
         </Tabs>
         {
-            squadtarefa && squadtarefa.map((squadtarefa, index) => {
+            squadTarefa && squadTarefa.map((tarefas, index) => {
                 return (
-                    <TabPanel value={value} index={index}>
-                        {squadtarefa.squad}
+                    <TabPanel value={value} index={index} key={index}>
+                        <div className="cardSquadTarefa">                            
+                                                   
+                        </div>
                     </TabPanel>
                 )
             })
+            
         }
         {/* <TabPanel value={value} index={0}>
             Item One
