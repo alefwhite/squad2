@@ -169,26 +169,7 @@ export default function Tarefa(){
         setOpen(false);
       
       };
-    
-      function handlePreencher(evento,espaco){
-        switch(espaco){
-            case "nome":{
-                setNome(evento.target.value);
-                break;
-            }
-            case "descricao":{
-                setDescricao(evento.target.value);
-                break;
-            }
-            case "prazo":{
-                setEntrega(evento);
-                break;
-            }
-            default: 
-                return 
-        }
-        
-    }
+
 
     async function handleEnviar(x){
         x.preventDefault();

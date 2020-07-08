@@ -89,8 +89,8 @@ export default function Ponto(){
                 let y = format(new Date(ponto.data_ponto),"yyyy-dd-MM");
                 console.log(`ponto:${y}   x = ${x}`);
                 if(y === x) {         
-                    return <Card style={{borderRadius:'20px',marginTop:'20px', minHeight:'300px' }} key={ponto.id_timesheet}>
-                        <CardContent style={{minWidth:'250px',minHeight:'300px'}} className="card">
+                    return <Card style={{borderRadius:'20px',marginTop:'20px', minHeight:'300px', minWidth:'535px' }} key={ponto.id_timesheet}>
+                        <CardContent style={{minWidth:'535px',minHeight:'300px'}} className="card">
                             <div>
                                 <div style={{display:'flex',alignItems:'center'}}>
                                     <span style={{marginBottom:'20px',color:'#FE963D', marginRight: "5px"}}><WorkRoundedIcon style={{fontSize:'30px'}}/></span>
