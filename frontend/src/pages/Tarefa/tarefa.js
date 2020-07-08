@@ -19,6 +19,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { toast, ToastContainer } from 'react-toastify';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -110,7 +114,9 @@ export default function Tarefa(){
     const [squad, setSquad] = useState([]);
     const [sqd, setSqd] = useState("Selecione a squad");
     const [idUsuario, setIdUsuario] = useState("Selecione o funcionario");
+    const [projeto, setProjeto] = useState([]);
     const [idTarefa, setIdTarefa] = useState();
+    const [idProjeto, setIdProjeto] = useState("Selecione o projeto");
     const classes = useStyles();
     
 
@@ -122,18 +128,21 @@ export default function Tarefa(){
         api.get('/tarefa')
         .then(response => {
             setTarefas(response.data);
-            console.log(response.data);
         })
         
         api.get('/meusfuncionarios')
-        .then((response)=>{
+        .then((response) => {
             setFuncionario(response.data);
-            console.log(response.data);
         })
 
         api.get('/squad')
-        .then((response) =>{
+        .then((response) => {
             setSquad(response.data);
+        })
+        
+        api.get('/projeto')
+        .then((response) => {
+            setProjeto(response.data);
         })
     }
 
@@ -176,12 +185,14 @@ export default function Tarefa(){
         
  
         let prazo =  format(new Date(entrega), "yyyy-MM-dd");
+        let id_projeto = idProjeto;
         console.log(prazo);
          
         let data = {
             nome,
             descricao,
             prazo,
+            id_projeto
         }
         console.log(data)
        
@@ -195,7 +206,9 @@ export default function Tarefa(){
         handleClose();
       
     }
-   
+    
+     
+
       const criarTarefa = (
         <div className="container3">
         <form className='forms' onSubmit={handleEnviar}>
@@ -205,7 +218,31 @@ export default function Tarefa(){
             <h1 style={estilo.espacoCampo}><Input  width="45vw" variant="standard" funcao={(evento)=>handlePreencher(evento,"nome")}/></h1 >
             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}} >
             <h1 style={estilo.espacoCampo}><InputData  style={estilo.input[0]} label="Entrega" value={entrega} funcao={(evento)=>handlePreencher(evento,"prazo")}/></h1 >
+            
+            <FormControl  className={clsx(classes.formControl, classes.campos)}>
+                                            <InputLabel htmlFor="outlined-age-native-simple">Selecione o projeto</InputLabel>
+                                            <Select            
+                                                native
+                                                onChange={(evento) => setIdProjeto(evento.target.value)}
+                                                value={idProjeto}
+                                                label="cargo"
+                                                inputProps={{
+                                                    name: 'cargo',
+                                                    id: 'outlined-age-native-simple',
+                                                }}
+                                            >
+                                                <option value="Selecione o projeto">Selecione o projeto</option>>
+                                                {
+                                                   projeto && projeto.map((projeto) => {
+                                                        return <option key={projeto.id_projeto} value={projeto.id_projeto}>{projeto.nome}</option>
+                                                    })
+                                                }
+                                            </Select>
+                                    </FormControl>
             </div>
+
+            
+
             <div>
             <p style={estilo.p}>Descrição da tarefa</p>
             <h1  style={estilo.espacoCampo}><Input  multiline="false" width="35vw" funcao={(evento)=>handlePreencher(evento,"descricao")}/></h1 >
@@ -523,7 +560,7 @@ export default function Tarefa(){
               {
                   tarefas && tarefas.map((tarefas,ind)=>{
                     let entrega = format(new Date(tarefas.prazo),"dd/MM/yyyy")
-
+                    console.log(tarefas)
                     return <div key={tarefas.id_tarefa} style={{minWidth:'250px'}}>
                     <Card style={{borderRadius:'20px',marginTop:'20px'}}>
                         <CardContent style={{minWidth:'250px'}} className="card">
@@ -543,6 +580,9 @@ export default function Tarefa(){
                                 <p style={{color:'#7A57EA', fontSize:'20px', marginTop:'20px'}}>{tarefas.descricao}</p>
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
                                     entrega:{entrega}
+                                </i></p>
+                                <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
+                                    Projeto:{tarefas.projeto_nome ? tarefas.projeto_nome:" não atribuida"}
                                 </i></p>
 
                             </div>

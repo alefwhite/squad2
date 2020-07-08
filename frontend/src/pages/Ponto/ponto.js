@@ -37,7 +37,6 @@ export default function Ponto(){
         .then(response => {
             console.log(response.data);
             setPonto(response.data);
-            //let x = format(new Date(),"yyyy-MM-dd");
         })
     }
 
