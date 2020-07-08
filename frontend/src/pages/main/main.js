@@ -71,6 +71,12 @@ const Main = () => {
               name: 'Squad/Tarefa',
               route: '/rota-7'
             }, 
+            {
+              contentName: 'NovaTarefa',
+              icon: 'GroupAddIcon',
+              name: 'Nova Tarefa',
+              route: '/rota-8'
+            }
           ]);
     }
   

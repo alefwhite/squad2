@@ -26,6 +26,21 @@ const useStyles = makeStyles((theme)=>({
         alignItems: 'center',
         justifyContent: 'center',
       },
+      paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: "#303030",
+        boxShadow: "-1px 4px 16px 2px rgba(0,0,0,0.48)",
+        padding: theme.spacing(2, 4, 3),
+        outline: 0,
+        borderRadius: "3px"
+    },
+      formDel: {
+        display: "flex",
+        padding: "16px",
+        marginTop: "5px",
+        justifyContent: "space-between"
+    },
       campos: {
        
         '& label.Mui-focused': {
@@ -85,7 +100,8 @@ export default function Tarefa(){
     const [open,setOpen] = useState(false);
     const [open2, setOpen2] = useState(false); 
     const [open3, setOpen3] = useState(false);
-    const classes = useStyles();
+    const [open4, setOpen4] = useState(false);
+    const [open5, setOpen5] = useState(false);
     const [nome, setNome] = useState();
     const [entrega, setEntrega] = useState(new Date());
     const [descricao, setDescricao] = useState();
@@ -93,9 +109,9 @@ export default function Tarefa(){
     const [funcionario, setFuncionario] = useState([]);
     const [squad, setSquad] = useState([]);
     const [sqd, setSqd] = useState("Selecione a squad");
- 
     const [idUsuario, setIdUsuario] = useState("Selecione o funcionario");
     const [idTarefa, setIdTarefa] = useState();
+    const classes = useStyles();
     
 
     useEffect(()=>{
@@ -173,6 +189,7 @@ export default function Tarefa(){
         }
         
     }
+
     async function handleEnviar(x){
         x.preventDefault();
         
@@ -325,7 +342,7 @@ export default function Tarefa(){
                                 </div>                                
                             </DialogContent>
                             <DialogActions style={{display: "flex", justifyContent: "space-around", marginBottom: "15px"}}>
-                                <button className="btn_sim" onClick={handleAtribuirSquad}>
+                                <button className="btn_sim" onClick={handleAtribuirUsuario}>
                                     Inserir
                                 </button>
                                 <button className="btn_nao" onClick={handleClose2}>
@@ -407,6 +424,110 @@ export default function Tarefa(){
     </Dialog>
       )
 
+      const handleOpen4 = (ind) => {
+        setOpen4(true);
+        setIdTarefa(tarefas[ind].id_tarefa);
+    }
+
+    const handleClose4 = () => {
+        setOpen4(false);
+    }
+
+    const handleDeletar = async () => {
+        const response = await api.delete(`tarefa/${idTarefa}`);
+
+        if(response.status === 200){
+            toast.success(response.data.mensagem);
+            buscar();
+            handleClose4();
+        }
+    }
+
+      const modalDeletar = (
+        <div  className={classes.paper}>
+        <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
+        <div id="simple-modal-description">
+            <div className={classes.formDel} onSubmit={handleDeletar}>
+                  <button style={{marginTop: "30px"}} className="btn_sim" onClick={()=>handleDeletar()}>Sim</button>
+                  <button style={{marginTop: "30px"}} className="btn_nao" onClick={() => handleClose4()}>Não</button>
+            </div>
+        </div>
+      </div>
+      )
+
+
+      const handleOpen5 = (index) => {
+        setOpen5(true);
+        let k = tarefas[index].prazo;
+        console.log(k);
+        setIdTarefa(tarefas[index].id_tarefa);
+        setNome(tarefas[index].nome);
+        setEntrega(k);
+        setDescricao(tarefas[index].descricao);
+    }
+
+    const handleClose5 = () => {
+        setOpen5(false);
+    }
+
+    function handlePreencher(evento,espaco){
+        switch(espaco){
+            case "nome":{
+                setNome(evento.target.value);
+                break;
+            }
+            case "descricao":{
+                setDescricao(evento.target.value);
+                break;
+            }
+            case "entrega":{
+                setEntrega(evento);
+                break;
+            }
+            default: 
+                return 
+        }
+        
+    }
+    const handleEditar = async (x) => {
+
+        x.preventDefault();
+
+        let prazo = format(new Date(entrega), "yyyy/MM/dd");
+
+        let data = {
+            nome,
+            descricao,
+            prazo
+        }
+        
+        const response = await api.put(`/tarefa/${idTarefa}`,data);
+
+        if(response.status === 200){
+            toast.success(response.data.mensagem);
+        }
+        buscar();
+        handleClose5();
+    }
+      const modalEditar = (
+        <div className = "container3" onSubmit={handleEditar}>
+            <form className='forms' >
+                <div>
+                <p style={estilo.p}>Nome da tarefa</p>
+                </div>
+                <h1 style={estilo.espacoCampo}><Input width="45vw" variant="standard" value={nome} funcao={(evento) => handlePreencher(evento, "nome")}/></h1 >
+                <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
+                <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} label="Início" value={entrega} funcao={(evento) => handlePreencher(evento, "entrega")}/></h1 >
+                </div>
+                <div>
+                <p style={estilo.p}>Descrição do projeto</p>
+                <h1  style={estilo.espacoCampo}><Input  multiline="false" width="35vw" value={descricao} funcao={(evento) => handlePreencher(evento, "descricao")}/></h1 >
+                </div>
+                <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px" ></Botao></h1>
+           
+            </form>
+        </div>
+      )
     return(
         <div className="container">
             <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"18vw", marginTop:'20px'}}>Tarefas</p>
@@ -431,8 +552,8 @@ export default function Tarefa(){
                                 <p className="texto">{tarefas.nome}</p>
         
                                     <div style={{color:'#FE963D', display:'flex', justifyItems:'center'}}>
-                                        <CreateRoundedIcon style={{cursor:'pointer'}} />
-                                        <DeleteRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
+                                        <CreateRoundedIcon style={{cursor:'pointer'}} onClick={() => handleOpen5(ind)}/>
+                                        <DeleteRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen4(ind)}/>
                                         <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen2(tarefas)}/>
                                         <PeopleAltRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen3(tarefas)}/>
                                         
@@ -459,6 +580,7 @@ export default function Tarefa(){
                 >
                     {criarTarefa}
             </Modal>
+
             <Modal
                 open={open2}
                 onClose={handleClose2}
@@ -468,6 +590,7 @@ export default function Tarefa(){
                 >
                     {modalAtribuirTarefa}
             </Modal>
+            
             <Modal
                 open={open3}
                 onClose={handleClose3}
@@ -477,6 +600,30 @@ export default function Tarefa(){
                 >
                     {modalAtribuirSquad}
             </Modal>
+
+            <Modal
+                open={open4}
+                onClose={handleClose4}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                className={classes.modal}
+                >
+                    {modalDeletar}
+            </Modal>
+
+            <Modal
+                open={open5}
+                onClose={handleClose5}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                className={classes.modal}
+                >
+                    {modalEditar}
+            </Modal>
+
+
+            
+
               <ToastContainer/>
         </div>
 

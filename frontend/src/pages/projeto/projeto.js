@@ -73,8 +73,7 @@ export default function Projeto(){
                 setEstado(response.data);
                 console.log(response.data);
 
-            });
-        
+            });  
     }
     
     useEffect(()=>{
@@ -173,7 +172,8 @@ export default function Projeto(){
         setDescricao(estado[index].descricao);
         setInicio(estado[index].data_inicial);
         setFim(estado[index].data_final);
-      }
+      };
+
       const handleClose3 = () => {
         setOpen3(false);
       };
@@ -182,7 +182,7 @@ export default function Projeto(){
         <div  className={classes.paper}>
         <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
         <div id="simple-modal-description">
-            <div className={classes.formDel} onSubmit={handleDeletar}>
+            <div className={classes.formDel}>
                   <button style={{marginTop: "30px"}} className="btn_sim" onClick={()=>handleDeletar()}>Sim</button>
                   <button style={{marginTop: "30px"}} className="btn_nao" onClick={() => handleClose2()}>Não</button>
             </div>
@@ -231,8 +231,8 @@ export default function Projeto(){
                         let x = format(new Date(estado.data_final),"dd/MM/yyyy");
                    
                         return <CardProjeto 
-                        editar={()=>handleOpen3(ind)}
-                        deletar={()=>handleOpen2(ind)}
+                        editar={() => handleOpen3(ind)}
+                        deletar={() => handleOpen2(ind)}
                         key={estado.id_projeto}
                         nome={estado.nome} 
                         descricao={estado.descricao}
