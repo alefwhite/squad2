@@ -121,20 +121,22 @@ class TarefaController{
         try {
 
            await db("tarefa")
-                //.join("projeto","projeto.id_projeto","=","tarefa.id_projeto")
-                .select(
-                    "tarefa.id_tarefa",
-                    "tarefa.nome",
-                    "tarefa.descricao",
-                    "tarefa.prazo",
-                    "tarefa.hora_estimada",
-                    "tarefa.entregue",
-                    "tarefa.id_criador",
-                    "tarefa.id_projeto",
-                    //{"nome_projeto":"projeto.nome"}
-                    //{"funcionario":"usuario.nome_social"}
-                )
-                .where("tarefa.entregue", entregue)
+             .select(
+               "tarefa.id_tarefa",
+               "tarefa.nome",
+               "tarefa.descricao",
+               "tarefa.prazo",
+               "tarefa.hora_estimada",
+               "tarefa.entregue",
+               "tarefa.id_criador",
+               "tarefa.id_projeto",
+               {"projeto_nome":"projeto.nome"},
+               {"projeto_descricao":"projeto.descricao"}
+               //{"funcionario":"usuario.nome_social"}
+               )
+               .leftJoin("projeto","projeto.id_projeto","=","tarefa.id_projeto")
+               .where("tarefa.entregue", entregue)
+               .orWhereNull("projeto.id_projeto")
                 //.join("usuario_tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
                // .join("usuario","usuario.id_usuario","=","usuario_tarefa.id_usuario")
                 //.andWhere("tarefa.nome","like",`%${nome}%`)
