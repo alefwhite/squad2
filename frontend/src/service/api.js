@@ -16,7 +16,7 @@ api.interceptors.request.use(function(config) {
     if (retornaToken() != null ) {
       config.headers.Authorization = `Bearer ${retornaToken()}`;
     }
-  
+
     return config;
 
   }, function(error) {

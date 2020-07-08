@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import api from '../../service/api';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import './squadtarefa.css';
 
@@ -49,11 +50,23 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "2px 2px 33px 0px rgba(0,0,0,0.32)",
     borderRadius: "20px",
     display: 'flex',
-    height: 224,
+    width: "100%",
     color: "#7A57EA"
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
+    width: "100%",
+    minWidth: 150,
+    maxWidth: 250,
+    height: "100vh",
+    color: "#FE963D"
+  },
+  roots: {
+    '& > *': {
+      marginTop: theme.spacing(2),
+      display: "flex",
+      justifyContent: "center"
+    },
   },
 }));
 
@@ -63,8 +76,18 @@ const SquadTarefa = () => {
   const [value, setValue] = useState(0);
   const [squad, setSquad] = useState([]);
   const [squadTarefa, setSquadTarefa] = useState([]);
-  
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [id, setId] = useState(null);
 
+  const clearState = () => {
+    for(let i = 0; i < squadTarefa.length; i++) {
+      setSquadTarefa([]);
+    }
+    // setSquadTarefa(squadTarefa.filter((valor) => {
+    //   return !(id === valor.id_squad);
+    // }))
+  }
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -78,24 +101,45 @@ const SquadTarefa = () => {
   }
 
   const ListarSquadTarefa = async (id_squad) => {
-    console.log("Id ", id_squad)
-    const response = await api.get(`/squadtarefa?id=${id_squad}`);
+    console.log("Id ", id_squad)   
+    setId(id_squad);
+    const response = await api.get(`/squadtarefa?id=${id_squad}&&page=${page}`);
 
     if(response.status === 200) {
-      setSquadTarefa(response.data)
-      console.log("Squad/Tarefa", response.data);
+      console.log("Te ", squadTarefa)
+      setSquadTarefa(squadTarefa.concat(response.data))
+      setTotalPage(response.headers['x-total-count']);
+      console.log("Squad/Tarefa", response.headers['x-total-count']);
     }
 
+  };  
+  
+  
+  const fetchMoreData = () => {
+    // 20 more records in 1.5 secs
+    setTimeout(() => {
+        console.log("Page: ", page)
+        console.log("Total: ", totalPage)
+      if(page < totalPage) {
+        setPage(page + 1);       
+      }
+
+      console.log(page)
+
+      ListarSquadTarefa(id);
+    
+    }, 1000);
+
   };
- 
 
   useEffect(() => {
-    ListarSquad();
-  }, []);
+    ListarSquad();    
+
+  }, [id]);
 
   return (
     <div className="contentSquads">
-        <h1 className="titleSquads">Tarefas das Squads</h1>
+        <h1 className="titleSquads">Tarefas das Squads</h1>        
         <div className={classes.root}>
         <Tabs
             orientation="vertical"
@@ -108,7 +152,13 @@ const SquadTarefa = () => {
             {
                 squad && squad.map((squad, index) => {
                     return (
-                        <Tab  key={index} label={squad.nome} onClick={() => ListarSquadTarefa(squad.id_squad)} {...a11yProps(index)} />
+                        <Tab  key={index} label={squad.nome} 
+                        onClick={() => {
+                          clearState()
+                          ListarSquadTarefa(squad.id_squad)                          
+                        }} 
+                        {...a11yProps(index)} 
+                        />
                     )
                 })
             }
@@ -122,40 +172,35 @@ const SquadTarefa = () => {
         {
           squad && squad.map((s, i) => {
               return (
-                  <TabPanel value={value} key={s.id_squad} index={i}>
-                    {
-                        squadTarefa && squadTarefa.map((t, y) => {                
-                           return <div>{t.tarefa_nome}</div>
-                        })
-                        
+                  <TabPanel style={{display: "flex"}}value={value} key={s.id_squad} index={i}>
+                    <InfiniteScroll
+                      dataLength={squadTarefa.length}
+                      next={fetchMoreData}
+                      hasMore={true}
+                      scrollThreshold="50px"
+                      loader={<h4 style={{textAlign: "center"}}>Carregando....</h4>}
+                      height={400}
+                      endMessage={
+                        <h1 style={{textAlign: 'center'}}>
+                          <b>Yay! You have seen it all</b>
+                        </h1>
                       }
+                    >
+                      <div className="cardSquadTarefa">
+                        {   
+                            squadTarefa.length > 0 ?
+                              squadTarefa && squadTarefa.map((t, y) => {                
+                                return <div className="cardSquadTarefaContent" key={y}>{t.tarefa_nome }</div>
+                              })
+                            : <h1 style={{color: "#FE963D", margin: "auto", textAlign: "center"}}>Sem tarefas</h1>
+                          }
+                      </div>
+                    </InfiniteScroll>                   
                   </TabPanel>
-
               )
           })
         }
-        {/* <TabPanel value={value} index={0}>
-            Item One
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-            Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-            Item Three
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-            Item Four
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-            Item Five
-        </TabPanel>
-        <TabPanel value={value} index={5}>
-            Item Six
-        </TabPanel>
-        <TabPanel value={value} index={6}>
-            Item Seven
-        </TabPanel> */}
-        </div>
+        </div>        
     </div>
   );
 }

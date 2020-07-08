@@ -5,9 +5,36 @@ import NotificacaoSquadTarefa from '../../models/NotificacaoSquadTarefa';
 class SquadTarefaController {
     async index(req, res) {
         const id_usuario = req.idUsuario;
-        const id_squad = req.query.id;        
-               
+        const { id, page = 1 } = req.query
+
+        const id_squad = id;        
+
         try {
+           const [count] = await db("squad_tarefa as ST").count()
+           .select([
+               "ST.id_squadtarefa", 
+               "S.nome as squad", 
+               "S.id_squad",
+               "P.nome as projeto", 
+               "P.descricao as descricao_projeto", 
+               "T.id_tarefa",
+               "T.descricao as tarefa_descricao",
+               "T.nome as tarefa_nome",
+               "T.prazo", 
+               "T.hora_estimada"
+           ])
+           .distinct("ST.id_squadtarefa")
+           .innerJoin("squad as S", "S.id_squad", "=", "ST.id_squad")
+           .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
+           .innerJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
+           .where({
+               "S.id_criador" : id_usuario,
+               "T.id_criador" : id_usuario,
+               "P.id_criador" : id_usuario,
+               "ST.id_squad"  : id_squad 
+           })
+           .orderBy("ST.id_squadtarefa", "desc")
+
            await db("squad_tarefa as ST")
                 .select([
                     "ST.id_squadtarefa", 
@@ -33,10 +60,13 @@ class SquadTarefaController {
                 })
                 //.andWhere({ "ST.id_squad": id_squad ? id_squad : "" })                
                 .orderBy("ST.id_squadtarefa", "desc")
+                .limit(6)
+                .offset((page - 1) * 6)
                 .then((squad_tarefas) => {
 
                     if(squad_tarefas) {
-
+                        console.log( count['count(*)'])
+                        res.header('X-Total-Count', count['count(*)']);
                         return res.json(squad_tarefas);
                     }
 
