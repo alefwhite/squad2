@@ -62,7 +62,37 @@ const SquadTarefa = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [open, setOpen] = useState(false);
+
   const [id_squadtarefa, setIdSquadTarefa] = useState(null);
+  const [squads, setSquads] = useState([]);
+  const [squadId, setSquadId] = useState('Selecione a squad');
+  const [tarefas, setTarefas] = useState([]);
+  const [tarefaId, setTarefaId] = useState('Selecione a tarefa');
+
+  const AtualizaSquad = (e) => {
+      console.log("Squad: ", e.target.value)
+      setSquadId(e.target.value);
+  };
+
+  const AtualizaTarefa = (e) => {
+      console.log("Func: ", e.target.value)
+      setTarefaId(e.target.value);
+  };
+
+  const ListarSquads = async () => {
+    await api.get("/squad")
+    .then((response) => {
+        setSquads(response.data);
+    })
+  };
+
+  const ListarTarefas = async () => {
+    await api.get("/tarefa")
+    .then((response) => {
+        setTarefas(response.data);
+    })
+  };
+
 
   const handleClose = () => {
     setOpen(false);
@@ -132,15 +162,15 @@ const SquadTarefa = () => {
 
   const bodyEditar = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 style={{color: "#7A57EA", marginBottom: "11px"}} id="simple-modal-title">Editar nome da Squad</h2>
+      <h2 style={{color: "#7A57EA", marginBottom: "11px"}} id="simple-modal-title">Editar Squad/Tarefa</h2>
       <div id="simple-modal-description">
           <form className={classes.formEdit} onSubmit={ExcluirSquadTarefa}>
                 <div style={{marginTop: "25px"}}>
                     <select                                        
                         className="inputs"
                         required={true}            
-                        onChange=""
-                        value=""
+                        onChange={AtualizaSquad}
+                        value={squadId}
                         name="squad"
                         id="squad"
                         style={{cursor: "pointer", padding: "14px", background: "#303030", maxWidth: "320px"}}
@@ -149,9 +179,9 @@ const SquadTarefa = () => {
                         Selecione a squad
                     </option>
                         {
-                            // squads && squads.map((squad) => {
-                            //     return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
-                            // })
+                            squads && squads.map((squad) => {
+                                return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
+                            })
                         }
                     </select>
 
@@ -160,19 +190,19 @@ const SquadTarefa = () => {
                     <select
                         className="inputs"
                         required={true}            
-                        onChange=""
-                        value=""
-                        name="funcionario"
-                        id="funcionario"
+                        onChange={AtualizaTarefa}
+                        value={tarefaId}
+                        name="tarefa"
+                        id="tarefa"
                         style={{cursor: "pointer", padding: "15px", background: "#303030", maxWidth: "320px"}}
                     >
-                    <option disabled value="Selecione o usuário">
-                        Selecione o usuário
+                    <option disabled value="Selecione a tarefa">
+                        Selecione a tarefa
                     </option>
                         {
-                            // funcionarios && funcionarios.map((func) => {
-                            //     return <option key={func.id_usuario} value={func.id_usuario}>{func.nome}</option>
-                            // })
+                            tarefas && tarefas.map((t) => {
+                                return <option key={t.id_tarefa} value={t.id_tarefa}>{t.nome}</option>
+                            })
                         }
                     </select>
                 </div>      
@@ -186,8 +216,9 @@ const SquadTarefa = () => {
   )
   
   useEffect(() => {
+    ListarSquads();
+    ListarTarefas();
     ListarSquadTarefa();
-
   }, []);
 
   return (
