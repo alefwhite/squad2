@@ -6,15 +6,14 @@
 }
 
 .titleSquads {
-    color: #7A57EA;
+    color: #FE963D;
     padding: 8px;
 }
 
 .cardSquadTarefa {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0px 5px 5px 5px;
+    margin: 30px;
     padding: 0px 5px 5px 5px;
 }
 
@@ -25,4 +24,62 @@
     box-shadow: 2px 2px 33px 0px rgba(0,0,0,0.32);
     border-radius: 10px;
     margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
 }
+
+.headerTarefa {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.squadIcon {
+  color: #FE963D;
+}
+
+.titleTarefaContent {
+    margin: auto;
+    font-size: 17px;
+    font-weight: bold;
+    
+}
+
+.tarefaContent {
+    margin-left: 20px
+}
+
+.ulContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.ulContent li{
+    margin-bottom: 10px;
+}
+
+.ulContent li span {
+    color: #7A57EA;
+    font-weight: bold;
+}
+
+@media(max-width: 1049px) {
+    .cardSquadTarefa {
+        justify-content: space-around;
+        margin: 10px;
+       
+    }
+
+    .cardSquadTarefaContent {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+
+
