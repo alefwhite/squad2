@@ -6,7 +6,8 @@ class SquadController {
         
         const listaSquad = await db("squad").where({
             id_criador: id_usuario
-        });
+        })
+        .orderBy("squad.id_squad", "desc");
 
         return res.json(listaSquad);
 

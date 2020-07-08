@@ -121,14 +121,17 @@ const SquadTarefa = () => {
 
   const EditarSquadTarefa = async (e) => {
     e.preventDefault();
-    console.log("IdSquadTarefa: ", id_squadtarefa);
-    const response = await api.delete(`/squadtarefa/${id_squadtarefa}`);
+
+    let data = {
+      id_squad : squadId,
+      id_tarefa: tarefaId
+    }
+
+    const response = await api.put(`/squadtarefa/${id_squadtarefa}`, data);
 
     if(response.status === 200) {
       toast.success(response.data.mensagem);
-      setSquadTarefa(squadTarefa.filter((t) => {
-          return t.id_squadtarefa !== id_squadtarefa;
-      }));
+      ListarSquadTarefa();
       handleClose();
     }
 

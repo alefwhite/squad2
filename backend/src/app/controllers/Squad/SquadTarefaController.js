@@ -24,7 +24,7 @@ class SquadTarefaController {
            .distinct("ST.id_squadtarefa")
            .innerJoin("squad as S", "S.id_squad", "=", "ST.id_squad")
            .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
-           .innerJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
+           .leftJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
            .where({
                "S.id_criador" : id_usuario,
                "T.id_criador" : id_usuario,
@@ -48,13 +48,13 @@ class SquadTarefaController {
                 .distinct("ST.id_squadtarefa")
                 .innerJoin("squad as S", "S.id_squad", "=", "ST.id_squad")
                 .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
-                .innerJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
+                .leftJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
                 .where({
                     "S.id_criador" : id_usuario,
                     "T.id_criador" : id_usuario,
                     "P.id_criador" : id_usuario,                  
                 })
-                //.andWhere({ "ST.id_squad": id_squad ? id_squad : "" })                
+                .orWhereNull("T.id_projeto")
                 .orderBy("ST.id_squadtarefa", "desc")
                 .limit(8)
                 .offset((page - 1) * 8)
@@ -145,7 +145,7 @@ class SquadTarefaController {
                 .innerJoin("squad as S", "S.id_criador", "=", "U.id_usuario")
                 .innerJoin("tarefa as T", "T.id_criador", "=", "U.id_usuario")
                 .innerJoin("projeto as P", "P.id_criador", "=", "U.id_usuario")
-                .select("S.nome as squad ", "T.descricao", "T.prazo", "P.nome")
+                .select("S.nome as squad ", "T.nome as tarefa", "T.prazo", "P.nome")
                 .where({
                     "S.id_squad"   : id_squad,
                     "S.id_criador" : id_usuario,
@@ -165,7 +165,7 @@ class SquadTarefaController {
             }).first();
 
             if(existeSquadTarefa) {
-                return res.status(400).json({ mensagem: `A tarefa(${existeSquad_E_Tarefa.descricao}) já está adicionada para a squad(${existeSquad_E_Tarefa.squad}), você não pode adicionar novamente!`});
+                return res.status(400).json({ mensagem: `A tarefa(${existeSquad_E_Tarefa.tarefa}) já está adicionada para a squad(${existeSquad_E_Tarefa.squad}), você não pode adicionar novamente!`});
             }
    
             const formatter = new Intl.DateTimeFormat('pt-BR', {
@@ -184,13 +184,13 @@ class SquadTarefaController {
 
                 if(retorno) {
                     await NotificacaoSquadTarefa.create({
-                        conteudo: `Projeto(${existeSquad_E_Tarefa.nome}) recebeu uma nova tarefa(${existeSquad_E_Tarefa.descricao})\n Prazo ${prazo}`,
+                        conteudo: `Projeto(${existeSquad_E_Tarefa.nome}) recebeu uma nova tarefa(${existeSquad_E_Tarefa.tarefa})\n Prazo ${prazo}`,
                         squad: id_squad,
                         id_criador: id_usuario
                     });
     
                     return res.status(200).json({ 
-                        mensagem: `A tarefa(${existeSquad_E_Tarefa.descricao}) foi adicionada para a squad(${existeSquad_E_Tarefa.squad}) com o prazo até ${prazo}.`
+                        mensagem: `A tarefa(${existeSquad_E_Tarefa.tarefa}) foi adicionada para a squad(${existeSquad_E_Tarefa.squad}) com o prazo até ${prazo}.`
                     });
                 }
 

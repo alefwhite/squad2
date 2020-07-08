@@ -18,6 +18,7 @@ import SquadTarefaController from './app/controllers/Squad/SquadTarefaController
 import SquadController from './app/controllers/Squad/SquadController';
 import TimesheetController from './app/controllers/Timesheet/TimesheetController';
 import CargoController from './app/controllers/Cargo/CargoController';
+import SquadTarefaUsuarioController from './app/controllers/Squad/SquadTarefaUsuarioController'
 
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
@@ -48,6 +49,8 @@ routes.post('/convite', FuncionarioController.store);
 */
 routes.use(Authentication.store);
 
+// Listagem de tarefas da squad
+routes.get('/squadtarefausuario', SquadTarefaUsuarioController.index);
 
 // Listagem de tarefas do usuário
 routes.get('/usuariotarefa', UsuarioTarefaController.index);
