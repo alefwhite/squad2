@@ -32,7 +32,11 @@ import MinhasInformacoesFunc from '../../pages/MinhasInformacoes/minhasInformeco
 import Ponto from '../../pages/Ponto/ponto';
 import Convidar from '../../pages/Convidar/convidar';
 import Squad from '../../pages/SquadCadastro/squad';
+<<<<<<< HEAD
 import UploadImagem from '../UploadImagem/UploadImagem';
+=======
+import UploadImagem from '../../components/UploadImagem/UploadImagem';
+>>>>>>> 651ef944ad8795e0f46de9d21815dfa8271d53b6
 import SquadTarefa from '../../pages/SquadTarefa/squadtarefa'
 
 import 'react-toastify/dist/ReactToastify.css';

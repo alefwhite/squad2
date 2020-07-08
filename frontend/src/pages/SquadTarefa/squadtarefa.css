@@ -1,14 +1,28 @@
 .contentSquads {
     box-shadow: 2px 2px 33px 0px rgba(0,0,0,0.32);
     padding: 20px;
+    width: 100%;
+    height: 100vh;
 }
 
 .titleSquads {
-    color: #FE963D;
+    color: #7A57EA;
     padding: 8px;
 }
 
 .cardSquadTarefa {
-    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0px 5px 5px 5px;
+    padding: 0px 5px 5px 5px;
+}
+
+.cardSquadTarefaContent {
+    width: 260px;
+    min-height: 170px;
+    background-color: #303030;
     box-shadow: 2px 2px 33px 0px rgba(0,0,0,0.32);
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
