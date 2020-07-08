@@ -5,9 +5,7 @@ import NotificacaoSquadTarefa from '../../models/NotificacaoSquadTarefa';
 class SquadTarefaController {
     async index(req, res) {
         const id_usuario = req.idUsuario;
-        const { id, page = 1 } = req.query
-
-        const id_squad = id;        
+        const { page = 1 } = req.query             
 
         try {
            const [count] = await db("squad_tarefa as ST").count()
@@ -30,8 +28,7 @@ class SquadTarefaController {
            .where({
                "S.id_criador" : id_usuario,
                "T.id_criador" : id_usuario,
-               "P.id_criador" : id_usuario,
-               "ST.id_squad"  : id_squad 
+               "P.id_criador" : id_usuario,               
            })
            .orderBy("ST.id_squadtarefa", "desc")
 
@@ -55,13 +52,12 @@ class SquadTarefaController {
                 .where({
                     "S.id_criador" : id_usuario,
                     "T.id_criador" : id_usuario,
-                    "P.id_criador" : id_usuario,
-                    "ST.id_squad"  : id_squad 
+                    "P.id_criador" : id_usuario,                  
                 })
                 //.andWhere({ "ST.id_squad": id_squad ? id_squad : "" })                
                 .orderBy("ST.id_squadtarefa", "desc")
-                .limit(6)
-                .offset((page - 1) * 6)
+                .limit(8)
+                .offset((page - 1) * 8)
                 .then((squad_tarefas) => {
 
                     if(squad_tarefas) {

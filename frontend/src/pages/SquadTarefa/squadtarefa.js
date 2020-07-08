@@ -1,47 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import api from '../../service/api';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import './squadtarefa.css';
+import {format} from 'date-fns';
+import formatarDataBr from '../../utils/formatarDataBr';
+import Modal from '@material-ui/core/Modal';
+import { toast } from 'react-toastify';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,155 +20,277 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: "100%",
     color: "#7A57EA"
+  }, 
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: "#303030",
+    boxShadow: "-1px 4px 16px 2px rgba(0,0,0,0.48)",
+    padding: theme.spacing(2, 4, 3),
+    outline: 0,
+    borderRadius: "3px"
   },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-    width: "100%",
-    minWidth: 150,
-    maxWidth: 250,
-    height: "100vh",
-    color: "#FE963D"
+  formEdit: {
+    display: "flex",
+    flexDirection: "column",
+    padding: "10px"
   },
-  roots: {
-    '& > *': {
-      marginTop: theme.spacing(2),
-      display: "flex",
-      justifyContent: "center"
-    },
-  },
+  formDel: {
+    display: "flex",
+    padding: "16px",
+    marginTop: "5px",
+    justifyContent: "space-between"
+  }
 }));
+
+function getModalStyle() {
+  
+  return {
+    top: `${40}%`,
+    left: `${55}%`,
+    transform: `translate(-${50}%, -${50}%)`,
+  };
+} 
 
 
 const SquadTarefa = () => {
   const classes = useStyles();
-  const [value, setValue] = useState(0);
-  const [squad, setSquad] = useState([]);
+  const [modalStyle] = useState(getModalStyle);
+  const [modalBody, setModalBody] = useState(true); 
   const [squadTarefa, setSquadTarefa] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [id, setId] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [open, setOpen] = useState(false);
 
-  const clearState = () => {
-    for(let i = 0; i < squadTarefa.length; i++) {
-      setSquadTarefa([]);
-    }
-    // setSquadTarefa(squadTarefa.filter((valor) => {
-    //   return !(id === valor.id_squad);
-    // }))
-  }
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const [id_squadtarefa, setIdSquadTarefa] = useState(null);
+  const [squads, setSquads] = useState([]);
+  const [squadId, setSquadId] = useState('Selecione a squad');
+  const [tarefas, setTarefas] = useState([]);
+  const [tarefaId, setTarefaId] = useState('Selecione a tarefa');
+
+  const AtualizaSquad = (e) => {
+      console.log("Squad: ", e.target.value)
+      setSquadId(e.target.value);
   };
 
-  const ListarSquad = async () => {
-      const response = await api.get('/squad');
+  const AtualizaTarefa = (e) => {
+      console.log("Func: ", e.target.value)
+      setTarefaId(e.target.value);
+  };
+
+  const ListarSquads = async () => {
+    await api.get("/squad")
+    .then((response) => {
+        setSquads(response.data);
+    })
+  };
+
+  const ListarTarefas = async () => {
+    await api.get("/tarefa")
+    .then((response) => {
+        setTarefas(response.data);
+    })
+  };
+
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = (id_squadtarefa) => {
+    setIdSquadTarefa(id_squadtarefa);
+    setOpen(true);
+  };
+
+  
+  const ExcluirSquadTarefa = async (e) => {
+      e.preventDefault();
+      console.log("IdSquadTarefa: ", id_squadtarefa);
+      const response = await api.delete(`/squadtarefa/${id_squadtarefa}`);
 
       if(response.status === 200) {
-        setSquad(response.data);
+        toast.success(response.data.mensagem);
+        setSquadTarefa(squadTarefa.filter((t) => {
+            return t.id_squadtarefa !== id_squadtarefa;
+        }));
+        handleClose();
       }
-  }
 
-  const ListarSquadTarefa = async (id_squad) => {
-    console.log("Id ", id_squad)   
-    setId(id_squad);
-    const response = await api.get(`/squadtarefa?id=${id_squad}&&page=${page}`);
+  };
+
+  const ListarSquadTarefa = async () => {    
+    const response = await api.get(`/squadtarefa?page=${page}`);
 
     if(response.status === 200) {
-      console.log("Te ", squadTarefa)
       setSquadTarefa(squadTarefa.concat(response.data))
       setTotalPage(response.headers['x-total-count']);
       console.log("Squad/Tarefa", response.headers['x-total-count']);
+      console.log("Squad/Tarefa - ", response.data);
     }
 
   };  
   
   
   const fetchMoreData = () => {
-    // 20 more records in 1.5 secs
-    setTimeout(() => {
-        console.log("Page: ", page)
-        console.log("Total: ", totalPage)
+    setTimeout(() => {       
       if(page < totalPage) {
         setPage(page + 1);       
       }
 
-      console.log(page)
+      if(squadTarefa.length >= totalPage) {
+        setHasMore(false);
+      }
 
-      ListarSquadTarefa(id);
+      ListarSquadTarefa();
     
-    }, 1000);
+    }, 800);
 
   };
 
-  useEffect(() => {
-    ListarSquad();    
+  const bodyExcluir = (
+    <div style={modalStyle} className={classes.paper}>
+      <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
+      <div id="simple-modal-description">
+          <form className={classes.formDel} onSubmit={ExcluirSquadTarefa} >
+                <button style={{marginTop: "35px"}} className="btn_sim" type="submit">Sim</button>
+                <button style={{marginTop: "35px"}} className="btn_nao" onClick={() => handleClose()}>Não</button>
+          </form>
+      </div>
+    </div>
+  );
 
-  }, [id]);
+  const bodyEditar = (
+    <div style={modalStyle} className={classes.paper}>
+      <h2 style={{color: "#7A57EA", marginBottom: "11px"}} id="simple-modal-title">Editar Squad/Tarefa</h2>
+      <div id="simple-modal-description">
+          <form className={classes.formEdit} onSubmit={ExcluirSquadTarefa}>
+                <div style={{marginTop: "25px"}}>
+                    <select                                        
+                        className="inputs"
+                        required={true}            
+                        onChange={AtualizaSquad}
+                        value={squadId}
+                        name="squad"
+                        id="squad"
+                        style={{cursor: "pointer", padding: "14px", background: "#303030", maxWidth: "320px"}}
+                    >
+                    <option disabled value="Selecione a squad">
+                        Selecione a squad
+                    </option>
+                        {
+                            squads && squads.map((squad) => {
+                                return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
+                            })
+                        }
+                    </select>
+
+                </div>
+                <div style={{marginTop: "15px", marginBottom: "15px"}}>
+                    <select
+                        className="inputs"
+                        required={true}            
+                        onChange={AtualizaTarefa}
+                        value={tarefaId}
+                        name="tarefa"
+                        id="tarefa"
+                        style={{cursor: "pointer", padding: "15px", background: "#303030", maxWidth: "320px"}}
+                    >
+                    <option disabled value="Selecione a tarefa">
+                        Selecione a tarefa
+                    </option>
+                        {
+                            tarefas && tarefas.map((t) => {
+                                return <option key={t.id_tarefa} value={t.id_tarefa}>{t.nome}</option>
+                            })
+                        }
+                    </select>
+                </div>      
+                <div style={{display: "flex", justifyContent: "space-between"}}> 
+                    <button style={{marginTop: "30px"}} className="btn_sim" type="submit">Editar</button>
+                    <button style={{marginTop: "30px"}} className="btn_nao" onClick={() => handleClose()}>Fechar</button>
+                </div>
+          </form>
+      </div>
+    </div>
+  )
+  
+  useEffect(() => {
+    ListarSquads();
+    ListarTarefas();
+    ListarSquadTarefa();
+  }, []);
 
   return (
     <div className="contentSquads">
         <h1 className="titleSquads">Tarefas das Squads</h1>        
-        <div className={classes.root}>
-        <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={value}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            className={classes.tabs}
-        >   
-            {
-                squad && squad.map((squad, index) => {
-                    return (
-                        <Tab  key={index} label={squad.nome} 
-                        onClick={() => {
-                          clearState()
-                          ListarSquadTarefa(squad.id_squad)                          
-                        }} 
-                        {...a11yProps(index)} 
-                        />
-                    )
-                })
-            }
-            {/* <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
-            <Tab label="Item Four" {...a11yProps(3)} />
-            <Tab label="Item Five" {...a11yProps(4)} />
-            <Tab label="Item Six" {...a11yProps(5)} />
-            <Tab label="Item Seven" {...a11yProps(6)} /> */}
-        </Tabs>        
-        {
-          squad && squad.map((s, i) => {
-              return (
-                  <TabPanel style={{display: "flex"}}value={value} key={s.id_squad} index={i}>
-                    <InfiniteScroll
-                      dataLength={squadTarefa.length}
-                      next={fetchMoreData}
-                      hasMore={true}
-                      scrollThreshold="50px"
-                      loader={<h4 style={{textAlign: "center"}}>Carregando....</h4>}
-                      height={400}
-                      endMessage={
-                        <h1 style={{textAlign: 'center'}}>
-                          <b>Yay! You have seen it all</b>
-                        </h1>
-                      }
-                    >
-                      <div className="cardSquadTarefa">
-                        {   
-                            squadTarefa.length > 0 ?
-                              squadTarefa && squadTarefa.map((t, y) => {                
-                                return <div className="cardSquadTarefaContent" key={y}>{t.tarefa_nome }</div>
-                              })
-                            : <h1 style={{color: "#FE963D", margin: "auto", textAlign: "center"}}>Sem tarefas</h1>
-                          }
-                      </div>
-                    </InfiniteScroll>                   
-                  </TabPanel>
-              )
-          })
-        }
-        </div>        
+        <div className={classes.root}>        
+        {     
+              <InfiniteScroll
+                dataLength={squadTarefa.length}
+                next={fetchMoreData}
+                hasMore={hasMore}
+                loader={<h4 style={{textAlign: "center", color: "#FE963D"}}>Carregando....</h4>}
+                endMessage={
+                  <h1 style={{textAlign: 'center', color: "#FE963D", marginBottom: "15PX"}}>
+                    <b>Fim das tarefas!</b>
+                  </h1>
+                }
+              >
+                <div className="cardSquadTarefa">
+                  {   
+                      squadTarefa.length > 0 ?
+                        squadTarefa && squadTarefa.map((t, y) => {                
+                          return <div className="cardSquadTarefaContent" key={y}>
+                                    <div className="headerTarefa"> 
+                                      <p className="titleTarefaContent">{t.tarefa_nome }</p>
+                                      <div className="squadIcon">
+                                          <CreateRoundedIcon style={{cursor:'pointer'}} 
+                                              onClick={() => {
+                                                setModalBody(true);
+                                                handleOpen(t.id_squadtarefa);
+                                              }}
+                                          />
+                                          <DeleteRoundedIcon style={{marginLeft:"15px", cursor:'pointer'}} 
+                                              onClick={() => {
+                                                setModalBody(false);
+                                                handleOpen(t.id_squadtarefa);
+                                              }}
+                                          />
+                                      </div>                                    
+                                    </div>
+                                    <div className="tarefaContent">
+                                        <ul className="ulContent">
+                                            <li><span>Descrição: </span>{t.tarefa_descricao}</li>
+                                            <li><span>Projeto: </span>{t.projeto}</li>
+                                            <li><span>Squad: </span>{t.squad}</li>
+                                            <li><span>Prazo: </span>{formatarDataBr(format(new Date(t.prazo), "yyyy-MM-dd"))}</li>
+                                            <li><span>Hora Estimada: </span>{t.hora_estimada}</li>
+                                        </ul>
+                                    </div>
+                                 </div>
+                        })
+                      : <h1 style={{color: "#FE963D", margin: "auto", textAlign: "center"}}>Sem tarefas</h1>
+                    }
+                </div>
+              </InfiniteScroll>                   
+               
+              
+          }
+        
+        </div> 
+        <div>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                {
+                    modalBody ? bodyEditar : bodyExcluir
+                }
+            </Modal>
+        </div>       
     </div>
   );
 }
