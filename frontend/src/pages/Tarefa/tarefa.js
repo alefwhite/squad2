@@ -84,31 +84,40 @@ const useStyles = makeStyles((theme)=>({
 export default function Tarefa(){
     const [open,setOpen] = useState(false);
     const [open2, setOpen2] = useState(false); 
+    const [open3, setOpen3] = useState(false);
     const classes = useStyles();
     const [nome, setNome] = useState();
     const [entrega, setEntrega] = useState(new Date());
     const [descricao, setDescricao] = useState();
     const [tarefas, setTarefas] = useState([]);
     const [funcionario, setFuncionario] = useState([]);
-    const [index,setIndex] = useState();
+    const [squad, setSquad] = useState([]);
+    const [sqd, setSqd] = useState("Selecione a squad");
+ 
     const [idUsuario, setIdUsuario] = useState("Selecione o funcionario");
     const [idTarefa, setIdTarefa] = useState();
+    
 
     useEffect(()=>{
-        buscarTarefa();
+        buscar();
     },[])
 
-    const buscarTarefa = () => { 
+    const buscar = () => { 
         api.get('/tarefa')
         .then(response => {
             setTarefas(response.data);
             console.log(response.data);
         })
         
-        api.get("/meusfuncionarios")
+        api.get('/meusfuncionarios')
         .then((response)=>{
             setFuncionario(response.data);
             console.log(response.data);
+        })
+
+        api.get('/squad')
+        .then((response) =>{
+            setSquad(response.data);
         })
     }
 
@@ -170,8 +179,7 @@ export default function Tarefa(){
  
         let prazo =  format(new Date(entrega), "yyyy-MM-dd");
         console.log(prazo);
-   
-        
+         
         let data = {
             nome,
             descricao,
@@ -185,7 +193,7 @@ export default function Tarefa(){
             console.log(response);
         } 
         
-        buscarTarefa();
+        buscar();
         handleClose();
       
     }
@@ -204,16 +212,12 @@ export default function Tarefa(){
             <p style={estilo.p}>Descrição da tarefa</p>
             <h1  style={estilo.espacoCampo}><Input  multiline="false" width="35vw" funcao={(evento)=>handlePreencher(evento,"descricao")}/></h1 >
             </div>
-            <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>
-            
-           
-            
+            <h1 style={{textAlign:'center'}}><Botao type="submit" children="CONCLUIR" width="90px"></Botao></h1>      
         </form>
     </div>
       )
       const handleOpen2 = (ind) => {
         setOpen2(true);
-        setIndex(ind.id_tarefa);
         setIdTarefa(ind.id_tarefa);
         console.log(ind);
        
@@ -221,8 +225,9 @@ export default function Tarefa(){
     
       const handleClose2 = () => {
         setOpen2(false);
-        setIdUsuario("Selecione o funcionario")
+        setIdUsuario("Selecione o funcionario");
       };
+
       const handleFuncionario = (evento) => {
         setIdUsuario(evento.target.value);
         console.log(evento.target.value);
@@ -248,9 +253,31 @@ export default function Tarefa(){
 
         handleClose2();
       }
-      const modalAtribuir = (
+
+      const handleSquad = (evento) => {
+        setSqd(evento.target.value);
+      }
+
+      const handleAtribuirSquad = async () => {
+          let id_squad = sqd;
+          let id_tarefa = idTarefa;
+          
+          let data = {
+              id_squad,
+              id_tarefa
+          }
+
+          const response = await api.post('/squadtarefa',data);
+
+          if(response.status === 200){
+              toast.success(response.data.mensagem);
+          }
+          handleClose3();
+      }
+
+      const modalAtribuirTarefa = (
         <Dialog open={handleOpen2}  aria-labelledby="form-dialog-title" >
-                            <DialogTitle style={{textAlign: "center", color: "#7A57EA", fontSize: "2.0em !important", fontWeight: "bold !important"}} id="form-dialog-title">Atribuir tarefas aos funcionario</DialogTitle>
+                            <DialogTitle style={{textAlign: "center", color: "#7A57EA", fontSize: "2.0em !important", fontWeight: "bold !important"}} id="form-dialog-title">Atribuir tarefa ao funcionario.</DialogTitle>
                             <DialogContent style={{textAlign: "center"}}>
                                 <DialogContentText style={{color: "#FE963D", fontWeight: "bold !important"}}>
                                     Selecione o funcionário para cumprir a tarefa.
@@ -260,7 +287,7 @@ export default function Tarefa(){
                                         className={"inputs"}
                                         required={true}  
                                         disabled={true}          
-                                        value={index}
+                                        value={idTarefa}
                                         name="squad"
                                         id="squad"
                                         style={{cursor: "pointer", padding: "14px", background: "#303030"}}
@@ -287,7 +314,7 @@ export default function Tarefa(){
                                         style={{cursor: "pointer", padding: "15px", background: "#303030"}}
                                     >
                                     <option disabled value="Selecione o funcionario">
-                                        Selecione o funcionário
+                                        Selecione o funcionario
                                     </option>
                                       {
                                           funcionario && funcionario.map((funcionario) => {
@@ -298,7 +325,7 @@ export default function Tarefa(){
                                 </div>                                
                             </DialogContent>
                             <DialogActions style={{display: "flex", justifyContent: "space-around", marginBottom: "15px"}}>
-                                <button className="btn_sim" onClick={handleAtribuirUsuario}>
+                                <button className="btn_sim" onClick={handleAtribuirSquad}>
                                     Inserir
                                 </button>
                                 <button className="btn_nao" onClick={handleClose2}>
@@ -308,6 +335,78 @@ export default function Tarefa(){
                         </Dialog>
       )
    
+
+      const handleOpen3 = (ind) => {
+          setOpen3(true);
+          setIdTarefa(ind.id_tarefa);
+          console.log(ind.id_tarefa);
+      }
+
+      const handleClose3 = () => {
+          setOpen3(false);
+          setSqd("Selecione a squad");
+      }
+
+      const modalAtribuirSquad = (
+        <Dialog open={handleOpen3}  aria-labelledby="form-dialog-title" >
+        <DialogTitle style={{textAlign: "center", color: "#7A57EA", fontSize: "2.0em !important", fontWeight: "bold !important"}} id="form-dialog-title">Atribuir tarefa a squad.</DialogTitle>
+        <DialogContent style={{textAlign: "center"}}>
+            <DialogContentText style={{color: "#FE963D", fontWeight: "bold !important"}}>
+                Selecione a squad para atribuir a tarefa.
+            </DialogContentText>
+            <div style={{marginTop: "25px"}}>
+                <select                                        
+                    className={"inputs"}
+                    required={true}  
+                    disabled={true}          
+                    value={idTarefa}
+                    name="squad"
+                    id="squad"
+                    style={{cursor: "pointer", padding: "14px", background: "#303030"}}
+                >
+                <option disabled value="Selecione a squad">
+                    Tarefa
+                </option>
+                   {
+                       tarefas && tarefas.map((tarefa)=>{
+                            return <option key={tarefa.id_tarefa} value={tarefa.id_tarefa}>{tarefa.nome}</option>                                         
+                       })
+                   }
+                </select>
+
+            </div>
+            <div style={{marginTop: "15px", marginBottom: "15px"}}>
+                <select
+                    className={"inputs"}
+                    required={true}            
+                    onChange={handleSquad}
+                    value={sqd}
+                    name="funcionario"
+                    id="funcionario"
+                    style={{cursor: "pointer", padding: "15px", background: "#303030"}}
+                >
+                <option disabled value="Selecione a squad">
+                    Selecione a squad
+                </option>
+                      {
+                        squad && squad.map((squad) => {
+                        return <option key={squad.id_squad} value={squad.id_squad}>{squad.nome}</option>
+                        })
+                      }
+                </select>
+            </div>                                
+        </DialogContent>
+        <DialogActions style={{display: "flex", justifyContent: "space-around", marginBottom: "15px"}}>
+            <button className="btn_sim" onClick={handleAtribuirSquad}>
+                Inserir
+            </button>
+            <button className="btn_nao" onClick={handleClose3}>
+                Cancelar
+            </button>
+        </DialogActions>
+    </Dialog>
+      )
+
     return(
         <div className="container">
             <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"18vw", marginTop:'20px'}}>Tarefas</p>
@@ -335,7 +434,7 @@ export default function Tarefa(){
                                         <CreateRoundedIcon style={{cursor:'pointer'}} />
                                         <DeleteRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
                                         <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen2(tarefas)}/>
-                                        <PeopleAltRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}}/>
+                                        <PeopleAltRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen3(tarefas)}/>
                                         
                                     </div>
                                 </div>
@@ -343,8 +442,7 @@ export default function Tarefa(){
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
                                     entrega:{entrega}
                                 </i></p>
-                                <p style={{color:'#7A57EA',fontSize:'17px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>Término:</i></p>
-                     
+
                             </div>
                         </CardContent>
                     </Card>
@@ -352,7 +450,7 @@ export default function Tarefa(){
                   })
               }
 
-              <Modal
+            <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
@@ -368,7 +466,16 @@ export default function Tarefa(){
                 aria-describedby="simple-modal-description"
                 className={classes.modal}
                 >
-                    {modalAtribuir}
+                    {modalAtribuirTarefa}
+            </Modal>
+            <Modal
+                open={open3}
+                onClose={handleClose3}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                className={classes.modal}
+                >
+                    {modalAtribuirSquad}
             </Modal>
               <ToastContainer/>
         </div>

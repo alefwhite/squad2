@@ -161,7 +161,7 @@ class SquadTarefaController {
                         id_criador: id_usuario
                     });
     
-                    return res.status(201).json({ 
+                    return res.status(200).json({ 
                         mensagem: `A tarefa(${existeSquad_E_Tarefa.descricao}) foi adicionada para a squad(${existeSquad_E_Tarefa.squad}) com o prazo até ${prazo}.`
                     });
                 }
