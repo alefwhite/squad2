@@ -247,10 +247,11 @@ class UsuarioTarefaController {
                 {"funcionario":"usuario.nome"}
             )
             .join("tarefa","usuario_tarefa.id_tarefa","=","tarefa.id_tarefa")
-            .join("projeto","tarefa.id_projeto","=","projeto.id_projeto")
+            .leftJoin("projeto","tarefa.id_projeto","=","projeto.id_projeto")
             .join("usuario","usuario_tarefa.id_usuario", "=", "usuario.id_usuario")
             .where("usuario_tarefa.id_usuario", idUsuario)
             .orWhere("tarefa.id_criador", idUsuario)
+            .orWhereNull("tarefa.id_projeto")
             .andWhere("tarefa.entregue", entregue)
             //.andWhere("tarefa.nome","like",`%${nome}%`);
             .then((usuarioTarefa) => {

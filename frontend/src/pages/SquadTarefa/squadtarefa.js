@@ -119,6 +119,21 @@ const SquadTarefa = () => {
 
   };
 
+  const EditarSquadTarefa = async (e) => {
+    e.preventDefault();
+    console.log("IdSquadTarefa: ", id_squadtarefa);
+    const response = await api.delete(`/squadtarefa/${id_squadtarefa}`);
+
+    if(response.status === 200) {
+      toast.success(response.data.mensagem);
+      setSquadTarefa(squadTarefa.filter((t) => {
+          return t.id_squadtarefa !== id_squadtarefa;
+      }));
+      handleClose();
+    }
+
+  };
+
   const ListarSquadTarefa = async () => {    
     const response = await api.get(`/squadtarefa?page=${page}`);
 
@@ -164,7 +179,7 @@ const SquadTarefa = () => {
     <div style={modalStyle} className={classes.paper}>
       <h2 style={{color: "#7A57EA", marginBottom: "11px"}} id="simple-modal-title">Editar Squad/Tarefa</h2>
       <div id="simple-modal-description">
-          <form className={classes.formEdit} onSubmit={ExcluirSquadTarefa}>
+          <form className={classes.formEdit} onSubmit={EditarSquadTarefa}>
                 <div style={{marginTop: "25px"}}>
                     <select                                        
                         className="inputs"
