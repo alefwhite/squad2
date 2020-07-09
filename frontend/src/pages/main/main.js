@@ -23,60 +23,72 @@ const Main = () => {
               name: 'Minhas Informações',
               route: '/rota-2'
             },
+            {
+              contentName: 'SquadTarefaFunc',
+              icon: 'AssignmentIndIcon',
+              name: 'Squad/Tarefa',
+              route: '/rota-7'
+            },
+            {
+              contentName: 'Ponto',
+              icon: 'Clock',
+              name: 'Ponto',
+              route: '/rota-8'
+            },  
             
           
           ])
           // Opções de menu do gestor
           : setUserPermissionsData([
             {
-              contentName: 'SquadUsuario',
-              icon: 'GroupIcon',
-              name: 'Squad/Usuário',
-              route: '/rota-1'
-            },
-            {
               contentName: 'MinhasInformacoes',
               icon: 'AssessmentIcon',
               name: 'Minhas Informações',
-              route: '/rota-2'
+              route: '/rota-1'
             },
-            {
-              contentName: 'Squad',
-              icon: 'CreateIcon',
-              name: 'Cadastrar Squad',
-              route: '/rota-3'
-            },   
-            {
-              contentName: 'Projetos',
-              icon: 'AccountTreeIcon',
-              name: 'Projetos',
-              route: '/rota-4'
-            } 
-            ,   
-            {
-              contentName: 'Ponto',
-              icon: 'Clock',
-              name: 'Ponto',
-              route: '/rota-5'
-            }, 
             {
               contentName: 'Convidar',
               icon: 'GroupAddIcon',
               name: 'Convidar',
-              route: '/rota-6'
+              route: '/rota-2'
             }, 
             {
-              contentName: 'SquadTarefa',
-              icon: 'AssignmentIcon',
-              name: 'Squad/Tarefa',
-              route: '/rota-7'
-            }, 
+              contentName: 'Projetos',
+              icon: 'AccountTreeIcon',
+              name: 'Projetos',
+              route: '/rota-3'
+            },   
+            {
+              contentName: 'Squad',
+              icon: 'CreateIcon',
+              name: 'Cadastrar Squad',
+              route: '/rota-4'
+            },   
+            {
+              contentName: 'SquadUsuario',
+              icon: 'GroupIcon',
+              name: 'Squad/Usuário',
+              route: '/rota-5'
+            },
             {
               contentName: 'NovaTarefa',
-              icon: 'GroupAddIcon',
+              icon: 'AssignmentIcon',
               name: 'Nova Tarefa',
+              route: '/rota-6'
+            },
+            {
+              contentName: 'SquadTarefa',
+              icon: 'AssignmentIndIcon',
+              name: 'Squad/Tarefa',
+              route: '/rota-7'
+            },
+            {
+              contentName: 'Ponto',
+              icon: 'Clock',
+              name: 'Ponto',
               route: '/rota-8'
-            }
+            },             
+            
           ]);
     }
   

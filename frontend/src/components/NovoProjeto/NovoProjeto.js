@@ -5,7 +5,7 @@ import Botao from '../Botao/Botao';
 import InputData from '../InputData/InputData';
 import {format} from 'date-fns'
 import api from '../../service/api';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const estilo = {
