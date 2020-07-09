@@ -129,7 +129,7 @@ export default function UploadImagem(props){
                 Selecione a imagem
                 <input type="file" hidden className="upload" multiple={false}  onChange={(event)=>handleImagem(event)}></input>
             </label> */}
-            <span htmlfor="up" onClick={() => {
+            <span  onClick={() => {
                 let up = document.querySelector("#up");
                 up.click();
             }}>

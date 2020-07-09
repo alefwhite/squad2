@@ -55,6 +55,7 @@ class SquadTarefaController {
                     "P.id_criador" : id_usuario,                  
                 })
                 .orWhereNull("T.id_projeto")
+                .andWhere("T.id_criador", id_usuario)
                 .orderBy("ST.id_squadtarefa", "desc")
                 .limit(8)
                 .offset((page - 1) * 8)

@@ -138,8 +138,8 @@ class TarefaController{
                .where("tarefa.id_criador",id_criador)
                .andWhere("tarefa.entregue", entregue)
                .orWhereNull("projeto.id_projeto")
-                
-                .orderBy("tarefa.id_tarefa", "desc")
+               .andWhere("tarefa.id_criador",id_criador)                
+               .orderBy("tarefa.id_tarefa", "desc")
                 .then((tarefa) => {
                     console.log(tarefa);
                     return res.json(tarefa);

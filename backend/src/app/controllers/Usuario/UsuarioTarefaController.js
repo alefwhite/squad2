@@ -252,6 +252,7 @@ class UsuarioTarefaController {
             .where("usuario_tarefa.id_usuario", idUsuario)
             .orWhere("tarefa.id_criador", idUsuario)
             .orWhereNull("tarefa.id_projeto")
+            .andWhere("tarefa.id_criador", idUsuario) 
             .andWhere("tarefa.entregue", entregue)
             //.andWhere("tarefa.nome","like",`%${nome}%`);
             .then((usuarioTarefa) => {

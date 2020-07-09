@@ -248,9 +248,11 @@ const SquadTarefa = () => {
                 hasMore={hasMore}
                 loader={ squadTarefa.length > 0 ? <h4 style={{textAlign: "center", color: "#FE963D"}}>Carregando....</h4> : ""}
                 endMessage={
-                  <h1 style={{textAlign: 'center', color: "#FE963D", marginBottom: "15PX"}}>
-                    <b>Fim das tarefas!</b>
-                  </h1>
+                  squadTarefa.length > 0 ?
+                    <h1 style={{textAlign: 'center', color: "#FE963D", marginBottom: "15PX"}}>
+                      <b>Fim das tarefas!</b>
+                    </h1> 
+                  : ""
                 }
               >
                 <div className="cardSquadTarefa">
