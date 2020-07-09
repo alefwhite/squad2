@@ -283,6 +283,7 @@ export default function Tarefa(){
         const response = await api.post('/usuariotarefa',data);
         if(response.status === 200){
             toast.success(response.data.mensagem);
+            console.log('x');
         }
     
 

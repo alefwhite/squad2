@@ -28,9 +28,12 @@ export default function Ponto(){
     const [ponto,setPonto] = useState([]);
     const [tarefalist,setTarefalist] = useState([]);
     const [open, setOpen] = useState(false);
-   const [checkTarefa, setCheckTarefa] = useState([]);
+    const [checkTarefa, setCheckTarefa] = useState([]);
     const [desc,setDesc] = useState("");
+    const [botao, setBotao] = useState("");
+    const [mensagem, setMensagem] = useState("");
     const classes = useStyles();
+    
     
     const pontos = async () => {
        await api.get('/timesheet')
@@ -41,16 +44,28 @@ export default function Ponto(){
     }
 
     const tarefas = async () => {
-        console.log(parseJWT().id_tipousuario);
+        let x 
         await api.get("/usuariotarefa")
         .then(response => {
             setTarefalist(response.data);
+          x  = response.data
         })
+        if(x.length > 0){
+            console.log(`entrouu ${tarefalist}`);
+            setBotao("block");
+            setMensagem("none");
+        }
+        else{
+            setBotao("none");
+            setMensagem("block");
+        }
+        
     }
     
     useEffect(()=>{
         pontos();
         tarefas();
+        
     },[]);
 
     const batePonto = async () =>{
@@ -154,6 +169,8 @@ export default function Ponto(){
                               </div>
                               <h1 style={{textAlign:'right'}}><Botao children="Ponto" funcao={batePonto}/></h1>
                             </div>
+
+                            
                         </CardContent>
                     </Card>
                 }
@@ -165,19 +182,25 @@ export default function Ponto(){
         }
     
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
+      
         <div style={{borderRadius:'20px',marginTop:'20px',minHeight:'150px'}} >
+            
             <div style={{minWidth:'300px',maxWidth:'600px',minHeight:'100%'}} className="cardTarefa">
+            <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center', display:mensagem, margin:'50px' }}>Não há tarefas</div>
                 {
                     parseJWT().id_tipousuario === 3 ?
+                    
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
                         let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
                        return  <div className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
-                           <div><span style={{marginTop:'5px'}}><input type="checkbox" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
+                            
+                          <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{ind+1}</div>
                            <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{tarefalist.nome}</div>
                             
                            <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
+
                            
-                           <div style={{color:'#FE963D', textAlign:'center',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</div>
+                    <div><span style={{marginTop:'5px'}}><input type="checkbox" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
                            
                        </div>
                     }) : 
@@ -200,7 +223,7 @@ export default function Ponto(){
 
                 {
                     tipoUsuario === 3?
-                    <div style={{marginLeft:'76%',marginTop:'80px', marginBottom:'10px'}}><Botao height="40px" children="Confirmar" funcao={confirmar}/></div>  : null
+                    <div style={{marginLeft:'76%',marginTop:'80px', marginBottom:'10px',display:botao}}><Botao height="40px" children="Confirmar" funcao={confirmar}/></div>  : null
                 }
             </div>
         </div>
