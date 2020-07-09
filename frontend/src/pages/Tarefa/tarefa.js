@@ -117,6 +117,7 @@ export default function Tarefa(){
     const [projeto, setProjeto] = useState([]);
     const [idTarefa, setIdTarefa] = useState();
     const [idProjeto, setIdProjeto] = useState("Selecione o projeto");
+    const [estimado, setEstimado] = useState();
     const classes = useStyles();
     
 
@@ -183,28 +184,25 @@ export default function Tarefa(){
     async function handleEnviar(x){
         x.preventDefault();
         
-        console.log("e", entrega)
         let prazo =  format(new Date(entrega), "yyyy-MM-dd");
         let id_projeto = idProjeto;
-        console.log(prazo);
-         
+        let hora_estimada = estimado;
+
         let data = {
             nome,
             descricao,
             prazo,
-            id_projeto
+            id_projeto,
+            hora_estimada
         }
-        console.log(data)
-       
+
         const response = await api.post("/tarefa",data);
 
         if(response.status===200){
-            console.log(response);
+            toast.success(response.data.mensagem);
         } 
-        
         buscar();
         handleClose();
-      
     }
     
      
@@ -241,6 +239,10 @@ export default function Tarefa(){
                                     </FormControl>
             </div>
 
+            <div>
+            <p style={estilo.p}>Hora estimada</p>
+            <h1 style={estilo.espacoCampo}><Input type="number" width="165px" funcao={(evento)=>handlePreencher(evento,"estimado")}></Input></h1>
+            </div>
             
 
             <div>
@@ -254,8 +256,6 @@ export default function Tarefa(){
       const handleOpen2 = (ind) => {
         setOpen2(true);
         setIdTarefa(ind.id_tarefa);
-        console.log(ind);
-       
       };
     
       const handleClose2 = () => {
@@ -265,8 +265,6 @@ export default function Tarefa(){
 
       const handleFuncionario = (evento) => {
         setIdUsuario(evento.target.value);
-        console.log(evento.target.value);
-        console.log(idTarefa);
       }
 
       const handleAtribuirUsuario = async () => {
@@ -283,7 +281,6 @@ export default function Tarefa(){
         const response = await api.post('/usuariotarefa',data);
         if(response.status === 200){
             toast.success(response.data.mensagem);
-            console.log('x');
         }
     
 
@@ -375,7 +372,6 @@ export default function Tarefa(){
       const handleOpen3 = (ind) => {
           setOpen3(true);
           setIdTarefa(ind.id_tarefa);
-          console.log(ind.id_tarefa);
       }
 
       const handleClose3 = () => {
@@ -478,11 +474,10 @@ export default function Tarefa(){
       const handleOpen5 = (index) => {
         setOpen5(true);
         let k = tarefas[index].prazo;
-        console.log("K", k)
-        console.log(k);
         setIdTarefa(tarefas[index].id_tarefa);
         setNome(tarefas[index].nome);
         setEntrega(k);
+        setEstimado(tarefas[index].hora_estimada);
         setDescricao(tarefas[index].descricao);
     }
 
@@ -501,25 +496,27 @@ export default function Tarefa(){
                 break;
             }
             case "entrega":{
-                console.log("Data ", evento)
                 setEntrega(evento);
                 break;
             }
+            case "estimado":{
+                setEstimado(evento.target.value);
+            }
             default: 
                 return 
-        }
-        
+        }  
     }
     const handleEditar = async (x) => {
 
         x.preventDefault();
 
         let prazo = format(new Date(entrega), "yyyy/MM/dd");
-
+        let hora_estimada = estimado
         let data = {
             nome,
             descricao,
-            prazo
+            prazo,
+            hora_estimada
         }
         
         const response = await api.put(`/tarefa/${idTarefa}`,data);
@@ -538,8 +535,12 @@ export default function Tarefa(){
                 </div>
                 <h1 style={estilo.espacoCampo}><Input width="45vw" variant="standard" value={nome} funcao={(evento) => handlePreencher(evento, "nome")}/></h1 >
                 <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
-                <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} label="Início" value={entrega} funcao={(evento) => handlePreencher(evento, "entrega")}/></h1 >
+                <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} label="Entrega" value={entrega} funcao={(evento) => handlePreencher(evento, "entrega")}/></h1 >
                 </div>
+                <div>
+            <p style={estilo.p}>Hora estimada</p>
+            <h1 style={estilo.espacoCampo}><Input type="number" value={estimado} width="165px" funcao={(evento)=>handlePreencher(evento,"estimado")}></Input></h1>
+            </div>
                 <div>
                 <p style={estilo.p}>Descrição do projeto</p>
                 <h1  style={estilo.espacoCampo}><Input  multiline="false" width="35vw" value={descricao} funcao={(evento) => handlePreencher(evento, "descricao")}/></h1 >
@@ -563,7 +564,7 @@ export default function Tarefa(){
               {
                   tarefas && tarefas.map((tarefas,ind)=>{
                     let entrega = format(new Date(tarefas.prazo),"dd/MM/yyyy")
-                    console.log(tarefas)
+                    let exibe = tarefas.hora_estimada ? "block":"none";
                     return <div key={tarefas.id_tarefa} style={{minWidth:'250px'}}>
                     <Card style={{borderRadius:'20px',marginTop:'20px'}}>
                         <CardContent style={{minWidth:'250px'}} className="card">
@@ -582,7 +583,10 @@ export default function Tarefa(){
                                 </div>
                                 <p style={{color:'#7A57EA', fontSize:'20px', marginTop:'20px'}}>{tarefas.descricao}</p>
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
-                                    entrega:{entrega}
+                                    Entrega:{entrega}
+                                </i></p>
+                                <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px', display:exibe}}><i style={{color:'#FE963D',fontSize:'17px'}}>
+                                    Hora estimada:{tarefas.hora_estimada}
                                 </i></p>
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
                                     Projeto:{tarefas.projeto_nome ? tarefas.projeto_nome:" não atribuida"}

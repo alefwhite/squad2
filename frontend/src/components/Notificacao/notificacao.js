@@ -43,7 +43,7 @@ export default function Notificacao() {
             .then((response) => {
                 if(response.status === 200) {
                     setNotificacoes(response.data);
-                    console.log("Notificacoes: ", response.data)
+
                 }
             });
     }   
@@ -56,7 +56,6 @@ export default function Notificacao() {
         <Collapse in={open} style={{maxWidth: "400px"}} className={classes.positionClosed}>
             {
                 notificacoes && notificacoes.map((n) => {
-                    console.log("Teste")
                     return (
                         <Alert
                             className={classes.marginsAlert}

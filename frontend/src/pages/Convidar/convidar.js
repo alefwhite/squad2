@@ -14,7 +14,6 @@ const Convidar = () => {
         if(retorno.status === 200) {
             setLink(retorno.data.url);
         }
-        console.log(retorno.data) 
     };
     
     const enviarConvite = async (e) => {

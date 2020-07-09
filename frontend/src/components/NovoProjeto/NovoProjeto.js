@@ -59,7 +59,7 @@ function NovoProjeto({handleClose, setOpen}){
 
    async function enviar(x){
         x.preventDefault();
-        console.log(inicio);
+
         
      
         let data_inicial =  format(new Date(inicio), "yyyy-MM-dd");
@@ -72,7 +72,6 @@ function NovoProjeto({handleClose, setOpen}){
             data_inicial,
             data_final
         }
-        console.log(data)
        
         const response = await api.post("/projeto",data);
 

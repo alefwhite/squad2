@@ -70,12 +70,10 @@ const SquadTarefa = () => {
   const [tarefaId, setTarefaId] = useState('Selecione a tarefa');
 
   const AtualizaSquad = (e) => {
-      console.log("Squad: ", e.target.value)
       setSquadId(e.target.value);
   };
 
   const AtualizaTarefa = (e) => {
-      console.log("Func: ", e.target.value)
       setTarefaId(e.target.value);
   };
 
@@ -106,7 +104,6 @@ const SquadTarefa = () => {
   
   const ExcluirSquadTarefa = async (e) => {
       e.preventDefault();
-      console.log("IdSquadTarefa: ", id_squadtarefa);
       const response = await api.delete(`/squadtarefa/${id_squadtarefa}`);
 
       if(response.status === 200) {

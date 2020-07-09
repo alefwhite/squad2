@@ -169,7 +169,6 @@ const MinhasInformacoes = () => {
             .then( response => {
 
                 if(response.status === 200) {
-                    console.log(response.data);
                     toast.success(response.data.mensagem);
                     ListarInformacoesFunc();
                 }

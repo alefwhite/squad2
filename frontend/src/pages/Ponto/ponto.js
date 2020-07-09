@@ -38,7 +38,6 @@ export default function Ponto(){
     const pontos = async () => {
        await api.get('/timesheet')
         .then(response => {
-            console.log(response.data);
             setPonto(response.data);
         })
     }
@@ -51,7 +50,6 @@ export default function Ponto(){
           x  = response.data
         })
         if(x.length > 0){
-            console.log(`entrouu ${tarefalist}`);
             setBotao("block");
             setMensagem("none");
         }
@@ -71,7 +69,6 @@ export default function Ponto(){
     const batePonto = async () =>{
         await api.put('/timesheet')
         .then(response => {
-            console.log(response);
             pontos();
         })
         
@@ -83,7 +80,6 @@ export default function Ponto(){
        if(evento.target.checked === true){
         x = [...checkTarefa,id_tarefa];
         setCheckTarefa(x);
-        console.log(checkTarefa);
        } 
        else{
            let index = x.findIndex((k) => {
@@ -94,18 +90,14 @@ export default function Ponto(){
 
            setCheckTarefa(x);
            
-           console.log(checkTarefa);
        }
 
     }
 
 
     const confirmar =  () => {
-        console.log(checkTarefa);
-
         checkTarefa.map(async (tarefa) =>{
-            console.log(tarefa)
-           const response = await api.put(`/concluirtarefa/${tarefa}`,{'entregue':true})
+           const response = await api.put(`/concluirtarefa/${tarefa}`,{'entregue':true});
 
            if(response.status === 200){
                toast.success(response.data.mensagem);
@@ -117,9 +109,7 @@ export default function Ponto(){
 
     const handleOpen = (index) => {
         setOpen(true);
-        console.log(index);
-        setDesc(tarefalist[index].descricao)
-        console.log(tarefalist[index].descricao);
+        setDesc(tarefalist[index].descricao);
       };
     
       const handleClose = () => {
@@ -141,7 +131,6 @@ export default function Ponto(){
             ponto && ponto.map((ponto) => {
                 let x = format(new Date(),"yyyy-dd-MM");
                 let y = format(new Date(ponto.data_ponto),"yyyy-dd-MM");
-                console.log(`ponto:${y}   x = ${x}`);
                 if(y === x) {         
                     return <Card style={{borderRadius:'20px',marginTop:'20px', minHeight:'300px', minWidth:'535px' }} key={ponto.id_timesheet}>
                         <CardContent style={{minWidth:'535px',minHeight:'300px'}} className="card">

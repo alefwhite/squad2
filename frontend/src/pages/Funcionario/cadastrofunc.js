@@ -105,7 +105,6 @@ export default function Cadastrar() {
         }
         else if (campo === 'senha') {
             setSenha(evento.target.value);
-            console.log(senha);
         }
         else if (campo === 'confirmarsenha') {
             setconfirmar_senha(evento.target.value);
@@ -134,13 +133,11 @@ export default function Cadastrar() {
             id_cargo: novo_cargo 
         }
         if(senha.length < 6 || confirmar_senha.length < 6) {
-            console.log("entrou")
             document.getElementById("senha").focus();
-            return toast.info("A senha deve conter no mínimo 6 caracteres")
+            return toast.info("A senha deve conter no mínimo 6 caracteres");
              
         } 
         else if(novo_cargo.toString() === "Informe seu cargo") {
-            console.log("elese if", novo_cargo)
             document.getElementById("cargo").focus();
             return toast.info("Informe seu cargo!");
         }
@@ -164,7 +161,6 @@ export default function Cadastrar() {
         await api.get("/cargos")
         .then( response => {
             setCargos(response.data);
-            console.log(response.data);
         })
     };
 

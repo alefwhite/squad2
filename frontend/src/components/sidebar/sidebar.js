@@ -221,7 +221,6 @@ const SideBar = ({ userPermissionsData }) => {
     }
 
     const Deslogar = () => {
-        console.log("Tipo: ", parseJWT().id_tipousuario);
         localStorage.clear();
         history.push("/");
     };
@@ -230,7 +229,6 @@ const SideBar = ({ userPermissionsData }) => {
        
         await api.get("/uploadusuario")
         .then((response) => {
-            console.log("Profile: ", response.data)
             if(response.data.imgurl) {
                 setProfile(response.data.imgurl);
             }
@@ -244,13 +242,11 @@ const SideBar = ({ userPermissionsData }) => {
                 if(response.status === 200) {
                     setNotificacoes(response.data);
                     setTotalNotificacoes(response.data.length);
-                    console.log("Notificacoes: ", response.data)
                 }
             });
     }
     
     const MarcarNotificacao = async (id) => {
-        console.log(id)
         setNotificacoes(notificacoes.filter((notificacao) => {
             setTotalNotificacoes(totalNotificacoes - 1);
             return notificacao._id !== id;
@@ -365,7 +361,6 @@ const SideBar = ({ userPermissionsData }) => {
                     <Collapse in={openNotification} style={{maxWidth: "400px"}} className={classes.positionClosed}>
                         {
                             notificacoes && notificacoes.map((n) => {
-                                console.log("Teste")
 
                                 return (
                                     <Alert

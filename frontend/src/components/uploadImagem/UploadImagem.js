@@ -37,7 +37,6 @@ export default function UploadImagem(props){
     
     const EnviarImagem = async () => {
        let data = new FormData();
-       console.log(profile)
        data.append("img_usuario", profile, fileName);
 
        const response = await api.post('/uploadusuario', data);
@@ -51,7 +50,6 @@ export default function UploadImagem(props){
 
     function handleImagem(event){
       const img = event.target.files;
-        console.log("Imagem", img)
 
       if(img && img.length > 0) {
         setFileName(img[0].name);
@@ -109,7 +107,6 @@ export default function UploadImagem(props){
     return new Promise((resolve, reject)=>{
         canvas.toBlob(blob => {
                 if(!blob){
-                    console.error("canvas vazio");
                     return;
                 };
 
@@ -154,7 +151,6 @@ export default function UploadImagem(props){
         return(
            
             <>  
-             
                   <Modal
                   open={open}
                   onClose={handleClose}

@@ -71,8 +71,6 @@ export default function Projeto(){
           await api.get('/projeto')
             .then(response =>{    
                 setEstado(response.data);
-                console.log(response.data);
-
             });  
     }
     
@@ -96,9 +94,7 @@ export default function Projeto(){
 
     async function handleEditar(x){
       x.preventDefault();
-      console.log(inicio);
-      
-   
+ 
       let data_inicial =  format(new Date(inicio), "yyyy-MM-dd");
       let data_final =  format(new Date(fim), "yyyy-MM-dd");
   
