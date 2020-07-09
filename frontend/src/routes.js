@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
+import NotFound from './components/NotFound/notfound';
 import Login from './pages/Login/login';
 import Main from './pages/Main/main';
 import GestorCadastro from './pages/Gestor/cadastro';
@@ -29,6 +30,7 @@ export default function Routes() {
                 <Route exact path="/gestor" component={GestorCadastro} />
                 <Route exact path="/convite" component={FuncionarioCadastro} />
                 <Permissao exact path="/dashboard" component={Main} />
+                <Permissao component={NotFound}/>
             </Switch>
         </BrowserRouter>
     )
