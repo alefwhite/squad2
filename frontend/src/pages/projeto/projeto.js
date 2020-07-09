@@ -9,7 +9,7 @@ import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
 import Input from '../../components/Input/Input.js';
 import Botao from '../../components/Botao/Botao.js';
 import InputData from '../../components/InputData/InputData.js';
-
+import { toast, ToastContainer } from 'react-toastify';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -86,11 +86,11 @@ export default function Projeto(){
         let data = estado[index].id_projeto
 
   
-        await api.delete(`/projeto/${data}`)
-          .then(response =>{
-                console.log(`sucesso:${response}`);
-            });
-       
+        const response = await api.delete(`/projeto/${data}`)
+         
+        if(response.status === 200){
+          toast.success(response.data.mensagem);
+        }
         handleClose2();
         listar();
     } 
@@ -115,7 +115,7 @@ export default function Projeto(){
       const response = await api.put(`projeto/${index}`,data);
 
       if(response.status===200){
-          console.log(response);
+          toast.success(response.data.mensagem);
       } 
 
     handleClose3();
@@ -270,6 +270,7 @@ export default function Projeto(){
       >
         {modalEditar}
       </Modal>
+      <ToastContainer/>
         </div>    
     )
    

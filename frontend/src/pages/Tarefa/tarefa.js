@@ -231,7 +231,7 @@ export default function Tarefa(){
                                                     id: 'outlined-age-native-simple',
                                                 }}
                                             >
-                                                <option value="Selecione o projeto">Selecione o projeto</option>>
+                                                <option value="Selecione o projeto">Selecione o projeto</option>
                                                 {
                                                    projeto && projeto.map((projeto) => {
                                                         return <option key={projeto.id_projeto} value={projeto.id_projeto}>{projeto.nome}</option>

@@ -5,6 +5,7 @@ import Botao from '../Botao/Botao';
 import InputData from '../InputData/InputData';
 import {format} from 'date-fns'
 import api from '../../service/api';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 const estilo = {
@@ -76,7 +77,7 @@ function NovoProjeto({handleClose, setOpen}){
         const response = await api.post("/projeto",data);
 
         if(response.status===200){
-            console.log(response);
+            toast.success(response.data.mensagem);
         } 
         
         handleClose();
