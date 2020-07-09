@@ -34,6 +34,7 @@ import Convidar from '../../pages/Convidar/convidar';
 import Squad from '../../pages/SquadCadastro/squad';
 import UploadImagem from '../UploadImagem/UploadImagem';
 import SquadTarefa from '../../pages/SquadTarefa/squadtarefa';
+import SquadTarefaFunc from '../../pages/SquadTarefaFunc/squadtarefafunc';
 import NovaTarefa from '../../pages/Tarefa/tarefa';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -210,6 +211,8 @@ const SideBar = ({ userPermissionsData }) => {
                 return <Convidar />;   
             case 'SquadTarefa':
                 return <SquadTarefa />;
+            case 'SquadTarefaFunc':
+                return <SquadTarefaFunc />;
             case 'NovaTarefa':
                 return <NovaTarefa/>;    
             default:
