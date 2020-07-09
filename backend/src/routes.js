@@ -18,7 +18,8 @@ import SquadTarefaController from './app/controllers/Squad/SquadTarefaController
 import SquadController from './app/controllers/Squad/SquadController';
 import TimesheetController from './app/controllers/Timesheet/TimesheetController';
 import CargoController from './app/controllers/Cargo/CargoController';
-import SquadTarefaUsuarioController from './app/controllers/Squad/SquadTarefaUsuarioController'
+import SquadTarefaUsuarioController from './app/controllers/Squad/SquadTarefaUsuarioController';
+import UsuarioTarefaConcluidaController from './app/controllers/Usuario/UsuarioTarefaConcluidaController';
 
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
@@ -56,6 +57,8 @@ routes.get('/squad', SquadController.index);
 // Tarefa 
 routes.get('/tarefa', TarefaController.index);
 routes.put('/tarefa/:id', TarefaController.update);
+// Editar Tarefa concluida
+routes.put('/concluirtarefa/:id', UsuarioTarefaConcluidaController.update);
 
 
 // Listagem de tarefas da squad

@@ -12,8 +12,8 @@ import {parseJWT} from '../../service/parseJWT';
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './ponto.css';
-import { ToastContainer } from 'react-toastify';
-// import Checkbox from '@material-ui/core/Checkbox';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -28,7 +28,7 @@ export default function Ponto(){
     const [ponto,setPonto] = useState([]);
     const [tarefalist,setTarefalist] = useState([]);
     const [open, setOpen] = useState(false);
-   
+   const [checkTarefa, setCheckTarefa] = useState([]);
     const [desc,setDesc] = useState("");
     const classes = useStyles();
     
@@ -61,6 +61,45 @@ export default function Ponto(){
         })
         
     }
+
+    const handleCheck = (evento,id_tarefa) => {
+        let x = [...checkTarefa];
+
+       if(evento.target.checked === true){
+        x = [...checkTarefa,id_tarefa];
+        setCheckTarefa(x);
+        console.log(checkTarefa);
+       } 
+       else{
+           let index = x.findIndex((k) => {
+               return k === id_tarefa;
+           });
+
+           x.splice(index,1);
+
+           setCheckTarefa(x);
+           
+           console.log(checkTarefa);
+       }
+
+    }
+
+
+    const confirmar =  () => {
+        console.log(checkTarefa);
+
+        checkTarefa.map(async (tarefa) =>{
+            console.log(tarefa)
+           const response = await api.put(`/UsuarioTarefaConcluidaController/${tarefa}`,{'entregue':true})
+
+           if(response.status === 200){
+               toast.success(response.data.mensagem);
+               tarefas();
+           }
+        })
+        
+    }
+
     const handleOpen = (index) => {
         setOpen(true);
         console.log(index);
@@ -75,10 +114,11 @@ export default function Ponto(){
       
         <Card style={{borderRadius:'20px',marginTop:'20px' }} >
             <CardContent style={{minWidth:'250px',display:'flex',justifyContent:'center',alignItems:'center'}} className="card">
-                <p style={{color:'#FE963D', marginBottom:'20px', }} >{desc}</p>
+                <p style={{color:'#FE963D', marginBottom:'20px', fontSize:'20px' }} >{desc}</p>
             </CardContent>
         </Card>
     )
+    const tipoUsuario = parseJWT().id_tipousuario;
     return(
         <div className="container">
             <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Horários</p>
@@ -125,23 +165,43 @@ export default function Ponto(){
         }
     
         <p style={{color:'#FE963D',fontWeight:'bold',fontSize:'40px',marginRight:"15%", marginTop:'20px'}}>Tarefas</p>
-        <div style={{borderRadius:'20px',marginTop:'20px',minHeight:'150px' }} >
+        <div style={{borderRadius:'20px',marginTop:'20px',minHeight:'150px'}} >
             <div style={{minWidth:'300px',maxWidth:'600px',minHeight:'100%'}} className="cardTarefa">
                 {
+                    parseJWT().id_tipousuario === 3 ?
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
                         let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
                        return  <div className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
-                           
-                           <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.nome}</div>
+                           <div><span style={{marginTop:'5px'}}><input type="checkbox" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
+                           <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{tarefalist.nome}</div>
                             
                            <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
                            
                            <div style={{color:'#FE963D', textAlign:'center',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</div>
                            
                        </div>
+                    }) : 
+                    tarefalist && tarefalist.map((tarefalist,ind)=>{
+                        let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
+                        return  <div className="tarefaGest" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
+                       
+                           <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{tarefalist.nome}</div>
+                            
+                           <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
+                           
+                           <div style={{color:'#FE963D', textAlign:'center',fontSize:'20px' }} onClick={()=>handleOpen(ind)}>{tarefalist.funcionario}</div>
+                           
+                          
+                       </div>
+                      
                     })
+                  
                 }
 
+                {
+                    tipoUsuario === 3?
+                    <div style={{marginLeft:'76%',marginTop:'80px', marginBottom:'10px'}}><Botao height="40px" children="Confirmar" funcao={confirmar}/></div>  : null
+                }
             </div>
         </div>
         <Modal
