@@ -93,7 +93,6 @@ const SquadTarefaFunc = () => {
     const response = await api.get(`/squadtarefausuario?page=${page}`);
 
     if(response.status === 200) {
-      console.log("squadTarefa, ", squadTarefa)
       setSquadTarefa(squadTarefa.concat(response.data));
       setTotalPage(response.headers['x-total-count']);     
     }
@@ -101,11 +100,10 @@ const SquadTarefaFunc = () => {
   };    
   
   const fetchMoreData = () => {
-    setTimeout(() => {       
-      if(page < totalPage) {
-          console.log("Page", page)
-          console.log("Total ", totalPage)
-        setPage(page + 1);       
+    setTimeout(() => {  
+
+      if(page < totalPage) {          
+          setPage(page + 1);
       }
 
       if(squadTarefa.length >= totalPage) {
@@ -133,7 +131,17 @@ const SquadTarefaFunc = () => {
   
   
   useEffect(() => {  
-    ListarSquadTarefa();
+    (async () => {
+      
+      const response = await api.get(`/squadtarefausuario?page=${page}`);
+
+      if(response.status === 200) {
+        setSquadTarefa(squadTarefa.concat(response.data));
+        setTotalPage(response.headers['x-total-count']);
+        setPage(page + 1);     
+      };
+
+    })();
   
   }, []);
 
@@ -178,10 +186,10 @@ const SquadTarefaFunc = () => {
                                     <div className="tarefaContent">
                                         <ul className="ulContent">
                                             <li><span>Descrição: </span>{t.tarefa_descricao}</li>
-                                            <li><span>Projeto: </span>{t.projeto}</li>
+                                            <li><span>Projeto: </span>{t.projeto ? t.projeto : "Não atribuido"}</li>
                                             <li><span>Squad: </span>{t.squad}</li>
                                             <li><span>Prazo: </span>{formatarDataBr(format(new Date(t.prazo), "yyyy-MM-dd"))}</li>
-                                            <li><span>Hora Estimada: </span>{t.hora_estimada}</li>
+                                            <li><span>Hora Estimada: </span>{t.hora_estimada ? t.hora_estimada : "Sem hora estimada"}hr</li>
                                         </ul>
                                     </div>
                                  </div>

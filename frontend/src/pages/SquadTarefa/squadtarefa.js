@@ -142,7 +142,7 @@ const SquadTarefa = () => {
 
     if(response.status === 200) {
       setSquadTarefa(squadTarefa.concat(response.data));
-      setTotalPage(response.headers['x-total-count']);     
+      setTotalPage(response.headers['x-total-count']);
     }
 
   };  
@@ -150,8 +150,9 @@ const SquadTarefa = () => {
   
   const fetchMoreData = () => {
     setTimeout(() => {       
+      
       if(page < totalPage) {
-        setPage(page + 1);       
+        setPage(page + 1);             
       }
 
       if(squadTarefa.length >= totalPage) {
@@ -232,9 +233,21 @@ const SquadTarefa = () => {
   )
   
   useEffect(() => {
-    ListarSquadTarefa();
+    (async () => {
+      
+      const response = await api.get(`/squadtarefa?page=${page}`);
+
+      if(response.status === 200) {
+        setSquadTarefa(squadTarefa.concat(response.data));
+        setTotalPage(response.headers['x-total-count']);
+        setPage(page + 1);     
+      };
+
+    })();
+    
     ListarSquads();
     ListarTarefas();
+
   }, []);
 
   return (
