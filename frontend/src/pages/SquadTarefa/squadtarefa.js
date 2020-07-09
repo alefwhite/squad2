@@ -141,10 +141,8 @@ const SquadTarefa = () => {
     const response = await api.get(`/squadtarefa?page=${page}`);
 
     if(response.status === 200) {
-      setSquadTarefa(squadTarefa.concat(response.data))
-      setTotalPage(response.headers['x-total-count']);
-      console.log("Squad/Tarefa", response.headers['x-total-count']);
-      console.log("Squad/Tarefa - ", response.data);
+      setSquadTarefa(squadTarefa.concat(response.data));
+      setTotalPage(response.headers['x-total-count']);     
     }
 
   };  
@@ -234,9 +232,9 @@ const SquadTarefa = () => {
   )
   
   useEffect(() => {
+    ListarSquadTarefa();
     ListarSquads();
     ListarTarefas();
-    ListarSquadTarefa();
   }, []);
 
   return (
@@ -248,7 +246,7 @@ const SquadTarefa = () => {
                 dataLength={squadTarefa.length}
                 next={fetchMoreData}
                 hasMore={hasMore}
-                loader={<h4 style={{textAlign: "center", color: "#FE963D"}}>Carregando....</h4>}
+                loader={ squadTarefa.length > 0 ? <h4 style={{textAlign: "center", color: "#FE963D"}}>Carregando....</h4> : ""}
                 endMessage={
                   <h1 style={{textAlign: 'center', color: "#FE963D", marginBottom: "15PX"}}>
                     <b>Fim das tarefas!</b>
@@ -288,7 +286,7 @@ const SquadTarefa = () => {
                                     </div>
                                  </div>
                         })
-                      : <h1 style={{color: "#FE963D", margin: "auto", textAlign: "center"}}>Sem tarefas</h1>
+                      : <h1 style={{color: "#7A57EA", margin: "auto", textAlign: "center"}}>Squads sem tarefas</h1>
                     }
                 </div>
               </InfiniteScroll>                   
