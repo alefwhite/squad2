@@ -239,6 +239,7 @@ class UsuarioTarefaController {
             .select(
                 "usuario_tarefa.id_usuariotarefa",
                 "tarefa.nome",
+                "usuario_tarefa.id_tarefa",
                 "tarefa.descricao",
                 "tarefa.prazo",
                 "tarefa.hora_estimada",

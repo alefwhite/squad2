@@ -85,7 +85,6 @@ export default function Projeto(){
         let index = idprojeto;
         let data = estado[index].id_projeto
 
-  
         const response = await api.delete(`/projeto/${data}`)
          
         if(response.status === 200){
@@ -102,8 +101,7 @@ export default function Projeto(){
    
       let data_inicial =  format(new Date(inicio), "yyyy-MM-dd");
       let data_final =  format(new Date(fim), "yyyy-MM-dd");
- 
-      
+  
       let data = {
           nome,
           descricao,
