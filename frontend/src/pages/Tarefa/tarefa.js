@@ -183,7 +183,7 @@ export default function Tarefa(){
     async function handleEnviar(x){
         x.preventDefault();
         
- 
+        console.log("e", entrega)
         let prazo =  format(new Date(entrega), "yyyy-MM-dd");
         let id_projeto = idProjeto;
         console.log(prazo);
@@ -217,7 +217,7 @@ export default function Tarefa(){
             </div>
             <h1 style={estilo.espacoCampo}><Input  width="45vw" variant="standard" funcao={(evento)=>handlePreencher(evento,"nome")}/></h1 >
             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}} >
-            <h1 style={estilo.espacoCampo}><InputData  style={estilo.input[0]} label="Entrega" value={entrega} funcao={(evento)=>handlePreencher(evento,"prazo")}/></h1 >
+            <h1 style={estilo.espacoCampo}><InputData  style={estilo.input[0]} label="Entrega" value={entrega} funcao={(evento)=>handlePreencher(evento,"entrega")}/></h1 >
             
             <FormControl  className={clsx(classes.formControl, classes.campos)}>
                                             <InputLabel htmlFor="outlined-age-native-simple">Selecione o projeto</InputLabel>
@@ -478,6 +478,7 @@ export default function Tarefa(){
       const handleOpen5 = (index) => {
         setOpen5(true);
         let k = tarefas[index].prazo;
+        console.log("K", k)
         console.log(k);
         setIdTarefa(tarefas[index].id_tarefa);
         setNome(tarefas[index].nome);
@@ -500,6 +501,7 @@ export default function Tarefa(){
                 break;
             }
             case "entrega":{
+                console.log("Data ", evento)
                 setEntrega(evento);
                 break;
             }

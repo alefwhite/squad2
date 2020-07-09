@@ -25,9 +25,8 @@ class SquadTarefaController {
            .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
            .leftJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")
            .where({
-                "SU.id_usuario" : id_usuario,                            
-            })
-           .orWhereNull("T.id_projeto")
+               "SU.id_usuario" : id_usuario,                            
+           })
            .orderBy("ST.id_squadtarefa", "desc");
 
            await db("squad_tarefa as ST")

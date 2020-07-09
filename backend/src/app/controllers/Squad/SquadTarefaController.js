@@ -6,7 +6,7 @@ class SquadTarefaController {
     async index(req, res) {
         const id_usuario = req.idUsuario;
         const { page = 1 } = req.query             
-
+        console.log("Page: ", page)
         try {
            const [count] = await db("squad_tarefa as ST").count()
            .select([
@@ -21,16 +21,18 @@ class SquadTarefaController {
                "T.prazo", 
                "T.hora_estimada"
            ])
-           .distinct("ST.id_squadtarefa")
-           .innerJoin("squad as S", "S.id_squad", "=", "ST.id_squad")
-           .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
-           .leftJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
-           .where({
-               "S.id_criador" : id_usuario,
-               "T.id_criador" : id_usuario,
-               "P.id_criador" : id_usuario,               
-           })
-           .orderBy("ST.id_squadtarefa", "desc")
+            .distinct("ST.id_squadtarefa")
+            .innerJoin("squad as S", "S.id_squad", "=", "ST.id_squad")
+            .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
+            .leftJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")      
+            .where({
+                "S.id_criador" : id_usuario,
+                "T.id_criador" : id_usuario,
+                "P.id_criador" : id_usuario,                  
+            })
+            .orWhereNull("T.id_projeto")
+            .andWhere("T.id_criador", id_usuario)
+            .orderBy("ST.id_squadtarefa", "desc")
 
            await db("squad_tarefa as ST")
                 .select([
@@ -62,7 +64,7 @@ class SquadTarefaController {
                 .then((squad_tarefas) => {
 
                     if(squad_tarefas) {
-                        console.log( count['count(*)'])
+                        console.log("Squad Tarefa", count['count(*)'])
                         res.header('X-Total-Count', count['count(*)']);
                         return res.json(squad_tarefas);
                     }

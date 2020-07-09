@@ -135,7 +135,7 @@ export default function UploadImagem(props){
             }}>
                 <ImageIcon/>
             </span>
-            <label className="labelUpload" htmlfor="up">
+            <label className="labelUpload" >
                 Atualizar Foto
                 <input type="file" hidden className="upload" multiple={false} id="up" onChange={(event)=>handleImagem(event)}></input>
             </label>

@@ -81,15 +81,5 @@
     }
 }
 
-@media(max-width: 1280px) {
-    .cardSquadTarefa {
-        justify-content: space-around;
-    }
-
-    .cardSquadTarefaContent {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-}
 
 

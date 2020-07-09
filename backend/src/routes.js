@@ -50,8 +50,15 @@ routes.post('/convite', FuncionarioController.store);
 */
 routes.use(Authentication.store);
 
+// Squad
+routes.get('/squad', SquadController.index);
+
+
+// Tarefa 
+routes.get('/tarefa', TarefaController.index);
+routes.put('/tarefa/:id', TarefaController.update);
 // Editar Tarefa concluida
-routes.put('/UsuarioTarefaConcluidaController/:id', UsuarioTarefaConcluidaController.update);
+routes.put('/concluirtarefa/:id', UsuarioTarefaConcluidaController.update);
 
 
 // Listagem de tarefas da squad
@@ -137,8 +144,6 @@ routes.delete('/squadusuario/:id', SquadUsuarioController.delete);
 
 // Rota tarefa
 routes.post('/tarefa', TarefaController.store);
-routes.get('/tarefa', TarefaController.index);
-routes.put('/tarefa/:id', TarefaController.update);
 routes.delete('/tarefa/:id', TarefaController.delete);
 
 
@@ -156,7 +161,6 @@ routes.delete('/squadtarefa/:id', SquadTarefaController.delete);
 
 
 // Rota Squad
-routes.get('/squad', SquadController.index);
 routes.post('/squad', SquadController.store);
 routes.put('/squad/:id', SquadController.update);
 routes.delete('/squad/:id', SquadController.delete);
