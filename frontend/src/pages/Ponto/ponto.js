@@ -105,7 +105,7 @@ export default function Ponto(){
 
         checkTarefa.map(async (tarefa) =>{
             console.log(tarefa)
-           const response = await api.put(`/UsuarioTarefaConcluidaController/${tarefa}`,{'entregue':true})
+           const response = await api.put(`/concluirtarefa/${tarefa}`,{'entregue':true})
 
            if(response.status === 200){
                toast.success(response.data.mensagem);
