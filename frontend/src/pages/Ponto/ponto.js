@@ -93,7 +93,8 @@ export default function Ponto(){
            const response = await api.put(`/UsuarioTarefaConcluidaController/${tarefa}`,{'entregue':true})
 
            if(response.status === 200){
-               toast.success("tarefa concluida")
+               toast.success(response.data.mensagem);
+               tarefas();
            }
         })
         
