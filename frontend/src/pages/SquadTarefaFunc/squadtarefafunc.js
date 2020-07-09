@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../service/api';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import './squadtarefafunc.css';
 import {format} from 'date-fns';
 import formatarDataBr from '../../utils/formatarDataBr';
 import Modal from '@material-ui/core/Modal';
 import { toast } from 'react-toastify';
-
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +72,7 @@ const SquadTarefaFunc = () => {
   };
 
   
-  const ExcluirSquadTarefa = async (e) => {
+  const EnviarTarefa = async (e) => {
       e.preventDefault();
       console.log("IdSquadTarefa: ", id_squadtarefa);
       const response = await api.delete(`/squadtarefausuario/${id_squadtarefa}`);
@@ -116,11 +114,11 @@ const SquadTarefaFunc = () => {
 
   };
 
-  const bodyExcluir = (
+  const bodyConcluirTarefa = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja excluir?</h2>
+      <h2 style={{color: "#7A57EA", marginBottom: "11px", textAlign: "center"}} id="simple-modal-title">Tem certeza que você deseja entregar a tarefa?</h2>
       <div id="simple-modal-description">
-          <form className={classes.formDel} onSubmit={ExcluirSquadTarefa} >
+          <form className={classes.formDel} onSubmit={EnviarTarefa} >
                 <button style={{marginTop: "35px"}} className="btn_sim" type="submit">Sim</button>
                 <button style={{marginTop: "35px"}} className="btn_nao" onClick={() => handleClose()}>Não</button>
           </form>
@@ -131,6 +129,8 @@ const SquadTarefaFunc = () => {
   
   
   useEffect(() => {  
+    document.title = "Squad tarefas";
+
     (async () => {
       
       const response = await api.get(`/squadtarefausuario?page=${page}`);
@@ -171,12 +171,7 @@ const SquadTarefaFunc = () => {
                                     <div className="headerTarefa"> 
                                       <p className="titleTarefaContent">{t.tarefa_nome }</p>
                                       <div className="squadIcon">
-                                          <CreateRoundedIcon style={{cursor:'pointer'}} 
-                                              onClick={() => {                                              
-                                                handleOpen(t.id_squadtarefa);
-                                              }}
-                                          />
-                                          <DeleteRoundedIcon style={{marginLeft:"15px", cursor:'pointer'}} 
+                                          <CheckCircleOutlineIcon style={{marginLeft:"15px", cursor:'pointer', fontSize: "30px"}} 
                                               onClick={() => {
                                                 handleOpen(t.id_squadtarefa);
                                               }}
@@ -211,7 +206,7 @@ const SquadTarefaFunc = () => {
                 aria-describedby="simple-modal-description"
             >
                 {
-                    bodyExcluir
+                    bodyConcluirTarefa
                 }
             </Modal>
         </div>       

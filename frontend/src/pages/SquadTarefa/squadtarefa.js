@@ -233,6 +233,8 @@ const SquadTarefa = () => {
   )
   
   useEffect(() => {
+    document.title = "Squad tarefas";
+    
     (async () => {
       
       const response = await api.get(`/squadtarefa?page=${page}`);
