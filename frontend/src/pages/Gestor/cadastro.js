@@ -144,7 +144,7 @@ export default function Cadastrar() {
                     if(response.status === 200) {
                         toast.success(response.data.mensagem);
                         setTimeout(() => {
-                            history.push('/login');
+                            history.push('/');
                         }, 2000)
                     }
                 });           

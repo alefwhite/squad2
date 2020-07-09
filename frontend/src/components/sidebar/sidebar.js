@@ -220,7 +220,7 @@ const SideBar = ({ userPermissionsData }) => {
     const Deslogar = () => {
         console.log("Tipo: ", parseJWT().id_tipousuario);
         localStorage.clear();
-        history.push("/login");
+        history.push("/");
     };
 
     const ImgProfile = async () => {
