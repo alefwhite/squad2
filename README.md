@@ -29,7 +29,7 @@
 * MD5 
 * JSONWebToken
 * Moment
-* Muter
+* Multer
 * Cors
 
 ## Front-end
