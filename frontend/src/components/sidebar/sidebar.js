@@ -179,7 +179,7 @@ const SideBar = ({ userPermissionsData }) => {
     const [profile, setProfile] = useState('');
     const [notificacoes, setNotificacoes] = useState([]);
     const [totalNotificacoes, setTotalNotificacoes] = useState(0);
-    // const [upload, setUpload] = useState(false);
+    const [nome, setNome] = useState('');
 
     const handleDrawerOpen = () => {
         setProfileImg('block');
@@ -199,9 +199,9 @@ const SideBar = ({ userPermissionsData }) => {
             case 'SquadUsuario':
                 return <SquadUsuario />;
             case 'MinhasInformacoes':
-                return <MinhasInformacoes />;            
+                return <MinhasInformacoes setNome={NomeSocial}/>;            
             case 'MinhasInformacoesFunc':
-                return <MinhasInformacoesFunc />;            
+                return <MinhasInformacoesFunc setNome={NomeSocial}/>;            
             case 'Squad':
                 return <Squad />;  
             case 'Ponto':
@@ -254,6 +254,16 @@ const SideBar = ({ userPermissionsData }) => {
         await api.put(`/notificacao/${id}`);           
     }
 
+
+    const NomeSocial = async () => {
+        const response = await api.get("/nome");
+
+        if(response.status === 200) {
+           console.log(response.data)
+           setNome(response.data.nome_social);
+        }
+    }
+
     useEffect(() => {
         ImgProfile();
         ListarNotificacoes();
@@ -261,6 +271,16 @@ const SideBar = ({ userPermissionsData }) => {
         if (!content) {
             setContent('Ponto');
         }
+
+        (async () => {
+            const response = await api.get("/nome");
+
+            if(response.status === 200) {
+               console.log(response.data)
+               setNome(response.data.nome_social);
+            }
+            
+        })();
 
     }, [content]);
 
@@ -334,7 +354,12 @@ const SideBar = ({ userPermissionsData }) => {
                         }
                     </div>
                     <div className="profile_data">
-                        <p className="name">{localStorage.getItem("nome")}</p>
+                        <p className="name">
+                            {/* {localStorage.getItem("nome")} */}
+                            {
+                                nome
+                            }
+                        </p>
                     </div>
                 </div>
                 <Divider />            

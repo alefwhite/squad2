@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Input from '../../components/Input/Input';
-
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -94,9 +93,8 @@ const useStyles = makeStyles((theme) => ({
     }
     
 }));
-const MinhasInformacoes = () => {
+const MinhasInformacoes = ({ setNome }) => {
     const classes = useStyles();
-
     const [estado, setEstado] = useState({estado: ''});
     const [modificado, setModificado] = useState(false);
 
@@ -171,9 +169,9 @@ const MinhasInformacoes = () => {
             .then( response => {
 
                 if(response.status === 200) {
-                    console.log(response.data);
                     toast.success(response.data.mensagem);
                     ListarInformacoes();
+                    setNome();                    
                 }
                 
             });        
