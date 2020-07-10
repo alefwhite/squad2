@@ -9,7 +9,7 @@ import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
 import Input from '../../components/Input/Input.js';
 import Botao from '../../components/Botao/Botao.js';
 import InputData from '../../components/InputData/InputData.js';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast  } from 'react-toastify';
 
 const useStyles = makeStyles((theme)=>({
     modal: {
@@ -264,7 +264,6 @@ export default function Projeto(){
       >
         {modalEditar}
       </Modal>
-      <ToastContainer/>
         </div>    
     )
    

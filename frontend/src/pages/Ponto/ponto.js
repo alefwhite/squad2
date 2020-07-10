@@ -12,7 +12,7 @@ import {parseJWT} from '../../service/parseJWT';
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './ponto.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -75,7 +75,7 @@ export default function Ponto(){
       const handleClose = () => {
         setOpen(false);
       };
-      
+
     const batePonto = async () =>{
         await api.put('/timesheet')
         .then(response => {
@@ -232,7 +232,6 @@ export default function Ponto(){
       >
         {detalhes}
       </Modal>
-      <ToastContainer/>
     </div>       
     )
 }

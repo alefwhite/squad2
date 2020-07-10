@@ -18,7 +18,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast  } from 'react-toastify';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -344,6 +344,7 @@ export default function Tarefa(){
 
         if(response.status === 200){
             toast.success(response.data.mensagem);
+            console.log('entrou');
         }
         buscar();
         handleClose5();
@@ -684,11 +685,6 @@ export default function Tarefa(){
                 >
                     {modalEditar}
             </Modal>
-
-
-            
-
-              <ToastContainer/>
         </div>
 
     
