@@ -18,7 +18,6 @@
 .tarefa div {
     margin: 8px 4px;
     padding: 10px;
-    /* as proriedades a partir daqui alinham o texto no centro */
     display: grid;
     text-align: center;
     justify-content: center;
@@ -36,10 +35,9 @@
 
 
 .box label input {
-    display: none; /* Hide the default checkbox */
+    display: none;
   }
-  
-  /* Style the artificial checkbox */
+ 
   .box label span {
     height: 20px;
     width: 20px;
@@ -49,8 +47,7 @@
     display: inline-block;
     position: relative;
   }
-  
-  /* Style its checked state...with a ticked icon */
+ 
   .box [type=checkbox]:checked + span:before {
     content: '\2714';
     font-size:20px;

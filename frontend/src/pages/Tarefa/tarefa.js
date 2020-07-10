@@ -344,7 +344,6 @@ export default function Tarefa(){
 
         if(response.status === 200){
             toast.success(response.data.mensagem);
-            console.log('entrou');
         }
         buscar();
         handleClose5();
