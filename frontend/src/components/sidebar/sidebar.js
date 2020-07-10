@@ -259,7 +259,6 @@ const SideBar = ({ userPermissionsData }) => {
         const response = await api.get("/nome");
 
         if(response.status === 200) {
-           console.log(response.data)
            setNome(response.data.nome_social);
         }
     }
@@ -276,7 +275,6 @@ const SideBar = ({ userPermissionsData }) => {
             const response = await api.get("/nome");
 
             if(response.status === 200) {
-               console.log(response.data)
                setNome(response.data.nome_social);
             }
             

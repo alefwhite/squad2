@@ -180,6 +180,49 @@ export default function Tarefa(){
         setIdProjeto("Selecione o projeto");
       };
 
+      const handleOpen2 = (ind) => {
+        setOpen2(true);
+        setIdTarefa(ind.id_tarefa);
+      };
+    
+      const handleClose2 = () => {
+        setOpen2(false);
+        setIdUsuario("Selecione o funcionario");
+      };
+
+      const handleOpen3 = (ind) => {
+        setOpen3(true);
+        setIdTarefa(ind.id_tarefa);
+    }
+
+    const handleClose3 = () => {
+        setOpen3(false);
+        setSqd("Selecione a squad");
+    }
+
+    const handleOpen4 = (ind) => {
+        setOpen4(true);
+        setIdTarefa(tarefas[ind].id_tarefa);
+    }
+
+    const handleClose4 = () => {
+        setOpen4(false);
+    }
+
+    const handleOpen5 = (index) => {
+        setOpen5(true);
+        let k = tarefas[index].prazo;
+        setIdTarefa(tarefas[index].id_tarefa);
+        setNome(tarefas[index].nome);
+        setEntrega(k);
+        setEstimado(tarefas[index].hora_estimada);
+        setDescricao(tarefas[index].descricao);
+        setIdProjeto(tarefas[index].id_projeto);
+    }
+
+    const handleClose5 = () => {
+        setOpen5(false);
+    }
 
     async function handleEnviar(x){
         x.preventDefault();
@@ -205,7 +248,106 @@ export default function Tarefa(){
         handleClose();
     }
     
-     
+    const handleDeletar = async () => {
+        const response = await api.delete(`tarefa/${idTarefa}`);
+
+        if(response.status === 200){
+            toast.success(response.data.mensagem);
+            buscar();
+            handleClose4();
+        }
+    }
+
+    const handleFuncionario = (evento) => {
+        setIdUsuario(evento.target.value);
+      }
+
+      const handleAtribuirUsuario = async () => {
+        
+        let id_tarefa = idTarefa;
+        let id_usuario = idUsuario;
+
+        let data = {
+            id_tarefa,
+            id_usuario
+        }
+
+
+        const response = await api.post('/usuariotarefa',data);
+        if(response.status === 200){
+            toast.success(response.data.mensagem);
+        }
+    
+
+        handleClose2();
+      }
+
+        const handleSquad = (evento) => {
+        setSqd(evento.target.value);
+      }
+
+      const handleAtribuirSquad = async () => {
+          let id_squad = sqd;
+          let id_tarefa = idTarefa;
+          
+          let data = {
+              id_squad,
+              id_tarefa
+          }
+
+          const response = await api.post('/squadtarefa',data);
+
+          if(response.status === 200){
+              toast.success(response.data.mensagem);
+          }
+          handleClose3();
+      }
+
+      function handlePreencher(evento,espaco){
+        switch(espaco){
+            case "nome":{
+                setNome(evento.target.value);
+                break;
+            }
+            case "descricao":{
+                setDescricao(evento.target.value);
+                break;
+            }
+            case "entrega":{
+                setEntrega(evento);
+                break;
+            }
+            case "estimado":{
+                setEstimado(evento.target.value);
+                break;
+            }
+            default: 
+                return ""
+        }  
+    }
+    const handleEditar = async (x) => {
+
+        x.preventDefault();
+
+        let prazo = format(new Date(entrega), "yyyy/MM/dd");
+        let hora_estimada = estimado
+        let id_projeto = idProjeto;
+        let data = {
+            nome,
+            descricao,
+            prazo,
+            hora_estimada,
+            id_projeto
+        }
+        
+        const response = await api.put(`/tarefa/${idTarefa}`,data);
+
+        if(response.status === 200){
+            toast.success(response.data.mensagem);
+        }
+        buscar();
+        handleClose5();
+    }
 
       const criarTarefa = (
         <div className="container3">
@@ -253,61 +395,9 @@ export default function Tarefa(){
         </form>
     </div>
       )
-      const handleOpen2 = (ind) => {
-        setOpen2(true);
-        setIdTarefa(ind.id_tarefa);
-      };
-    
-      const handleClose2 = () => {
-        setOpen2(false);
-        setIdUsuario("Selecione o funcionario");
-      };
+   
 
-      const handleFuncionario = (evento) => {
-        setIdUsuario(evento.target.value);
-      }
-
-      const handleAtribuirUsuario = async () => {
-        
-        let id_tarefa = idTarefa;
-        let id_usuario = idUsuario;
-
-        let data = {
-            id_tarefa,
-            id_usuario
-        }
-
-
-        const response = await api.post('/usuariotarefa',data);
-        if(response.status === 200){
-            toast.success(response.data.mensagem);
-        }
-    
-
-        handleClose2();
-      }
-
-      const handleSquad = (evento) => {
-        setSqd(evento.target.value);
-      }
-
-      const handleAtribuirSquad = async () => {
-          let id_squad = sqd;
-          let id_tarefa = idTarefa;
-          
-          let data = {
-              id_squad,
-              id_tarefa
-          }
-
-          const response = await api.post('/squadtarefa',data);
-
-          if(response.status === 200){
-              toast.success(response.data.mensagem);
-          }
-          handleClose3();
-      }
-
+      
       const modalAtribuirTarefa = (
         <Dialog open={handleOpen2}  aria-labelledby="form-dialog-title" >
                             <DialogTitle style={{textAlign: "center", color: "#7A57EA", fontSize: "2.0em !important", fontWeight: "bold !important"}} id="form-dialog-title">Atribuir tarefa ao funcionario.</DialogTitle>
@@ -369,15 +459,7 @@ export default function Tarefa(){
       )
    
 
-      const handleOpen3 = (ind) => {
-          setOpen3(true);
-          setIdTarefa(ind.id_tarefa);
-      }
 
-      const handleClose3 = () => {
-          setOpen3(false);
-          setSqd("Selecione a squad");
-      }
 
       const modalAtribuirSquad = (
         <Dialog open={handleOpen3}  aria-labelledby="form-dialog-title" >
@@ -439,24 +521,9 @@ export default function Tarefa(){
     </Dialog>
       )
 
-      const handleOpen4 = (ind) => {
-        setOpen4(true);
-        setIdTarefa(tarefas[ind].id_tarefa);
-    }
 
-    const handleClose4 = () => {
-        setOpen4(false);
-    }
 
-    const handleDeletar = async () => {
-        const response = await api.delete(`tarefa/${idTarefa}`);
-
-        if(response.status === 200){
-            toast.success(response.data.mensagem);
-            buscar();
-            handleClose4();
-        }
-    }
+    
 
       const modalDeletar = (
         <div  className={classes.paper}>
@@ -470,67 +537,6 @@ export default function Tarefa(){
       </div>
       )
 
-
-      const handleOpen5 = (index) => {
-        setOpen5(true);
-        let k = tarefas[index].prazo;
-        setIdTarefa(tarefas[index].id_tarefa);
-        setNome(tarefas[index].nome);
-        setEntrega(k);
-        setEstimado(tarefas[index].hora_estimada);
-        setDescricao(tarefas[index].descricao);
-        setIdProjeto(tarefas[index].id_projeto);
-    }
-
-    const handleClose5 = () => {
-        setOpen5(false);
-    }
-
-    function handlePreencher(evento,espaco){
-        switch(espaco){
-            case "nome":{
-                setNome(evento.target.value);
-                break;
-            }
-            case "descricao":{
-                setDescricao(evento.target.value);
-                break;
-            }
-            case "entrega":{
-                setEntrega(evento);
-                break;
-            }
-            case "estimado":{
-                setEstimado(evento.target.value);
-                break;
-            }
-            default: 
-                return ""
-        }  
-    }
-    const handleEditar = async (x) => {
-
-        x.preventDefault();
-
-        let prazo = format(new Date(entrega), "yyyy/MM/dd");
-        let hora_estimada = estimado
-        let id_projeto = idProjeto;
-        let data = {
-            nome,
-            descricao,
-            prazo,
-            hora_estimada,
-            id_projeto
-        }
-        
-        const response = await api.put(`/tarefa/${idTarefa}`,data);
-
-        if(response.status === 200){
-            toast.success(response.data.mensagem);
-        }
-        buscar();
-        handleClose5();
-    }
       const modalEditar = (
         <div className = "container3" onSubmit={handleEditar}>
             <form className='forms' >

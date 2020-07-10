@@ -32,9 +32,30 @@
     padding: 10px;   
 }
 
-.box{
-    cursor:pointer;
-    outline: 1px solid #FE963D;
-    background-color:red;
-}
 
+
+
+.box label input {
+    display: none; /* Hide the default checkbox */
+  }
+  
+  /* Style the artificial checkbox */
+  .box label span {
+    height: 20px;
+    width: 20px;
+    border: 2px solid #FE963D;
+    border-radius:5px;
+    cursor:pointer;
+    display: inline-block;
+    position: relative;
+  }
+  
+  /* Style its checked state...with a ticked icon */
+  .box [type=checkbox]:checked + span:before {
+    content: '\2714';
+    font-size:20px;
+    color:#7A57EA;
+    position: absolute;
+    top: -5px;
+    left: 0;
+  }

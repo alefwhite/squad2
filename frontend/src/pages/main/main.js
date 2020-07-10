@@ -12,7 +12,6 @@ const Main = () => {
   
   const VerificaUsuario =  () => {
     if(usuarioAutenticado()) {
-      console.log("Tipo Usuario: ", parseJWT().id_tipousuario);
     
       parseJWT().id_tipousuario === 3
           // Opções de menu do funcionário

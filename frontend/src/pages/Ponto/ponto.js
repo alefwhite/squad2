@@ -66,6 +66,16 @@ export default function Ponto(){
         
     },[]);
 
+    
+    const handleOpen = (index) => {
+        setOpen(true);
+        setDesc(tarefalist[index].descricao);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
+      
     const batePonto = async () =>{
         await api.put('/timesheet')
         .then(response => {
@@ -107,14 +117,6 @@ export default function Ponto(){
         
     }
 
-    const handleOpen = (index) => {
-        setOpen(true);
-        setDesc(tarefalist[index].descricao);
-      };
-    
-      const handleClose = () => {
-        setOpen(false);
-      };
     const detalhes =(
       
         <Card style={{borderRadius:'20px',marginTop:'20px' }} >
@@ -190,12 +192,16 @@ export default function Ponto(){
                             <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
 
                            
-                            <div><span style={{marginTop:'5px'}}><input type="checkbox" className="box" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
+                            <div style={{marginTop:'13px', textAlign:'center'}} className="box">
+                                <label >
+                                <input type="checkbox"  onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/>
+                                <span></span>
+                                </label></div>
                            
                        </div>
                     }) : 
                     tarefalist && tarefalist.map((tarefalist,ind)=>{
-                        let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
+                        let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy");
                         return  <div className="tarefaGest" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
                        
                            <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{tarefalist.nome}</div>
