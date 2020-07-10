@@ -31,3 +31,10 @@
     border-radius:20px;
     padding: 10px;   
 }
+
+.box{
+    cursor:pointer;
+    outline: 1px solid #FE963D;
+    background-color:red;
+}
+

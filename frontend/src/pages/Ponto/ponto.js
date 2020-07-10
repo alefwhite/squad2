@@ -189,7 +189,7 @@ export default function Ponto(){
                            <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
 
                            
-                    <div><span style={{marginTop:'5px'}}><input type="checkbox" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
+                    <div><span style={{marginTop:'5px'}}><input type="checkbox" className="box" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
                            
                        </div>
                     }) : 
