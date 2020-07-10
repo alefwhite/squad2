@@ -1,0 +1,43 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width:100%;
+    height:100vh;
+    min-height: 100%;
+    background:linear-gradient(180deg, #303030 0%, #000000 100%);
+    align-items: center;
+
+}
+.container6{
+    display:flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width:100%;
+    height:100vh;
+    min-height: 100%;
+    background:linear-gradient(180deg, #303030 0%, #000000 100%);
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.botao{
+    font-size:24px;
+    background-color: #FE963D;
+    color:white;
+    border:1px solid #FE963D;
+    border-radius:5px;
+    align-self:center;
+    padding: 10px;
+    width: 180px;
+    outline: none;
+    cursor: pointer;
+}
+

@@ -1,0 +1,53 @@
+.upload{
+    display:none;
+}
+
+.labelUpload {
+    margin-left: 32px;
+    font-size: 1rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    cursor: pointer;
+}
+
+.uploadLabel{
+    font-size:24px;
+    padding:0.2vh 1vw;
+    cursor:pointer;
+    background-color: orange;
+    color:white;
+    border:1px solid orange;
+    border-radius:5px;
+}
+
+.imge{
+    width:300px;
+    height:300px;
+    border-radius:10%;
+    margin-right:20px;
+}
+
+.imgCrop{
+    width:150px;
+    height:150px;
+    border:4px solid orange;
+    border-radius:50%;
+}
+
+.modal{
+    background-color:black; 
+    width:500px;
+    border-radius:5%;
+}
+
+.botao{
+    font-size:24px;
+    padding:0.2vh 1vw;
+    cursor:pointer;
+    background-color: orange;
+    color:white;
+    border:1px solid orange;
+    border-radius:5px;
+}
