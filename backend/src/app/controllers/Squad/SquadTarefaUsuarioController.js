@@ -25,8 +25,9 @@ class SquadTarefaController {
            .innerJoin("tarefa as T", "T.id_tarefa", "=", "ST.id_tarefa")
            .leftJoin("projeto as P", "P.id_projeto", "=", "T.id_projeto")
            .where({
-               "SU.id_usuario" : id_usuario,                            
+               "SU.id_usuario" : id_usuario                                       
            })
+           .andWhere("T.entregue", false)
            .orderBy("ST.id_squadtarefa", "desc");
 
            await db("squad_tarefa as ST")
@@ -50,13 +51,14 @@ class SquadTarefaController {
                 .where({
                     "SU.id_usuario" : id_usuario,                            
                 })
+                .andWhere("T.entregue", false)
                 .orderBy("ST.id_squadtarefa", "desc")
                 .limit(8)
                 .offset((page - 1) * 8)
                 .then((squad_tarefas) => {
 
                     if(squad_tarefas) {
-                        console.log( count['count(*)'])
+                        console.log("Count", count['count(*)'])
                         res.header('X-Total-Count', count['count(*)']);
                         return res.json(squad_tarefas);
                     }

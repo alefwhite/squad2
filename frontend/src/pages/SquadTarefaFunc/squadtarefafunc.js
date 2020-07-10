@@ -60,31 +60,32 @@ const SquadTarefaFunc = () => {
   const [hasMore, setHasMore] = useState(true);
   const [open, setOpen] = useState(false);
 
-  const [id_squadtarefa, setIdSquadTarefa] = useState(null);
+  const [id_tarefa, setIdTarefa] = useState(null);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleOpen = (id_squadtarefa) => {
-    setIdSquadTarefa(id_squadtarefa);
+  const handleOpen = (id_tarefa) => {
+    setIdTarefa(id_tarefa);
     setOpen(true);
   };
 
   
   const EnviarTarefa = async (e) => {
       e.preventDefault();
-      console.log("IdSquadTarefa: ", id_squadtarefa);
-      const response = await api.delete(`/squadtarefausuario/${id_squadtarefa}`);
+      console.log("Id_Tarefa: ", id_tarefa);
+    
+      const response = await api.put(`/concluirtarefa/${id_tarefa}`,{entregue: true});
 
-      if(response.status === 200) {
-        toast.success(response.data.mensagem);
-        setSquadTarefa(squadTarefa.filter((t) => {
-            return t.id_squadtarefa !== id_squadtarefa;
-        }));
-        handleClose();
+      if(response.status === 200){
+          toast.success(response.data.mensagem);
+          setSquadTarefa(squadTarefa.filter((t) => {
+            return t.id_tarefa !== id_tarefa;
+          }));
+          handleClose();
       }
-
+     
   };
   
   const ListarSquadTarefa = async () => {    
@@ -173,7 +174,7 @@ const SquadTarefaFunc = () => {
                                       <div className="squadIcon">
                                           <CheckCircleOutlineIcon style={{marginLeft:"15px", cursor:'pointer', fontSize: "30px"}} 
                                               onClick={() => {
-                                                handleOpen(t.id_squadtarefa);
+                                                handleOpen(t.id_tarefa);
                                               }}
                                           />
                                       </div>                                    
@@ -184,7 +185,7 @@ const SquadTarefaFunc = () => {
                                             <li><span>Projeto: </span>{t.projeto ? t.projeto : "Não atribuido"}</li>
                                             <li><span>Squad: </span>{t.squad}</li>
                                             <li><span>Prazo: </span>{formatarDataBr(format(new Date(t.prazo), "yyyy-MM-dd"))}</li>
-                                            <li><span>Hora Estimada: </span>{t.hora_estimada ? t.hora_estimada : "Sem hora estimada"}hr</li>
+                                            <li><span>Hora Estimada: </span>{t.hora_estimada ? `${t.hora_estimada}hrs` : "Sem hora estimada"}</li>
                                         </ul>
                                     </div>
                                  </div>

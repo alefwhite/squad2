@@ -501,9 +501,10 @@ export default function Tarefa(){
             }
             case "estimado":{
                 setEstimado(evento.target.value);
+                break;
             }
             default: 
-                return 
+                return ""
         }  
     }
     const handleEditar = async (x) => {

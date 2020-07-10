@@ -164,7 +164,7 @@ export default function Ponto(){
                     </Card>
                 }
                 else {
-                    return <> </>
+                    return <div key={ponto.id_timesheet}></div>
                 }    
                 
             })
@@ -183,13 +183,14 @@ export default function Ponto(){
                         let data = format(new Date(tarefalist.prazo),"dd/MM/yyyy")
                        return  <div className="tarefa" style={{cursor:'pointer'}} key={tarefalist.id_tarefa} >
                             
-                          <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{ind+1}</div>
-                           <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{tarefalist.nome}</div>
+                            <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{ind+1}</div>
                             
-                           <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
+                            <div style={{color:'#FE963D', marginBottom:'20px',fontSize:'20px', textAlign:'center' }} onClick={(evento)=>handleOpen(ind)}>{tarefalist.nome}</div>
+                            
+                            <div style={{color:'#7A57EA', textAlign:'center',fontSize:'20px'}} onClick={()=>handleOpen(ind)} >{data}</div>
 
                            
-                    <div><span style={{marginTop:'5px'}}><input type="checkbox" className="box" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
+                            <div><span style={{marginTop:'5px'}}><input type="checkbox" className="box" onChange={(evento) => handleCheck(evento,tarefalist.id_tarefa)}/></span></div>
                            
                        </div>
                     }) : 

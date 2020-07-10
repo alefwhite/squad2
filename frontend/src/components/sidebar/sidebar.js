@@ -21,7 +21,6 @@ import { Alert, AlertTitle  } from '@material-ui/lab';
 import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { parseJWT } from '../../service/parseJWT';
 import api from '../../service/api';
 
 // Pages

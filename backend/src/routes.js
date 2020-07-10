@@ -24,6 +24,7 @@ import UsuarioTarefaConcluidaController from './app/controllers/Usuario/UsuarioT
 import Authentication from './app/middlewares/Auth';
 import AuthTipoDeUsuario  from './app/middlewares/AuthTipoDeUsuario';
 import UsuariosPertecenteAoGestor from './app/controllers/Gestor/UsuariosPertecenteAoGestor';
+import UsuarioNomeController from './app/controllers/Usuario/UsuarioNomeController';
 
 
 const routes = new Router();
@@ -49,6 +50,9 @@ routes.post('/convite', FuncionarioController.store);
    Terá a autenticação, obrigando o usuário a estar logado.
 */
 routes.use(Authentication.store);
+
+// Retorna nome_social
+routes.get('/nome', UsuarioNomeController.index);
 
 // Squad
 routes.get('/squad', SquadController.index);
