@@ -177,7 +177,7 @@ export default function Tarefa(){
     
       const handleClose = () => {
         setOpen(false);
-      
+        setIdProjeto("Selecione o projeto");
       };
 
 
@@ -479,6 +479,7 @@ export default function Tarefa(){
         setEntrega(k);
         setEstimado(tarefas[index].hora_estimada);
         setDescricao(tarefas[index].descricao);
+        setIdProjeto(tarefas[index].id_projeto);
     }
 
     const handleClose5 = () => {
@@ -513,11 +514,13 @@ export default function Tarefa(){
 
         let prazo = format(new Date(entrega), "yyyy/MM/dd");
         let hora_estimada = estimado
+        let id_projeto = idProjeto;
         let data = {
             nome,
             descricao,
             prazo,
-            hora_estimada
+            hora_estimada,
+            id_projeto
         }
         
         const response = await api.put(`/tarefa/${idTarefa}`,data);
@@ -537,6 +540,26 @@ export default function Tarefa(){
                 <h1 style={estilo.espacoCampo}><Input width="45vw" variant="standard" value={nome} funcao={(evento) => handlePreencher(evento, "nome")}/></h1 >
                 <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
                 <h1 style={estilo.espacoCampo}><InputData style={estilo.input[0]} label="Entrega" value={entrega} funcao={(evento) => handlePreencher(evento, "entrega")}/></h1 >
+                <FormControl  className={clsx(classes.formControl, classes.campos)}>
+                                            <InputLabel htmlFor="outlined-age-native-simple">Selecione o projeto</InputLabel>
+                                            <Select            
+                                                native
+                                                onChange={(evento) => setIdProjeto(evento.target.value)}
+                                                value={idProjeto}
+                                                label="cargo"
+                                                inputProps={{
+                                                    name: 'cargo',
+                                                    id: 'outlined-age-native-simple',
+                                                }}
+                                            >
+                                                <option value="Selecione o projeto">Selecione o projeto</option>
+                                                {
+                                                   projeto && projeto.map((projeto) => {
+                                                        return <option key={projeto.id_projeto} value={projeto.id_projeto}>{projeto.nome}</option>
+                                                    })
+                                                }
+                                            </Select>
+                                    </FormControl>
                 </div>
                 <div>
             <p style={estilo.p}>Hora estimada</p>
@@ -579,16 +602,22 @@ export default function Tarefa(){
                                         <DeleteRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen4(ind)}/>
                                         <PersonAddRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen2(tarefas)}/>
                                         <PeopleAltRoundedIcon style={{marginLeft:'20px', cursor:'pointer'}} onClick={() => handleOpen3(tarefas)}/>
-                                        
                                     </div>
                                 </div>
                                 <p style={{color:'#7A57EA', fontSize:'20px', marginTop:'20px'}}>{tarefas.descricao}</p>
+
+                                <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
+
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
                                     Entrega:{entrega}
                                 </i></p>
+
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px', display:exibe}}><i style={{color:'#FE963D',fontSize:'17px'}}>
                                     Hora estimada:{tarefas.hora_estimada}
                                 </i></p>
+
+                                </div>
+
                                 <p style={{color:'#7A57EA',fontSize:'17px', marginTop:'40px'}}><i style={{color:'#FE963D',fontSize:'17px'}}>
                                     Projeto:{tarefas.projeto_nome ? tarefas.projeto_nome:" não atribuida"}
                                 </i></p>
