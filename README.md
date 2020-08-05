@@ -16,6 +16,8 @@
 [Luiz Alberto Carvalho](https://www.linkedin.com/in/luiz-alberto-russo-carvalho-004003175/) - [GitHub](https://github.com/carvalhoLuiz/)  
 ## Nome do Projeto: InBoard
 
+## Artigo:
+ https://medium.com/@danilo.barberini/estudo-de-caso-ux-processo-de-elabora%C3%A7%C3%A3o-de-um-gerenciador-de-tarefas-e48952929c04
 ## Objetivo do Projeto:
  Projeto com foco na organização e melhoria do home office.
 
