@@ -1,4 +1,4 @@
-# Programação de Formação: Squad 2
+# Programação de Formação FCamara 2020: Squad 2
 
 
 ## Tópicos:
@@ -18,6 +18,7 @@
 
 ## Artigo:
  https://medium.com/@danilo.barberini/estudo-de-caso-ux-processo-de-elabora%C3%A7%C3%A3o-de-um-gerenciador-de-tarefas-e48952929c04
+ 
 ## Objetivo do Projeto:
  Projeto com foco na organização e melhoria do home office.
 
