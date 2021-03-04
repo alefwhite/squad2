@@ -1,5 +1,5 @@
 # Programação de Formação FCamara 2020: Squad 2
-
+https://blog.fcamara.com.br/programa-de-formacao-squad-2-inboard/
 
 ## Tópicos:
 * [Membros](#-Membros)
